@@ -1,18 +1,30 @@
-// 2. Create Gameboard factory. 
+// 2. Create Gameboard factory.
 // a) Note that we have not yet created any User Interface. We should know our code is coming together by running the tests. You shouldnt be relying on console.log or DOM methods to make sure your code is working.
-// d) Gameboards should keep track of missed attacks so they can display them properly. 
+// d) Gameboards should keep track of missed attacks so they can display them properly.
 // e) Gameboards should be able to report whether or not all of their ships have been sunk.
 
-/* class gameboard {
-    constructor () {
+import ShipFactory from "./ship";
 
-    }
-    newShip () {
-        // Gameboards should be able to place ships at specific coordinates by calling the ship factory function. 
-        // new ship();
-    }
-    receiveAttack () {
-        // Gameboards should have a receiveAttack function that takes a pair of coordinates, determines whether or not the attack hit a ship and then sends the hit function to the correct ship, or records the coordinates of the missed shot. 
-    }
-    
-} */
+const GameboardFactory = () => {
+  const shipCoordsBoard = [];
+  const misses = [];
+  function newShip(coords) {
+    // place ships at specific coordinates by calling the ship factory function
+    const ship = ShipFactory(coords);
+    shipCoordsBoard.push(ship);
+  }
+  //function receiveAttack () {
+  // takes a pair of coordinates, determines whether or not the attack hit a ship and then sends the hit function to the correct ship, or records the coordinates of the missed shot.
+  //}
+  return {
+    newShip,
+    // receiveAttack,
+    // reportSunkShips
+    shipCoordsBoard,
+    misses,
+    // calculateShipPlacement,
+    // checkValidPositions
+  };
+};
+
+export default GameboardFactory;

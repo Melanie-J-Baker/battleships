@@ -1,0 +1,9 @@
+# ignore all logs
+*.log
+
+# ignore node modules folder
+node_modules/
+
+# ignore artifacts
+build
+coverage

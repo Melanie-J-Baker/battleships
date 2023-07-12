@@ -6,12 +6,11 @@
 
 import GameboardFactory from "../factories/gameboard";
 
-const board = GameboardFactory();
-
 test("can place ship at specific coords", () => {
+  const board = GameboardFactory();
   board.newShip(["A1", "A2", "A3", "A4"]);
 
-  expect(board.shipCoordsBoard[0].coords).toStrictEqual([
+  expect(board.shipCoordsBoard[0].shipCoords).toStrictEqual([
     "A1",
     "A2",
     "A3",
@@ -20,13 +19,22 @@ test("can place ship at specific coords", () => {
 });
 
 test("can receive attack and send hit to correct ship", () => {
+  const board = GameboardFactory();
   board.newShip(["A1", "A2", "A3", "A4"]);
   board.receiveAttack("A2");
 
-  expect(board.shipCoordsBoard[0].coords).toStrictEqual([
+  expect(board.shipCoordsBoard[0].shipCoords).toStrictEqual([
     "A1",
     "hit",
     "A3",
     "A4",
   ]);
+});
+
+test("can receive an attack and record missed shot", () => {
+  const board = GameboardFactory();
+  board.newShip(["A1", "A2", "A3", "A4"]);
+  board.receiveAttack("B1");
+
+  expect(board.misses).toStrictEqual(["B1"]);
 });

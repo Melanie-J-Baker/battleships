@@ -7,19 +7,27 @@ import ShipFactory from "./ship";
 
 const GameboardFactory = () => {
   const shipCoordsBoard = [];
+  const occupied = [];
   const misses = [];
+
   function newShip(coords) {
     // place ships at specific coordinates by calling the ship factory function
     const ship = ShipFactory(coords);
     shipCoordsBoard.push(ship);
+    for (let i = 0; i < ship.shipCoords.length; i++) {
+      occupied.push(ship.shipCoords[i]);
+    }
   }
-  function receiveAttack(coords) {
+  function receiveAttack(coord) {
     for (let i = 0; i < shipCoordsBoard.length; i++) {
-      for (let j = 0; j < shipCoordsBoard[i].coords.length; j++) {
-        if (shipCoordsBoard[i].coords[j] === coords) {
-          shipCoordsBoard[i].coords[j] = "hit";
+      for (let j = 0; j < shipCoordsBoard[i].shipCoords.length; j++) {
+        if (shipCoordsBoard[i].shipCoords[j] === coord) {
+          shipCoordsBoard[i].hit(j);
         }
       }
+    }
+    if (occupied.includes(coord) === false) {
+      misses.push(coord);
     }
   }
   return {

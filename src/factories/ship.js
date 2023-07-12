@@ -18,7 +18,6 @@ const ShipFactory = function (coords) {
   return {
     hit,
     isSunk,
-    coords,
     shipCoords,
   };
 };

@@ -13,12 +13,18 @@ const GameboardFactory = () => {
     const ship = ShipFactory(coords);
     shipCoordsBoard.push(ship);
   }
-  //function receiveAttack () {
-  // takes a pair of coordinates, determines whether or not the attack hit a ship and then sends the hit function to the correct ship, or records the coordinates of the missed shot.
-  //}
+  function receiveAttack(coords) {
+    for (let i = 0; i < shipCoordsBoard.length; i++) {
+      for (let j = 0; j < shipCoordsBoard[i].coords.length; j++) {
+        if (shipCoordsBoard[i].coords[j] === coords) {
+          shipCoordsBoard[i].coords[j] = "hit";
+        }
+      }
+    }
+  }
   return {
     newShip,
-    // receiveAttack,
+    receiveAttack,
     // reportSunkShips
     shipCoordsBoard,
     misses,

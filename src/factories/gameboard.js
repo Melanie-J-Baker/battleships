@@ -19,6 +19,7 @@ const GameboardFactory = () => {
       occupied.push(ship.shipCoords[i]);
     }
   }
+
   function receiveAttack(coord) {
     if (hits.includes(coord) === false && misses.includes(coord) === false) {
       for (let i = 0; i < shipCoordsBoard.length; i++) {
@@ -36,10 +37,15 @@ const GameboardFactory = () => {
       return "Square has already been attacked!";
     }
   }
+
+  // function allSunk() {
+
+  // }
+
   return {
     newShip,
     receiveAttack,
-    // reportSunkShips
+    // allSunk
     shipCoordsBoard,
     misses,
     // calculateShipPlacement,

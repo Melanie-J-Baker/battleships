@@ -38,3 +38,11 @@ test("can receive an attack and record missed shot", () => {
 
   expect(board.misses).toStrictEqual(["B1"]);
 });
+
+test("can not attack previously attacked square", () => {
+  const board = GameboardFactory();
+  board.receiveAttack("B1");
+  const result = board.receiveAttack("B1");
+
+  expect(result).toStrictEqual("Square has already been attacked!");
+});

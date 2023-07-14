@@ -47,14 +47,35 @@ test("can not attack previously attacked square", () => {
   expect(result).toStrictEqual("Square has already been attacked!");
 });
 
-test("all ships sunk when one ship on board", () => {
+test("all ships sunk", () => {
   const board = GameboardFactory();
   board.newShip(["A1", "A2", "A3", "A4"]);
+  board.newShip(["B2", "C2", "D2"]);
   board.receiveAttack("A1");
   board.receiveAttack("A2");
   board.receiveAttack("A3");
   board.receiveAttack("A4");
+  board.receiveAttack("B2");
+  board.receiveAttack("C2");
+  board.receiveAttack("D2");
+
   const result = board.allSunk();
 
-  expect(result).toStrictEqual(true);
+  expect(result).toBeTruthy();
+});
+
+test("all ships not sunk", () => {
+  const board = GameboardFactory();
+  board.newShip(["A1", "A2", "A3", "A4"]);
+  board.newShip(["B2", "C2", "D2"]);
+  board.receiveAttack("A1");
+  board.receiveAttack("A2");
+  board.receiveAttack("A3");
+  board.receiveAttack("A4");
+  board.receiveAttack("B2");
+  board.receiveAttack("C2");
+
+  const result = board.allSunk();
+
+  expect(result).toBeFalsy();
 });

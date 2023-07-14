@@ -38,14 +38,15 @@ const GameboardFactory = () => {
     }
   }
 
-  // function allSunk() {
-
-  // }
+  function allSunk() {
+    const sunkArray = shipCoordsBoard.map((ship) => ship.isSunk());
+    return sunkArray.every((shipSunk) => shipSunk === true);
+  }
 
   return {
     newShip,
     receiveAttack,
-    // allSunk
+    allSunk,
     shipCoordsBoard,
     misses,
     // calculateShipPlacement,

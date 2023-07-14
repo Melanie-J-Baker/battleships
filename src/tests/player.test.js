@@ -13,6 +13,15 @@ test("player can attack computer", () => {
   expect(computerBoard.hits).toStrictEqual(["E4"]);
 });
 
+test("player misses computers ships", () => {
+  const computerBoard = GameboardFactory();
+  const player = PlayerFactory();
+  computerBoard.newShip(["D4", "E4", "F4"]);
+  player.attack(computerBoard, "A4");
+
+  expect(computerBoard.misses).toStrictEqual(["A4"]);
+});
+
 test("player cannot attack same square twice", () => {
   const computerBoard = GameboardFactory();
   const player = PlayerFactory();

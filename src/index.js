@@ -26,8 +26,9 @@ const Game = () => {
   const computerGrid = document.getElementById("computerGrid");
 
   for (let i = 0; i < player.availableMoves.length; i++) {
-    playerGrid.appendChild("div");
-    computerGrid.appendChild("div");
+    playerGrid.appendChild(document.createElement("div")).className = "square";
+    computerGrid.appendChild(document.createElement("div")).className =
+      "square";
   }
 
   playerBoard.newShip(["G1", "G2", "G3", "G4", "G5"]);
@@ -51,3 +52,4 @@ const Game = () => {
   computerBoard.newShip(["E5", "F5"]);
   computerBoard.newShip(["B4", "C4"]);
 };
+window.onload = Game();

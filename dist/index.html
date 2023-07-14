@@ -4,19 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Battleships</title>
-    <script src="dist/main.js" defer></script>
+    <script src="main.js" defer></script>
+    <link rel="stylesheet" href="../src/style.css" />
   </head>
   <body>
-    <div class="main">
+    <div id="main">
       <h1>BATTLESHIPS</h1>
       <button type="button">Start Game</button>
-      <div class="playerDiv">
-        <div class="playerHeader">Player</div>
-        <div class="playerGrid"></div>
+      <div id="playerDiv">
+        <div id="playerHeader" class="gridHeader">Player</div>
+        <div id="playerGrid" class="grid"></div>
       </div>
-      <div class="computerDiv">
-        <div class="computerHeader">Computer</div>
-        <div class="computerGrid"></div>
+      <div id="computerDiv">
+        <div id="computerHeader" class="gridHeader">Computer</div>
+        <div id="computerGrid" class="grid"></div>
       </div>
     </div>
   </body>

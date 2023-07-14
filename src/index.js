@@ -22,6 +22,14 @@ const Game = () => {
   const computer = PlayerFactory();
   const playerBoard = GameboardFactory();
   const computerBoard = GameboardFactory();
+  const playerGrid = document.getElementById("playerGrid");
+  const computerGrid = document.getElementById("computerGrid");
+
+  for (let i = 0; i < player.availableMoves.length; i++) {
+    playerGrid.appendChild("div");
+    computerGrid.appendChild("div");
+  }
+
   playerBoard.newShip(["G1", "G2", "G3", "G4", "G5"]);
   playerBoard.newShip(["B2", "C2", "D2", "E2"]);
   playerBoard.newShip(["I4", "I5", "I6", "I7"]);

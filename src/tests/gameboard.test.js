@@ -18,6 +18,14 @@ test("can place ship at specific coords", () => {
   ]);
 });
 
+test("will not place ship in occupied square", () => {
+  const board = GameboardFactory();
+  board.newShip(["A1", "A2", "A3", "A4"]);
+  const result = board.newShip(["A1", "B1", "C1"]);
+
+  expect(result).toStrictEqual("Coordinate(s) already occupied");
+});
+
 test("can receive attack and send hit to correct ship", () => {
   const board = GameboardFactory();
   board.newShip(["A1", "A2", "A3", "A4"]);

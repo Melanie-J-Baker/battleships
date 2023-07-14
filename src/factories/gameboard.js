@@ -49,6 +49,7 @@ const GameboardFactory = () => {
     allSunk,
     shipCoordsBoard,
     misses,
+    hits,
     // calculateShipPlacement,
     // checkValidPositions
   };

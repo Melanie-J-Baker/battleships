@@ -12,11 +12,16 @@ const GameboardFactory = () => {
   const hits = [];
 
   function newShip(coords) {
-    // place ships at specific coordinates by calling the ship factory function
-    const ship = ShipFactory(coords);
-    shipCoordsBoard.push(ship);
-    for (let i = 0; i < ship.shipCoords.length; i++) {
-      occupied.push(ship.shipCoords[i]);
+    const blocked = occupied.some((r) => coords.indexOf(r) >= 0);
+    if (blocked !== true) {
+      // place ships at specific coordinates by calling the ship factory function
+      const ship = ShipFactory(coords);
+      shipCoordsBoard.push(ship);
+      for (let i = 0; i < ship.shipCoords.length; i++) {
+        occupied.push(ship.shipCoords[i]);
+      }
+    } else {
+      return "Coordinate(s) already occupied";
     }
   }
 

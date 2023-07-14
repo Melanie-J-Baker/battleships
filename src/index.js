@@ -11,4 +11,16 @@
 // 5. Finish it up
 // a) There are several options available for letting users place their ships. You can let them type coordinates for each ship, or investigate implementing drag and drop.
 // b) You can polish the intelligence of the computer player by having it try adjacent slots after getting a ‘hit’.
-// c) Optionally, create a 2 player option that lets users take turns by passing the device back and forth. If you’re going to go this route, make sure the game is playable on a mobile screen and implement a ‘pass device’ screen so that players don’t see each others boards!
+// c) Optionally, create a 2 player option that lets users take turns by passing the device back and forth.
+// If you’re going to go this route, make sure the game is playable on a mobile screen and implement a ‘pass device’ screen so that players don’t see each others boards!
+
+import GameboardFactory from "./factories/gameboard";
+import PlayerFactory from "./factories/player";
+
+const Game = () => {
+  const player = PlayerFactory();
+  const computer = PlayerFactory();
+  const playerBoard = GameboardFactory();
+  const computerBoard = Gameboardfactory();
+  playerBoard.newShip([""]);
+};

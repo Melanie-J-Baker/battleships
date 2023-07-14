@@ -33,3 +33,19 @@ test("computer can random attack player", () => {
 
   expect(moves).not.toStrictEqual([]);
 });
+
+test("player destroys computer ships", () => {
+  const computerBoard = GameboardFactory();
+  const player = PlayerFactory();
+  computerBoard.newShip(["D4", "E4", "F4"]);
+  player.attack(computerBoard, "D4");
+  player.attack(computerBoard, "E4");
+  player.attack(computerBoard, "F4");
+
+  expect(computerBoard.allSunk()).toBeTruthy();
+  expect(computerBoard.shipCoordsBoard[0].shipCoords).toStrictEqual([
+    "hit",
+    "hit",
+    "hit",
+  ]);
+});

@@ -21,7 +21,7 @@ const Game = () => {
   const player = PlayerFactory();
   const computer = PlayerFactory();
   const playerBoard = GameboardFactory();
-  const computerBoard = Gameboardfactory();
+  const computerBoard = GameboardFactory();
   playerBoard.newShip(["G1", "G2", "G3", "G4", "G5"]);
   playerBoard.newShip(["B2", "C2", "D2", "E2"]);
   playerBoard.newShip(["I4", "I5", "I6", "I7"]);

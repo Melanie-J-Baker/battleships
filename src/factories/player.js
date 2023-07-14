@@ -128,7 +128,7 @@ const PlayerFactory = function () {
       availableMoves.splice(index, 1); // 2nd parameter means remove one item only
     }
   };
-  return { attack, randomAttack };
+  return { attack, randomAttack, availableMoves };
 };
 
 export default PlayerFactory;

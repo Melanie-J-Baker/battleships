@@ -12,3 +12,24 @@ test("player can attack computer", () => {
 
   expect(computerBoard.hits).toStrictEqual(["E4"]);
 });
+
+test("player cannot attack same square twice", () => {
+  const computerBoard = GameboardFactory();
+  const player = PlayerFactory();
+  computerBoard.newShip(["D4", "E4", "F4"]);
+  player.attack(computerBoard, "E4");
+  const result = player.attack(computerBoard, "E4");
+
+  expect(computerBoard.hits).toStrictEqual(["E4"]);
+  expect(result).toStrictEqual("That move is not available");
+});
+
+test("computer can random attack player", () => {
+  const playerBoard = GameboardFactory();
+  const computer = PlayerFactory();
+  playerBoard.newShip(["A1", "A2", "A3", "A4"]);
+  computer.randomAttack(playerBoard);
+  const moves = playerBoard.hits + playerBoard.misses;
+
+  expect(moves).not.toStrictEqual([]);
+});

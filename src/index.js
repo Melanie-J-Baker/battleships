@@ -16,7 +16,7 @@
 
 import GameboardFactory from "./factories/gameboard";
 import PlayerFactory from "./factories/player";
-import createBoardGrids from "./DOM";
+import { createBoardGrids, renderPlayerBoats } from "./DOM";
 
 const Game = () => {
   const player = PlayerFactory();
@@ -47,14 +47,11 @@ const Game = () => {
   computerBoard.newShip(["E5", "F5"]);
   computerBoard.newShip(["B4", "C4"]);
 
-  const playerSquares = document.getElementById("playerGrid").children;
-  console.log(playerSquares);
-  for (let i in playerSquares) {
-    let gridCoord = playerSquares[i].id.slice(1);
-    if (playerBoard.occupied.includes(gridCoord)) {
-      playerSquares[i].className = "square pSquare occupied";
-    }
-  }
+  renderPlayerBoats(playerBoard);
+
+  return {
+    playerBoard,
+  };
 };
 
 Game();

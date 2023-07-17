@@ -27,4 +27,14 @@ function createBoardGrids(player) {
   }
 }
 
-export default createBoardGrids;
+function renderPlayerBoats(playerBoard) {
+  const playerSquares = document.getElementById("playerGrid").children;
+  console.log(playerSquares);
+  for (let i in playerSquares) {
+    let gridCoord = playerSquares[i].id.slice(1);
+    if (playerBoard.occupied.includes(gridCoord)) {
+      playerSquares[i].className = "square pSquare occupied";
+    }
+  }
+}
+export { createBoardGrids, renderPlayerBoats };

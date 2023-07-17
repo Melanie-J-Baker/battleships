@@ -16,7 +16,11 @@
 
 import GameboardFactory from "./factories/gameboard";
 import PlayerFactory from "./factories/player";
-import { createBoardGrids, renderPlayerBoats } from "./DOM";
+import {
+  createBoardGrids,
+  renderPlayerBoats,
+  renderComputerBoard,
+} from "./DOM";
 
 const Game = () => {
   const player = PlayerFactory();
@@ -48,10 +52,25 @@ const Game = () => {
   computerBoard.newShip(["B4", "C4"]);
 
   renderPlayerBoats(playerBoard);
+  renderComputerBoard(computerBoard);
 
-  return {
-    playerBoard,
-  };
+  const cSquares = document.getElementsByClassName("square cSquare");
+  for (var i = 0; i < cSquares.length; i++) {
+    cSquares[i].addEventListener("click", (event) => {
+      player.attack(computerBoard, event.target.id.slice(1));
+      renderComputerBoard(computerBoard);
+      //cSquare.removeEventListener('click', playerMove());
+    });
+  }
+
+  //function playerMove(coord) {
+  //console.log(coord);
+  //player.attack(computerBoard, event.target.id.slice(1));
+  //renderComputerBoard(computerBoard);
+  //cSquare.removeEventListener('click', playerMove());
+  //};
+
+  //while (playerBoard.allSunk() === false && computerBoard.allSunk() === false) {}
 };
 
 Game();

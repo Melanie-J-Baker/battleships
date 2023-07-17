@@ -29,12 +29,25 @@ function createBoardGrids(player) {
 
 function renderPlayerBoats(playerBoard) {
   const playerSquares = document.getElementById("playerGrid").children;
-  console.log(playerSquares);
-  for (let i in playerSquares) {
+  for (let i = 0; i < playerSquares.length; i++) {
     let gridCoord = playerSquares[i].id.slice(1);
     if (playerBoard.occupied.includes(gridCoord)) {
       playerSquares[i].className = "square pSquare occupied";
     }
   }
 }
-export { createBoardGrids, renderPlayerBoats };
+
+function renderComputerBoard(computerBoard) {
+  const cSquares = document.getElementsByClassName("square cSquare");
+  for (let i = 0; i < cSquares.length; i++) {
+    if (computerBoard.hits.includes(cSquares[i].id.slice(1)) === true) {
+      cSquares[i].className = "square cSquare hit";
+    } else if (
+      computerBoard.misses.includes(cSquares[i].id.slice(1)) === true
+    ) {
+      cSquares[i].className = "square cSquare miss";
+    }
+  }
+}
+
+export { createBoardGrids, renderPlayerBoats, renderComputerBoard };

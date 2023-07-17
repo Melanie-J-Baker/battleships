@@ -42,3 +42,11 @@ button {
 .occupied {
   background-color: brown;
 }
+
+.hit {
+  background-color: red;
+}
+
+.miss {
+  background-color: skyblue;
+}

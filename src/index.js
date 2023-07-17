@@ -16,20 +16,20 @@
 
 import GameboardFactory from "./factories/gameboard";
 import PlayerFactory from "./factories/player";
+import createBoardGrids from "./DOM";
 
 const Game = () => {
   const player = PlayerFactory();
-  const computer = PlayerFactory();
+  // const computer = PlayerFactory();
   const playerBoard = GameboardFactory();
   const computerBoard = GameboardFactory();
-  const playerGrid = document.getElementById("playerGrid");
-  const computerGrid = document.getElementById("computerGrid");
 
-  for (let i = 0; i < player.availableMoves.length; i++) {
-    playerGrid.appendChild(document.createElement("div")).className = "square";
-    computerGrid.appendChild(document.createElement("div")).className =
-      "square";
-  }
+  createBoardGrids(player);
+
+  //const playerSquares = document.getElementsByClassName("pSquare");
+  //for (const square of document.getElementsByClassName("pSquare")){
+  //  square.id = `${player.availableMoves[i]}`
+  //}
 
   playerBoard.newShip(["G1", "G2", "G3", "G4", "G5"]);
   playerBoard.newShip(["B2", "C2", "D2", "E2"]);
@@ -51,5 +51,12 @@ const Game = () => {
   computerBoard.newShip(["J1", "J2"]);
   computerBoard.newShip(["E5", "F5"]);
   computerBoard.newShip(["B4", "C4"]);
+
+  //const squares = document.getElementsByClassName("square");
+  //if ()
+  //}
 };
-window.onload = Game();
+
+Game();
+
+export default Game;

@@ -55,6 +55,7 @@ const GameboardFactory = () => {
     shipCoordsBoard,
     misses,
     hits,
+    occupied,
   };
 };
 

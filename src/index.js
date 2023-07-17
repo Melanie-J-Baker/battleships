@@ -26,11 +26,6 @@ const Game = () => {
 
   createBoardGrids(player);
 
-  //const playerSquares = document.getElementsByClassName("pSquare");
-  //for (const square of document.getElementsByClassName("pSquare")){
-  //  square.id = `${player.availableMoves[i]}`
-  //}
-
   playerBoard.newShip(["G1", "G2", "G3", "G4", "G5"]);
   playerBoard.newShip(["B2", "C2", "D2", "E2"]);
   playerBoard.newShip(["I4", "I5", "I6", "I7"]);
@@ -52,9 +47,14 @@ const Game = () => {
   computerBoard.newShip(["E5", "F5"]);
   computerBoard.newShip(["B4", "C4"]);
 
-  //const squares = document.getElementsByClassName("square");
-  //if ()
-  //}
+  const playerSquares = document.getElementById("playerGrid").children;
+  console.log(playerSquares);
+  for (let i in playerSquares) {
+    let gridCoord = playerSquares[i].id.slice(1);
+    if (playerBoard.occupied.includes(gridCoord)) {
+      playerSquares[i].className = "square pSquare occupied";
+    }
+  }
 };
 
 Game();

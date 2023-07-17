@@ -38,3 +38,7 @@ button {
 .square {
   border: 1px solid black;
 }
+
+.occupied {
+  background-color: brown;
+}

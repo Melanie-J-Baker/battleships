@@ -20,14 +20,13 @@ import {
   createBoardGrids,
   renderPlayerBoats,
   renderComputerBoard,
+  addSquareEventListeners,
 } from "./DOM";
-
+const player = PlayerFactory();
+const computerBoard = GameboardFactory();
+// const computer = PlayerFactory();
+const playerBoard = GameboardFactory();
 const Game = () => {
-  const player = PlayerFactory();
-  // const computer = PlayerFactory();
-  const playerBoard = GameboardFactory();
-  const computerBoard = GameboardFactory();
-
   createBoardGrids(player);
 
   playerBoard.newShip(["G1", "G2", "G3", "G4", "G5"]);
@@ -53,26 +52,15 @@ const Game = () => {
 
   renderPlayerBoats(playerBoard);
   renderComputerBoard(computerBoard);
-
-  const cSquares = document.getElementsByClassName("square cSquare");
-  for (var i = 0; i < cSquares.length; i++) {
-    cSquares[i].addEventListener("click", (event) => {
-      player.attack(computerBoard, event.target.id.slice(1));
-      renderComputerBoard(computerBoard);
-      //cSquare.removeEventListener('click', playerMove());
-    });
-  }
-
-  //function playerMove(coord) {
-  //console.log(coord);
-  //player.attack(computerBoard, event.target.id.slice(1));
-  //renderComputerBoard(computerBoard);
-  //cSquare.removeEventListener('click', playerMove());
-  //};
+  addSquareEventListeners();
 
   //while (playerBoard.allSunk() === false && computerBoard.allSunk() === false) {}
+  return {
+    player,
+    computerBoard,
+  };
 };
 
 Game();
 
-export default Game;
+export { player, computerBoard };

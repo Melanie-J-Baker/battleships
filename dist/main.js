@@ -44,15 +44,15 @@
           );
         })(a);
         e.push(r);
-        for (var i = 0; i < r.shipCoords.length; i++) n.push(r.shipCoords[i]);
+        for (var t = 0; t < r.shipCoords.length; t++) n.push(r.shipCoords[t]);
       },
-      receiveAttack: function (i) {
-        if (!1 !== r.includes(i) || !1 !== a.includes(i))
+      receiveAttack: function (t) {
+        if (!1 !== r.includes(t) || !1 !== a.includes(t))
           return "Square has already been attacked!";
-        for (var t = 0; t < e.length; t++)
-          for (var s = 0; s < e[t].shipCoords.length; s++)
-            e[t].shipCoords[s] === i && (e[t].hit(s), r.push(i));
-        !1 === n.includes(i) && a.push(i);
+        for (var i = 0; i < e.length; i++)
+          for (var s = 0; s < e[i].shipCoords.length; s++)
+            e[i].shipCoords[s] === t && (e[i].hit(s), r.push(t));
+        !1 === n.includes(t) && a.push(t);
       },
       allSunk: function () {
         return e
@@ -71,7 +71,7 @@
   };
   var a = document.getElementById("playerGrid"),
     r = document.getElementById("computerGrid");
-  function i(e) {
+  function t(e) {
     for (
       var n = document.getElementsByClassName("square cSquare"), a = 0;
       a < n.length;
@@ -82,7 +82,7 @@
         : !0 === e.misses.includes(n[a].id.slice(1)) &&
           (n[a].className = "square cSquare miss");
   }
-  const t = function () {
+  const i = function () {
     var e = [
         "A1",
         "A2",
@@ -208,10 +208,13 @@
       };
     return {
       attack: function (n, a) {
-        if (!e.includes(a)) return "That move is not available";
-        n.receiveAttack(a);
-        var r = e.indexOf(a);
-        r > -1 && e.splice(r, 1);
+        if (e.includes(a)) {
+          n.receiveAttack(a);
+          var r = e.indexOf(a);
+          r > -1 && e.splice(r, 1);
+        } else
+          alert("You have already attacked that square"),
+            alert("That square has already been attacked!");
       },
       randomAttack: n,
       availableMoves: e,
@@ -224,9 +227,8 @@
           )
             e[n].addEventListener("click", s.playerMove);
         })(),
-          s.availableMoves.includes(e.target.id.slice(1))
-            ? (s.attack(u, e.target.id.slice(1)), i(u))
-            : alert("That square has already been attacked!"),
+          s.attack(u, e.target.id.slice(1)),
+          t(u),
           (function () {
             for (
               var e = document.getElementsByClassName("square cSquare"), n = 0;
@@ -240,21 +242,21 @@
       computerMove: a,
     };
   };
-  var s = t(),
+  var s = i(),
     u = n(),
-    c = (t(), n());
+    c = (i(), n());
   !(function () {
     for (
       (function (e) {
         for (var n = 0; n < 100; n++) {
-          var i = document.createElement("div"),
-            t = document.createElement("div");
-          (i.className = "square pSquare"),
-            (i.id = "p" + "".concat(e.availableMoves[n])),
-            (t.className = "square cSquare"),
-            (t.id = "c" + "".concat(e.availableMoves[n])),
-            a.appendChild(i),
-            r.appendChild(t);
+          var t = document.createElement("div"),
+            i = document.createElement("div");
+          (t.className = "square pSquare"),
+            (t.id = "p" + "".concat(e.availableMoves[n])),
+            (i.className = "square cSquare"),
+            (i.id = "c" + "".concat(e.availableMoves[n])),
+            a.appendChild(t),
+            r.appendChild(i);
         }
       })(s),
         c.newShip(["G1", "G2", "G3", "G4", "G5"]),
@@ -288,7 +290,7 @@
               (n[a].className = "square pSquare occupied");
           }
         })(c),
-        i(u);
+        t(u);
       !1 === c.allSunk() && !1 === u.allSunk();
 
     )

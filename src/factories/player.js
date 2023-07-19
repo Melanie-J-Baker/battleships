@@ -124,7 +124,8 @@ const PlayerFactory = function () {
         availableMoves.splice(index, 1); // 2nd parameter means remove one item only
       }
     } else {
-      return "That move is not available";
+      alert("You have already attacked that square");
+      repeatMove();
     }
   };
   const randomAttack = (board) => {
@@ -140,12 +141,8 @@ const PlayerFactory = function () {
 
   const playerMove = (event) => {
     addSquareEventListeners();
-    if (player.availableMoves.includes(event.target.id.slice(1))) {
-      player.attack(computerBoard, event.target.id.slice(1));
-      renderComputerBoard(computerBoard);
-    } else {
-      repeatMove();
-    }
+    player.attack(computerBoard, event.target.id.slice(1));
+    renderComputerBoard(computerBoard);
     removeSquareEventListeners();
     setTimeout(computerMove, 1000);
   };

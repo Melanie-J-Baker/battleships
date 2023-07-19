@@ -20,12 +20,12 @@ import {
   createBoardGrids,
   renderPlayerBoats,
   renderComputerBoard,
-  addSquareEventListeners,
 } from "./DOM";
 const player = PlayerFactory();
 const computerBoard = GameboardFactory();
-// const computer = PlayerFactory();
+const computer = PlayerFactory();
 const playerBoard = GameboardFactory();
+
 const Game = () => {
   createBoardGrids(player);
 
@@ -52,15 +52,25 @@ const Game = () => {
 
   renderPlayerBoats(playerBoard);
   renderComputerBoard(computerBoard);
-  addSquareEventListeners();
 
-  //while (playerBoard.allSunk() === false && computerBoard.allSunk() === false) {}
+  while (playerBoard.allSunk() === false && computerBoard.allSunk() === false) {
+    player.playerMove();
+  }
+
+  if (playerBoard.allSunk()) {
+    alert("All your ships are sunk! Computer wins");
+  } else if (computerBoard.allSunk()) {
+    alert("All opponent's ships have been sunk. Player wins!");
+  }
+
   return {
     player,
+    computer,
+    playerBoard,
     computerBoard,
   };
 };
 
 Game();
 
-export { player, computerBoard };
+export { player, computer, playerBoard, computerBoard };

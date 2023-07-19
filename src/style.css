@@ -40,7 +40,7 @@ button {
 }
 
 .occupied {
-  background-color: brown;
+  background-color: rgb(53, 45, 45);
 }
 
 .hit {

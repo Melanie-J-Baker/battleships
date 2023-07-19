@@ -51,10 +51,28 @@ function renderComputerBoard(computerBoard) {
   }
 }
 
+function renderPlayerBoard(playerBoard) {
+  const pSquares = document.getElementsByClassName("square pSquare");
+  for (let i = 0; i < pSquares.length; i++) {
+    if (playerBoard.hits.includes(pSquares[i].id.slice(1)) === true) {
+      pSquares[i].className = "square pSquare hit";
+    } else if (playerBoard.misses.includes(pSquares[i].id.slice(1)) === true) {
+      pSquares[i].className = "square pSquare miss";
+    }
+  }
+}
+
 function addSquareEventListeners() {
   const cSquares = document.getElementsByClassName("square cSquare");
   for (var i = 0; i < cSquares.length; i++) {
     cSquares[i].addEventListener("click", player.playerMove);
+  }
+}
+
+function removeSquareEventListeners() {
+  const cSquares = document.getElementsByClassName("square cSquare");
+  for (var i = 0; i < cSquares.length; i++) {
+    cSquares[i].removeEventListener("click", player.playerMove);
   }
 }
 
@@ -68,4 +86,6 @@ export {
   renderComputerBoard,
   repeatMove,
   addSquareEventListeners,
+  removeSquareEventListeners,
+  renderPlayerBoard,
 };

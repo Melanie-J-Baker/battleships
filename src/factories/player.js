@@ -2,10 +2,17 @@
 // a) Players can take turns playing the game by attacking the enemy Gameboard.
 // b) The game is played against the computer, so make the computer capable of making random plays.
 // AI does not have to be smart, but should know whether or not a given move is legal. (i.e. it shouldnt shoot the same coordinate twice).
-import { player, computerBoard } from "../index";
-import { renderComputerBoard, repeatMove } from "../DOM";
+import { player, computer, playerBoard, computerBoard } from "../index";
+import {
+  renderComputerBoard,
+  renderPlayerBoard,
+  repeatMove,
+  addSquareEventListeners,
+  removeSquareEventListeners,
+} from "../DOM";
 
 const PlayerFactory = function () {
+  let playerTurn = false;
   const availableMoves = [
     "A1",
     "A2",
@@ -130,15 +137,25 @@ const PlayerFactory = function () {
       availableMoves.splice(index, 1); // 2nd parameter means remove one item only
     }
   };
+
   const playerMove = (event) => {
+    addSquareEventListeners();
     if (player.availableMoves.includes(event.target.id.slice(1))) {
       player.attack(computerBoard, event.target.id.slice(1));
       renderComputerBoard(computerBoard);
     } else {
       repeatMove();
     }
+    removeSquareEventListeners();
+    setTimeout(computerMove, 1000);
   };
-  return { attack, randomAttack, availableMoves, playerMove };
+
+  const computerMove = () => {
+    randomAttack(playerBoard);
+    renderPlayerBoard(playerBoard);
+    player.playerMove();
+  };
+  return { attack, randomAttack, availableMoves, playerMove, computerMove };
 };
 
 export default PlayerFactory;

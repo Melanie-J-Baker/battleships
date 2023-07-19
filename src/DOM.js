@@ -10,12 +10,11 @@
 // a) There are several options available for letting users place their ships. You can let them type coordinates for each ship, or investigate implementing drag and drop.
 // b) You can polish the intelligence of the computer player by having it try adjacent slots after getting a ‘hit’.
 // c) Optionally, create a 2 player option that lets users take turns by passing the device back and forth. If you’re going to go this route, make sure the game is playable on a mobile screen and implement a ‘pass device’ screen so that players don’t see each others boards!
-import { player } from "./index";
-
-const playerGrid = document.getElementById("playerGrid");
-const computerGrid = document.getElementById("computerGrid");
+import { Game, player } from "./index";
 
 function createBoardGrids(player) {
+  const playerGrid = document.getElementById("playerGrid");
+  const computerGrid = document.getElementById("computerGrid");
   for (let i = 0; i < 100; i++) {
     let playerSquare = document.createElement("div");
     let computerSquare = document.createElement("div");
@@ -26,6 +25,11 @@ function createBoardGrids(player) {
     playerGrid.appendChild(playerSquare);
     computerGrid.appendChild(computerSquare);
   }
+}
+
+function startEventListener() {
+  const start = document.getElementById("start");
+  start.addEventListener("click", Game);
 }
 
 function renderPlayerBoats(playerBoard) {
@@ -77,6 +81,7 @@ function removeSquareEventListeners() {
 }
 
 export {
+  startEventListener,
   createBoardGrids,
   renderPlayerBoats,
   renderComputerBoard,

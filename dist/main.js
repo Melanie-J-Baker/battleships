@@ -9,7 +9,7 @@
     },
     o: (e, n) => Object.prototype.hasOwnProperty.call(e, n),
   };
-  e.d({}, { UR: () => u, n1: () => o, hM: () => c, mO: () => l });
+  e.d({}, { lA: () => u, UR: () => c, n1: () => s, hM: () => r, mO: () => o });
   const n = function () {
     var e = [],
       n = [],
@@ -44,15 +44,15 @@
           );
         })(a);
         e.push(i);
-        for (var r = 0; r < i.shipCoords.length; r++) n.push(i.shipCoords[r]);
+        for (var t = 0; t < i.shipCoords.length; t++) n.push(i.shipCoords[t]);
       },
-      receiveAttack: function (r) {
-        if (!1 !== i.includes(r) || !1 !== a.includes(r))
+      receiveAttack: function (t) {
+        if (!1 !== i.includes(t) || !1 !== a.includes(t))
           return "Square has already been attacked!";
-        for (var t = 0; t < e.length; t++)
-          for (var s = 0; s < e[t].shipCoords.length; s++)
-            e[t].shipCoords[s] === r && (e[t].hit(s), i.push(r));
-        !1 === n.includes(r) && a.push(r);
+        for (var r = 0; r < e.length; r++)
+          for (var s = 0; s < e[r].shipCoords.length; s++)
+            e[r].shipCoords[s] === t && (e[r].hit(s), i.push(t));
+        !1 === n.includes(t) && a.push(t);
       },
       allSunk: function () {
         return e
@@ -69,9 +69,7 @@
       occupied: n,
     };
   };
-  var a = document.getElementById("playerGrid"),
-    i = document.getElementById("computerGrid");
-  function r(e) {
+  function a(e) {
     for (
       var n = document.getElementsByClassName("square cSquare"), a = 0;
       a < n.length;
@@ -82,14 +80,75 @@
         : !0 === e.misses.includes(n[a].id.slice(1)) &&
           (n[a].className = "square cSquare miss");
   }
-  const t = function () {
-      !0 === l.allSunk()
+  const i = function () {
+      !0 === o.allSunk()
         ? alert("All your ships are sunk! Computer wins")
-        : !0 === o.allSunk() &&
+        : !0 === s.allSunk() &&
           alert("All opponent's ships have been sunk. Player wins!");
     },
-    s = function () {
-      var e = [
+    t = function () {
+      var e = function (e) {
+          var n =
+            c.availableMoves[
+              Math.floor(Math.random() * c.availableMoves.length)
+            ];
+          e.receiveAttack(n);
+          var a = c.availableMoves.indexOf(n);
+          a > -1 && c.availableMoves.splice(a, 1);
+        },
+        n = function (e) {
+          !(function () {
+            for (
+              var e = document.getElementsByClassName("square cSquare"), n = 0;
+              n < e.length;
+              n++
+            )
+              e[n].addEventListener("click", r.playerMove);
+          })(),
+            r.attack(s, e.target.id.slice(1)),
+            a(s),
+            i(),
+            setTimeout(t, 500);
+        },
+        t = function () {
+          e(o),
+            (function (e) {
+              for (
+                var n = document.getElementsByClassName("square pSquare"),
+                  a = 0;
+                a < n.length;
+                a++
+              )
+                !0 === e.hits.includes(n[a].id.slice(1))
+                  ? (n[a].className = "square pSquare hit")
+                  : !0 === e.misses.includes(n[a].id.slice(1)) &&
+                    (n[a].className = "square pSquare miss");
+            })(o),
+            i(),
+            r.playerMove();
+        };
+      return {
+        attack: function (e, i) {
+          if (r.availableMoves.includes(i)) {
+            e.receiveAttack(i);
+            var t = r.availableMoves.indexOf(i);
+            t > -1 && r.availableMoves.splice(t, 1);
+          } else
+            alert("You have already attacked that square"),
+              (function () {
+                for (
+                  var e = document.getElementsByClassName("square cSquare"),
+                    n = 0;
+                  n < e.length;
+                  n++
+                )
+                  e[n].removeEventListener("click", r.playerMove);
+              })(),
+              a(s),
+              n();
+        },
+        randomAttack: e,
+        availableMoves: [
           "A1",
           "A2",
           "A3",
@@ -191,115 +250,66 @@
           "J9",
           "J10",
         ],
-        n = function (n) {
-          var a = u.availableMoves[Math.floor(Math.random() * e.length)];
-          n.receiveAttack(a);
-          var i = u.availableMoves.indexOf(a);
-          i > -1 && u.availableMoves.splice(i, 1);
-        },
-        a = function (e) {
-          !(function () {
-            for (
-              var e = document.getElementsByClassName("square cSquare"), n = 0;
-              n < e.length;
-              n++
-            )
-              e[n].addEventListener("click", c.playerMove);
-          })(),
-            c.attack(o, e.target.id.slice(1)),
-            r(o),
-            t(),
-            setTimeout(i, 500);
-        },
-        i = function () {
-          n(l),
-            (function (e) {
-              for (
-                var n = document.getElementsByClassName("square pSquare"),
-                  a = 0;
-                a < n.length;
-                a++
-              )
-                !0 === e.hits.includes(n[a].id.slice(1))
-                  ? (n[a].className = "square pSquare hit")
-                  : !0 === e.misses.includes(n[a].id.slice(1)) &&
-                    (n[a].className = "square pSquare miss");
-            })(l),
-            t(),
-            c.playerMove();
-        };
-      return {
-        attack: function (e, n) {
-          if (c.availableMoves.includes(n)) {
-            e.receiveAttack(n);
-            var i = c.availableMoves.indexOf(n);
-            i > -1 && c.availableMoves.splice(i, 1);
-          } else
-            alert("You have already attacked that square"),
-              (function () {
-                for (
-                  var e = document.getElementsByClassName("square cSquare"),
-                    n = 0;
-                  n < e.length;
-                  n++
-                )
-                  e[n].removeEventListener("click", c.playerMove);
-              })(),
-              r(o),
-              a();
-        },
-        randomAttack: n,
-        availableMoves: e,
-        playerMove: a,
-        computerMove: i,
+        playerMove: n,
+        computerMove: t,
       };
     };
-  var c = s(),
-    o = n(),
-    u = s(),
-    l = n();
-  (function (e) {
-    for (var n = 0; n < 100; n++) {
-      var r = document.createElement("div"),
-        t = document.createElement("div");
-      (r.className = "square pSquare"),
-        (r.id = "p" + "".concat(e.availableMoves[n])),
-        (t.className = "square cSquare"),
-        (t.id = "c" + "".concat(e.availableMoves[n])),
-        a.appendChild(r),
-        i.appendChild(t);
-    }
-  })(c),
-    l.newShip(["G1", "G2", "G3", "G4", "G5"]),
-    l.newShip(["B2", "C2", "D2", "E2"]),
-    l.newShip(["I4", "I5", "I6", "I7"]),
-    l.newShip(["A5", "A6", "A7"]),
-    l.newShip(["D5", "D6", "D7"]),
-    l.newShip(["H9", "I9", "J9"]),
-    l.newShip(["J1", "J2"]),
-    l.newShip(["C9", "D9"]),
-    l.newShip(["A10", "B10"]),
-    l.newShip(["E10", "F10"]),
-    o.newShip(["A6", "A7", "A8", "A9", "A10"]),
-    o.newShip(["H2", "H3", "H4", "H5"]),
-    o.newShip(["F9", "G9", "H9", "I9"]),
-    o.newShip(["C2", "D2", "E2"]),
-    o.newShip(["J5", "J6", "J7"]),
-    o.newShip(["D7", "D8", "D9"]),
-    o.newShip(["A1", "A2"]),
-    o.newShip(["J1", "J2"]),
-    o.newShip(["E5", "F5"]),
-    o.newShip(["B4", "C4"]),
+  var r = t(),
+    s = n(),
+    c = t(),
+    o = n();
+  function u() {
+    o.newShip(["G1", "G2", "G3", "G4", "G5"]),
+      o.newShip(["B2", "C2", "D2", "E2"]),
+      o.newShip(["I4", "I5", "I6", "I7"]),
+      o.newShip(["A5", "A6", "A7"]),
+      o.newShip(["D5", "D6", "D7"]),
+      o.newShip(["H9", "I9", "J9"]),
+      o.newShip(["J1", "J2"]),
+      o.newShip(["C9", "D9"]),
+      o.newShip(["A10", "B10"]),
+      o.newShip(["E10", "F10"]),
+      s.newShip(["A6", "A7", "A8", "A9", "A10"]),
+      s.newShip(["H2", "H3", "H4", "H5"]),
+      s.newShip(["F9", "G9", "H9", "I9"]),
+      s.newShip(["C2", "D2", "E2"]),
+      s.newShip(["J5", "J6", "J7"]),
+      s.newShip(["D7", "D8", "D9"]),
+      s.newShip(["A1", "A2"]),
+      s.newShip(["J1", "J2"]),
+      s.newShip(["E5", "F5"]),
+      s.newShip(["B4", "C4"]),
+      (function (e) {
+        for (
+          var n = document.getElementById("playerGrid").children, a = 0;
+          a < n.length;
+          a++
+        ) {
+          var i = n[a].id.slice(1);
+          e.occupied.includes(i) &&
+            (n[a].className = "square pSquare occupied");
+        }
+      })(o),
+      a(s),
+      r.playerMove();
+  }
+  document.getElementById("start").addEventListener("click", u),
     (function (e) {
       for (
-        var n = document.getElementById("playerGrid").children, a = 0;
-        a < n.length;
-        a++
+        var n = document.getElementById("playerGrid"),
+          a = document.getElementById("computerGrid"),
+          i = 0;
+        i < 100;
+        i++
       ) {
-        var i = n[a].id.slice(1);
-        e.occupied.includes(i) && (n[a].className = "square pSquare occupied");
+        var t = document.createElement("div"),
+          r = document.createElement("div");
+        (t.className = "square pSquare"),
+          (t.id = "p" + "".concat(e.availableMoves[i])),
+          (r.className = "square cSquare"),
+          (r.id = "c" + "".concat(e.availableMoves[i])),
+          n.appendChild(t),
+          a.appendChild(r);
       }
-    })(l),
-    r(o),
-    c.playerMove();
+    })(r);
 })();

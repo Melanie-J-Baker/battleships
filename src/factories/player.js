@@ -132,7 +132,7 @@ const PlayerFactory = function () {
   const randomAttack = (board) => {
     const randomTarget =
       computer.availableMoves[
-        Math.floor(Math.random() * availableMoves.length)
+        Math.floor(Math.random() * computer.availableMoves.length)
       ];
     board.receiveAttack(randomTarget);
     const index = computer.availableMoves.indexOf(randomTarget);

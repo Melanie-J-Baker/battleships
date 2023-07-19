@@ -17,18 +17,21 @@
 import GameboardFactory from "./factories/gameboard";
 import PlayerFactory from "./factories/player";
 import {
+  startEventListener,
   createBoardGrids,
   renderPlayerBoats,
   renderComputerBoard,
 } from "./DOM";
+
 const player = PlayerFactory();
 const computerBoard = GameboardFactory();
 const computer = PlayerFactory();
 const playerBoard = GameboardFactory();
 
-const Game = () => {
-  createBoardGrids(player);
+startEventListener();
+createBoardGrids(player);
 
+function Game() {
   playerBoard.newShip(["G1", "G2", "G3", "G4", "G5"]);
   playerBoard.newShip(["B2", "C2", "D2", "E2"]);
   playerBoard.newShip(["I4", "I5", "I6", "I7"]);
@@ -54,15 +57,6 @@ const Game = () => {
   renderComputerBoard(computerBoard);
 
   player.playerMove();
+}
 
-  return {
-    player,
-    computer,
-    playerBoard,
-    computerBoard,
-  };
-};
-
-Game();
-
-export { player, computer, playerBoard, computerBoard };
+export { Game, player, computer, playerBoard, computerBoard };

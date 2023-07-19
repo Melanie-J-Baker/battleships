@@ -6,13 +6,12 @@ import { player, computer, playerBoard, computerBoard } from "../index";
 import {
   renderComputerBoard,
   renderPlayerBoard,
-  repeatMove,
   addSquareEventListeners,
   removeSquareEventListeners,
 } from "../DOM";
+import checkWinner from "../helper";
 
 const PlayerFactory = function () {
-  let playerTurn = false;
   const availableMoves = [
     "A1",
     "A2",
@@ -116,26 +115,30 @@ const PlayerFactory = function () {
     "J10",
   ];
   const attack = (board, target) => {
-    if (availableMoves.includes(target)) {
+    if (player.availableMoves.includes(target)) {
       board.receiveAttack(target);
-      const index = availableMoves.indexOf(target);
+      const index = player.availableMoves.indexOf(target);
       if (index > -1) {
         // only splice array when item is found
-        availableMoves.splice(index, 1); // 2nd parameter means remove one item only
+        player.availableMoves.splice(index, 1); // 2nd parameter means remove one item only
       }
     } else {
       alert("You have already attacked that square");
-      repeatMove();
+      removeSquareEventListeners();
+      renderComputerBoard(computerBoard);
+      playerMove();
     }
   };
   const randomAttack = (board) => {
     const randomTarget =
-      availableMoves[Math.floor(Math.random() * availableMoves.length)];
+      computer.availableMoves[
+        Math.floor(Math.random() * availableMoves.length)
+      ];
     board.receiveAttack(randomTarget);
-    const index = availableMoves.indexOf(randomTarget);
+    const index = computer.availableMoves.indexOf(randomTarget);
     if (index > -1) {
       // only splice array when item is found
-      availableMoves.splice(index, 1); // 2nd parameter means remove one item only
+      computer.availableMoves.splice(index, 1); // 2nd parameter means remove one item only
     }
   };
 
@@ -143,13 +146,14 @@ const PlayerFactory = function () {
     addSquareEventListeners();
     player.attack(computerBoard, event.target.id.slice(1));
     renderComputerBoard(computerBoard);
-    removeSquareEventListeners();
-    setTimeout(computerMove, 1000);
+    checkWinner();
+    setTimeout(computerMove, 500);
   };
 
   const computerMove = () => {
     randomAttack(playerBoard);
     renderPlayerBoard(playerBoard);
+    checkWinner();
     player.playerMove();
   };
   return { attack, randomAttack, availableMoves, playerMove, computerMove };

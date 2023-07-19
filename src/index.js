@@ -53,15 +53,7 @@ const Game = () => {
   renderPlayerBoats(playerBoard);
   renderComputerBoard(computerBoard);
 
-  while (playerBoard.allSunk() === false && computerBoard.allSunk() === false) {
-    player.playerMove();
-  }
-
-  if (playerBoard.allSunk()) {
-    alert("All your ships are sunk! Computer wins");
-  } else if (computerBoard.allSunk()) {
-    alert("All opponent's ships have been sunk. Player wins!");
-  }
+  player.playerMove();
 
   return {
     player,

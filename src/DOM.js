@@ -76,15 +76,10 @@ function removeSquareEventListeners() {
   }
 }
 
-function repeatMove() {
-  alert("That square has already been attacked!");
-}
-
 export {
   createBoardGrids,
   renderPlayerBoats,
   renderComputerBoard,
-  repeatMove,
   addSquareEventListeners,
   removeSquareEventListeners,
   renderPlayerBoard,

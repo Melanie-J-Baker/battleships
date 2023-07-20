@@ -21,6 +21,8 @@ import {
   createBoardGrids,
   renderPlayerBoats,
   renderComputerBoard,
+  infoPlayerMove,
+  addSquareEventListeners,
 } from "./DOM";
 
 const player = PlayerFactory();
@@ -56,7 +58,10 @@ function Game() {
   renderPlayerBoats(playerBoard);
   renderComputerBoard(computerBoard);
 
-  player.playerMove();
+  infoPlayerMove();
+  addSquareEventListeners();
+
+  //player.playerMove();
 }
 
 export { Game, player, computer, playerBoard, computerBoard };

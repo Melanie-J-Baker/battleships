@@ -1,9 +1,12 @@
 import { playerBoard, computerBoard } from "./index";
+
 const checkWinner = () => {
   if (playerBoard.allSunk() === true) {
-    alert("All your ships are sunk! Computer wins");
+    return "player";
   } else if (computerBoard.allSunk() === true) {
-    alert("All opponent's ships have been sunk. Player wins!");
+    return "computer";
+  } else {
+    return null;
   }
 };
 

@@ -8,6 +8,11 @@ import {
   renderPlayerBoard,
   addSquareEventListeners,
   removeSquareEventListeners,
+  infoPlayerMove,
+  infoComputerMove,
+  infoRepeatMove,
+  infoPlayerWin,
+  infoComputerWin,
 } from "../DOM";
 import checkWinner from "../helper";
 
@@ -123,7 +128,7 @@ const PlayerFactory = function () {
         player.availableMoves.splice(index, 1); // 2nd parameter means remove one item only
       }
     } else {
-      alert("You have already attacked that square");
+      infoRepeatMove();
       removeSquareEventListeners();
       renderComputerBoard(computerBoard);
       playerMove();
@@ -143,18 +148,32 @@ const PlayerFactory = function () {
   };
 
   const playerMove = (event) => {
-    addSquareEventListeners();
     player.attack(computerBoard, event.target.id.slice(1));
     renderComputerBoard(computerBoard);
-    checkWinner();
-    setTimeout(computerMove, 500);
+    removeSquareEventListeners();
+    if (computerBoard.allSunk() === true) {
+      infoPlayerWin();
+    } else if (playerBoard.allSunk() === true) {
+      infoComputerWin();
+    } else {
+      infoComputerMove();
+      setTimeout(computerMove, 1000);
+    }
   };
 
   const computerMove = () => {
     randomAttack(playerBoard);
     renderPlayerBoard(playerBoard);
-    checkWinner();
-    player.playerMove();
+    if (checkWinner === "player") {
+      infoPlayerWin();
+      removeSquareEventListeners();
+    } else if (checkWinner === "computer") {
+      infoComputerWin();
+      removeSquareEventListeners();
+    } else {
+      infoPlayerMove();
+      addSquareEventListeners();
+    }
   };
   return { attack, randomAttack, availableMoves, playerMove, computerMove };
 };

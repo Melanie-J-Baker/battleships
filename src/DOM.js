@@ -80,6 +80,31 @@ function removeSquareEventListeners() {
   }
 }
 
+function infoPlayerMove() {
+  const infoBox = document.getElementById("info");
+  infoBox.textContent = "Your move! Choose a square to attack.";
+}
+
+function infoComputerMove() {
+  const infoBox = document.getElementById("info");
+  infoBox.textContent = "Computer is taking their turn.";
+}
+
+function infoRepeatMove() {
+  const infoBox = document.getElementById("info");
+  infoBox.textContent = "That square has already been attacked!";
+}
+
+function infoPlayerWin() {
+  const infoBox = document.getElementById("info");
+  infoBox.textContent = "You have won!";
+}
+
+function infoComputerWin() {
+  const infoBox = document.getElementById("info");
+  infoBox.textContent = "Computer has sunk all your ships! You lose!";
+}
+
 export {
   startEventListener,
   createBoardGrids,
@@ -88,4 +113,9 @@ export {
   addSquareEventListeners,
   removeSquareEventListeners,
   renderPlayerBoard,
+  infoPlayerMove,
+  infoComputerMove,
+  infoRepeatMove,
+  infoPlayerWin,
+  infoComputerWin,
 };

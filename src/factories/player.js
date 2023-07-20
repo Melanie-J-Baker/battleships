@@ -14,7 +14,6 @@ import {
   infoPlayerWin,
   infoComputerWin,
 } from "../DOM";
-import checkWinner from "../helper";
 
 const PlayerFactory = function () {
   const availableMoves = [

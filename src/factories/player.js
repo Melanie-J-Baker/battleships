@@ -164,10 +164,10 @@ const PlayerFactory = function () {
   const computerMove = () => {
     randomAttack(playerBoard);
     renderPlayerBoard(playerBoard);
-    if (checkWinner === "player") {
+    if (computerBoard.allSunk() === true) {
       infoPlayerWin();
       removeSquareEventListeners();
-    } else if (checkWinner === "computer") {
+    } else if (playerBoard.allSunk() === true) {
       infoComputerWin();
       removeSquareEventListeners();
     } else {

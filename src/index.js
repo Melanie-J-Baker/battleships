@@ -24,6 +24,7 @@ import {
   infoPlayerMove,
   addSquareEventListeners,
 } from "./DOM";
+import { create2dArray, findNeighbours } from "./helper";
 
 const player = PlayerFactory();
 const computerBoard = GameboardFactory();
@@ -61,7 +62,8 @@ function Game() {
   infoPlayerMove();
   addSquareEventListeners();
 
-  //player.playerMove();
+  const array2d = create2dArray();
+  console.log(findNeighbours(1, array2d));
 }
 
 export { Game, player, computer, playerBoard, computerBoard };

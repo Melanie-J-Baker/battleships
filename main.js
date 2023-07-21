@@ -9,7 +9,7 @@
     },
     o: (e, n) => Object.prototype.hasOwnProperty.call(e, n),
   };
-  e.d({}, { lA: () => p, UR: () => d, n1: () => l, hM: () => c, mO: () => h });
+  e.d({}, { lA: () => m, UR: () => p, n1: () => h, hM: () => d, mO: () => v });
   const n = function () {
     var e = [],
       n = [],
@@ -86,7 +86,7 @@
       n < e.length;
       n++
     )
-      e[n].addEventListener("click", c.playerMove);
+      e[n].addEventListener("click", d.playerMove);
   }
   function i() {
     for (
@@ -94,7 +94,7 @@
       n < e.length;
       n++
     )
-      e[n].removeEventListener("click", c.playerMove);
+      e[n].removeEventListener("click", d.playerMove);
   }
   function r() {
     document.getElementById("info").textContent =
@@ -103,32 +103,32 @@
   function o() {
     document.getElementById("info").textContent = "You have won!";
   }
-  function s() {
+  function u() {
     document.getElementById("info").textContent =
       "Computer has sunk all your ships! You lose!";
   }
-  const u = function () {
+  const s = function () {
     var e = function (e) {
         var n =
-          d.availableMoves[Math.floor(Math.random() * d.availableMoves.length)];
+          p.availableMoves[Math.floor(Math.random() * p.availableMoves.length)];
         e.receiveAttack(n);
-        var t = d.availableMoves.indexOf(n);
-        t > -1 && d.availableMoves.splice(t, 1);
+        var t = p.availableMoves.indexOf(n);
+        t > -1 && p.availableMoves.splice(t, 1);
       },
       n = function (e) {
-        c.attack(l, e.target.id.slice(1)),
-          t(l),
+        d.attack(h, e.target.id.slice(1)),
+          t(h),
           i(),
-          !0 === l.allSunk()
+          !0 === h.allSunk()
             ? o()
-            : !0 === h.allSunk()
-            ? s()
+            : !0 === v.allSunk()
+            ? u()
             : ((document.getElementById("info").textContent =
                 "Computer is taking their turn."),
-              setTimeout(u, 1e3));
+              setTimeout(s, 1e3));
       },
-      u = function () {
-        e(h),
+      s = function () {
+        e(v),
           (function (e) {
             for (
               var n = document.getElementsByClassName("square pSquare"), t = 0;
@@ -139,24 +139,24 @@
                 ? (n[t].className = "square pSquare hit")
                 : !0 === e.misses.includes(n[t].id.slice(1)) &&
                   (n[t].className = "square pSquare miss");
-          })(h),
-          !0 === l.allSunk()
+          })(v),
+          !0 === h.allSunk()
             ? (o(), i())
-            : !0 === h.allSunk()
-            ? (s(), i())
+            : !0 === v.allSunk()
+            ? (u(), i())
             : (r(), a());
       };
     return {
       attack: function (e, a) {
-        if (c.availableMoves.includes(a)) {
+        if (d.availableMoves.includes(a)) {
           e.receiveAttack(a);
-          var r = c.availableMoves.indexOf(a);
-          r > -1 && c.availableMoves.splice(r, 1);
+          var r = d.availableMoves.indexOf(a);
+          r > -1 && d.availableMoves.splice(r, 1);
         } else
           (document.getElementById("info").textContent =
             "That square has already been attacked!"),
             i(),
-            t(l),
+            t(h),
             n();
       },
       randomAttack: e,
@@ -263,34 +263,57 @@
         "J10",
       ],
       playerMove: n,
-      computerMove: u,
+      computerMove: s,
     };
   };
-  var c = u(),
-    l = n(),
-    d = u(),
-    h = n();
-  function p() {
-    h.newShip(["G1", "G2", "G3", "G4", "G5"]),
-      h.newShip(["B2", "C2", "D2", "E2"]),
-      h.newShip(["I4", "I5", "I6", "I7"]),
-      h.newShip(["A5", "A6", "A7"]),
-      h.newShip(["D5", "D6", "D7"]),
-      h.newShip(["H9", "I9", "J9"]),
+  var c = function () {
+      for (var e = [], n = 0, t = 0; t < 10; t++) {
+        e.push([]);
+        for (var a = 0; a < 10 && n < 100; a++) e[t].push(n), n++;
+      }
+      return e;
+    },
+    l = function (e, n) {
+      var t,
+        a,
+        i = parseInt(e / 10),
+        r = n[i].findIndex(function (n) {
+          return n === e;
+        });
+      return [
+        n[i][r + 1],
+        n[i][r - 1],
+        null === (t = n[i - 1]) || void 0 === t ? void 0 : t[r],
+        null === (a = n[i + 1]) || void 0 === a ? void 0 : a[r],
+      ].filter(function (e) {
+        return void 0 !== e;
+      });
+    },
+    d = s(),
+    h = n(),
+    p = s(),
+    v = n();
+  function m() {
+    v.newShip(["G1", "G2", "G3", "G4", "G5"]),
+      v.newShip(["B2", "C2", "D2", "E2"]),
+      v.newShip(["I4", "I5", "I6", "I7"]),
+      v.newShip(["A5", "A6", "A7"]),
+      v.newShip(["D5", "D6", "D7"]),
+      v.newShip(["H9", "I9", "J9"]),
+      v.newShip(["J1", "J2"]),
+      v.newShip(["C9", "D9"]),
+      v.newShip(["A10", "B10"]),
+      v.newShip(["E10", "F10"]),
+      h.newShip(["A6", "A7", "A8", "A9", "A10"]),
+      h.newShip(["H2", "H3", "H4", "H5"]),
+      h.newShip(["F9", "G9", "H9", "I9"]),
+      h.newShip(["C2", "D2", "E2"]),
+      h.newShip(["J5", "J6", "J7"]),
+      h.newShip(["D7", "D8", "D9"]),
+      h.newShip(["A1", "A2"]),
       h.newShip(["J1", "J2"]),
-      h.newShip(["C9", "D9"]),
-      h.newShip(["A10", "B10"]),
-      h.newShip(["E10", "F10"]),
-      l.newShip(["A6", "A7", "A8", "A9", "A10"]),
-      l.newShip(["H2", "H3", "H4", "H5"]),
-      l.newShip(["F9", "G9", "H9", "I9"]),
-      l.newShip(["C2", "D2", "E2"]),
-      l.newShip(["J5", "J6", "J7"]),
-      l.newShip(["D7", "D8", "D9"]),
-      l.newShip(["A1", "A2"]),
-      l.newShip(["J1", "J2"]),
-      l.newShip(["E5", "F5"]),
-      l.newShip(["B4", "C4"]),
+      h.newShip(["E5", "F5"]),
+      h.newShip(["B4", "C4"]),
       (function (e) {
         for (
           var n = document.getElementById("playerGrid").children, t = 0;
@@ -301,12 +324,14 @@
           e.occupied.includes(a) &&
             (n[t].className = "square pSquare occupied");
         }
-      })(h),
-      t(l),
+      })(v),
+      t(h),
       r(),
       a();
+    var e = c();
+    console.log(l(1, e));
   }
-  document.getElementById("start").addEventListener("click", p),
+  document.getElementById("start").addEventListener("click", m),
     (function (e) {
       for (
         var n = document.getElementById("playerGrid"),
@@ -324,5 +349,5 @@
           n.appendChild(i),
           t.appendChild(r);
       }
-    })(c);
+    })(d);
 })();

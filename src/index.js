@@ -42,27 +42,31 @@ startEventListener();
 createBoardGrids(player);
 
 function Game() {
-  /*for (let i = 0; i < shipsArray.length; i++) {
-    for(let j = 0; j < shipsArray[i].length; j++) {
-      let coord1;
-      let index = randomIndex();
-      let neighbours = findNeighbours(index, array2d);
+  for (let i = 0; i < shipsArray.length; i++) {
+    for (let j = 0; j < shipsArray[i].length; j++) {
+      createRandomShipSquare();
+    }
+  }
 
-      while (playerBoard.occupied.includes(allMoves[index])) {
-        index = randomIndex()
-      }
+  function createRandomShipSquare() {
+    let coord1;
+    let index = randomIndex();
+    let neighbours = findNeighbours(index, array2d);
+
+    if (playerBoard.occupied.includes(allMoves[index])) {
+      createRandomShipSquare();
+    } else {
       for (let neighbour in neighbours) {
         if (playerBoard.occupied.includes(neighbour)) {
-          index = randomIndex();
+          createRandomShipSquare();
         } else {
-          coord1 = allMoves[index]
+          coord1 = allMoves[index];
+          console.log(coord1);
           return coord1;
         }
       }
-      coord1 = allMoves[index];
-      console.log(coord1);
     }
-  }*/
+  }
   playerBoard.newShip(["G1", "G2", "G3", "G4", "G5"]);
   playerBoard.newShip(["B2", "C2", "D2", "E2"]);
   playerBoard.newShip(["I4", "I5", "I6", "I7"]);

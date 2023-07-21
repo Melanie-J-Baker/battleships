@@ -103,11 +103,11 @@
   function o() {
     document.getElementById("info").textContent = "You have won!";
   }
-  function u() {
+  function s() {
     document.getElementById("info").textContent =
       "Computer has sunk all your ships! You lose!";
   }
-  const s = function () {
+  const u = function () {
     var e = function (e) {
         var n =
           p.availableMoves[Math.floor(Math.random() * p.availableMoves.length)];
@@ -122,12 +122,12 @@
           !0 === h.allSunk()
             ? o()
             : !0 === v.allSunk()
-            ? u()
+            ? s()
             : ((document.getElementById("info").textContent =
                 "Computer is taking their turn."),
-              setTimeout(s, 1e3));
+              setTimeout(u, 1e3));
       },
-      s = function () {
+      u = function () {
         e(v),
           (function (e) {
             for (
@@ -143,7 +143,7 @@
           !0 === h.allSunk()
             ? (o(), i())
             : !0 === v.allSunk()
-            ? (u(), i())
+            ? (s(), i())
             : (r(), a());
       };
     return {
@@ -263,7 +263,7 @@
         "J10",
       ],
       playerMove: n,
-      computerMove: s,
+      computerMove: u,
     };
   };
   var c = function () {
@@ -280,18 +280,16 @@
         r = n[i].findIndex(function (n) {
           return n === e;
         });
-      return [
-        n[i][r + 1],
-        n[i][r - 1],
-        null === (t = n[i - 1]) || void 0 === t ? void 0 : t[r],
-        null === (a = n[i + 1]) || void 0 === a ? void 0 : a[r],
-      ].filter(function (e) {
-        return void 0 !== e;
-      });
+      return {
+        right: n[i][r + 1],
+        left: n[i][r - 1],
+        bottom: null === (t = n[i - 1]) || void 0 === t ? void 0 : t[r],
+        top: null === (a = n[i + 1]) || void 0 === a ? void 0 : a[r],
+      };
     },
-    d = s(),
+    d = u(),
     h = n(),
-    p = s(),
+    p = u(),
     v = n();
   function m() {
     v.newShip(["G1", "G2", "G3", "G4", "G5"]),

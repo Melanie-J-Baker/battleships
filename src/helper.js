@@ -19,7 +19,7 @@ const findNeighbours = (index, array2d) => {
   const left = array2d[rowIndex][columnIndex - 1];
   const bottom = array2d[rowIndex - 1]?.[columnIndex];
   const top = array2d[rowIndex + 1]?.[columnIndex];
-  const neighbours = [right, left, bottom, top].filter((n) => n !== undefined);
+  const neighbours = { right, left, bottom, top };
   return neighbours;
 };
 

@@ -24,17 +24,45 @@ import {
   infoPlayerMove,
   addSquareEventListeners,
 } from "./DOM";
-import { create2dArray, findNeighbours } from "./helper";
+import {
+  allMoves,
+  create2dArray,
+  findNeighbours,
+  randomIndex,
+  shipsArray,
+} from "./helper";
 
 const player = PlayerFactory();
 const computerBoard = GameboardFactory();
 const computer = PlayerFactory();
 const playerBoard = GameboardFactory();
+const array2d = create2dArray();
 
 startEventListener();
 createBoardGrids(player);
 
 function Game() {
+  /*for (let i = 0; i < shipsArray.length; i++) {
+    for(let j = 0; j < shipsArray[i].length; j++) {
+      let coord1;
+      let index = randomIndex();
+      let neighbours = findNeighbours(index, array2d);
+
+      while (playerBoard.occupied.includes(allMoves[index])) {
+        index = randomIndex()
+      }
+      for (let neighbour in neighbours) {
+        if (playerBoard.occupied.includes(neighbour)) {
+          index = randomIndex();
+        } else {
+          coord1 = allMoves[index]
+          return coord1;
+        }
+      }
+      coord1 = allMoves[index];
+      console.log(coord1);
+    }
+  }*/
   playerBoard.newShip(["G1", "G2", "G3", "G4", "G5"]);
   playerBoard.newShip(["B2", "C2", "D2", "E2"]);
   playerBoard.newShip(["I4", "I5", "I6", "I7"]);
@@ -62,8 +90,7 @@ function Game() {
   infoPlayerMove();
   addSquareEventListeners();
 
-  const array2d = create2dArray();
-  console.log(findNeighbours(1, array2d));
+  //console.log(findNeighbours(randomIndex(), array2d));
 }
 
 export { Game, player, computer, playerBoard, computerBoard };

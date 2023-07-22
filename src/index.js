@@ -92,36 +92,36 @@ function Game() {
     if (direction === "right") {
       for (let i = 0; i < ship.size; i++) {
         board[y][x + i] = c; // places character "S" at the coordinate
-        ship.coordinates.push(`${x + i}-${y}`);
+        ship.coordinates.push(`${x + i},${y}`);
       }
     } else if (direction === "left") {
       for (let i = 0; i < ship.size; i++) {
         board[y][x - i] = c;
-        ship.coordinates.push(`${x - i}-${y}`);
+        ship.coordinates.push(`${x - i},${y}`);
       }
     }
   }*/
 
-  playerBoard.newShip(["G1", "G2", "G3", "G4", "G5"]);
-  playerBoard.newShip(["B2", "C2", "D2", "E2"]);
-  playerBoard.newShip(["I4", "I5", "I6", "I7"]);
-  playerBoard.newShip(["A5", "A6", "A7"]);
-  playerBoard.newShip(["D5", "D6", "D7"]);
-  playerBoard.newShip(["H9", "I9", "J9"]);
-  playerBoard.newShip(["J1", "J2"]);
-  playerBoard.newShip(["C9", "D9"]);
-  playerBoard.newShip(["A10", "B10"]);
-  playerBoard.newShip(["E10", "F10"]);
-  computerBoard.newShip(["A6", "A7", "A8", "A9", "A10"]);
-  computerBoard.newShip(["H2", "H3", "H4", "H5"]);
-  computerBoard.newShip(["F9", "G9", "H9", "I9"]);
-  computerBoard.newShip(["C2", "D2", "E2"]);
-  computerBoard.newShip(["J5", "J6", "J7"]);
-  computerBoard.newShip(["D7", "D8", "D9"]);
-  computerBoard.newShip(["A1", "A2"]);
-  computerBoard.newShip(["J1", "J2"]);
-  computerBoard.newShip(["E5", "F5"]);
-  computerBoard.newShip(["B4", "C4"]);
+  playerBoard.newShip(["7,1", "7,2", "7,3", "7,4", "7,5"]);
+  playerBoard.newShip(["2,1", "3,1", "4,1", "5,1"]);
+  playerBoard.newShip(["9,4", "9,5", "9,6", "9,7"]);
+  playerBoard.newShip(["1,5", "1,6", "1,7"]);
+  playerBoard.newShip(["4,5", "4,6", "4,7"]);
+  playerBoard.newShip(["8,9", "9,9", "10,9"]);
+  playerBoard.newShip(["10,1", "10,2"]);
+  playerBoard.newShip(["3,3", "4,3"]);
+  playerBoard.newShip(["1,10", "2,10"]);
+  playerBoard.newShip(["5,10", "6,10"]);
+  computerBoard.newShip(["1,6", "1,7", "1,8", "1,9", "1,10"]);
+  computerBoard.newShip(["8,2", "8,3", "8,4", "8,5"]);
+  computerBoard.newShip(["6,9", "7,9", "8,9", "9,9"]);
+  computerBoard.newShip(["3,2", "4,2", "5,2"]);
+  computerBoard.newShip(["10,5", "10,6", "10,7"]);
+  computerBoard.newShip(["4,7", "4,8", "4,9"]);
+  computerBoard.newShip(["1,1", "1,2"]);
+  computerBoard.newShip(["10,1", "10,2"]);
+  computerBoard.newShip(["5,5", "6,5"]);
+  computerBoard.newShip(["2,4", "3,4"]);
 
   renderPlayerBoats(playerBoard);
   renderComputerBoard(computerBoard);

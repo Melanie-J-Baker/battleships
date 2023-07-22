@@ -18,7 +18,7 @@ const GameboardFactory = () => {
       const ship = ShipFactory(coords);
       shipCoordsBoard.push(ship);
       for (let i = 0; i < ship.shipCoords.length; i++) {
-        //occupied.push(ship.shipCoords[i]);
+        occupied.push(ship.shipCoords[i]);
       }
     } else {
       return "Coordinate(s) already occupied";

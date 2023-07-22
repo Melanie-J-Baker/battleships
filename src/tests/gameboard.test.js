@@ -8,64 +8,64 @@ import GameboardFactory from "../factories/gameboard";
 
 test("can place ship at specific coords", () => {
   const board = GameboardFactory();
-  board.newShip(["A1", "A2", "A3", "A4"]);
+  board.newShip(["1,1", "1,2", "1,3", "1,4"]);
 
   expect(board.shipCoordsBoard[0].shipCoords).toStrictEqual([
-    "A1",
-    "A2",
-    "A3",
-    "A4",
+    "1,1",
+    "1,2",
+    "1,3",
+    "1,4",
   ]);
 });
 
 test("will not place ship in occupied square", () => {
   const board = GameboardFactory();
-  board.newShip(["A1", "A2", "A3", "A4"]);
-  const result = board.newShip(["A1", "B1", "C1"]);
+  board.newShip(["1,1", "1,2", "1,3", "1,4"]);
+  const result = board.newShip(["1,1", "2,1", "3,1"]);
 
   expect(result).toStrictEqual("Coordinate(s) already occupied");
 });
 
 test("can receive attack and send hit to correct ship", () => {
   const board = GameboardFactory();
-  board.newShip(["A1", "A2", "A3", "A4"]);
-  board.receiveAttack("A2");
+  board.newShip(["1,1", "1,2", "1,3", "1,4"]);
+  board.receiveAttack("1,2");
 
   expect(board.shipCoordsBoard[0].shipCoords).toStrictEqual([
-    "A1",
+    "1,1",
     "hit",
-    "A3",
-    "A4",
+    "1,3",
+    "1,4",
   ]);
 });
 
 test("can receive an attack and record missed shot", () => {
   const board = GameboardFactory();
-  board.newShip(["A1", "A2", "A3", "A4"]);
-  board.receiveAttack("B1");
+  board.newShip(["1,1", "1,2", "1,3", "1,4"]);
+  board.receiveAttack("2,1");
 
-  expect(board.misses).toStrictEqual(["B1"]);
+  expect(board.misses).toStrictEqual(["2,1"]);
 });
 
 test("can not attack previously attacked square", () => {
   const board = GameboardFactory();
-  board.receiveAttack("B1");
-  const result = board.receiveAttack("B1");
+  board.receiveAttack("2,1");
+  const result = board.receiveAttack("2,1");
 
   expect(result).toStrictEqual("Square has already been attacked!");
 });
 
 test("all ships sunk", () => {
   const board = GameboardFactory();
-  board.newShip(["A1", "A2", "A3", "A4"]);
-  board.newShip(["B2", "C2", "D2"]);
-  board.receiveAttack("A1");
-  board.receiveAttack("A2");
-  board.receiveAttack("A3");
-  board.receiveAttack("A4");
-  board.receiveAttack("B2");
-  board.receiveAttack("C2");
-  board.receiveAttack("D2");
+  board.newShip(["1,1", "1,2", "1,3", "1,4"]);
+  board.newShip(["2,2", "3,2", "4,2"]);
+  board.receiveAttack("1,1");
+  board.receiveAttack("1,2");
+  board.receiveAttack("1,3");
+  board.receiveAttack("1,4");
+  board.receiveAttack("2,2");
+  board.receiveAttack("3,2");
+  board.receiveAttack("4,2");
 
   const result = board.allSunk();
 
@@ -74,14 +74,14 @@ test("all ships sunk", () => {
 
 test("all ships not sunk", () => {
   const board = GameboardFactory();
-  board.newShip(["A1", "A2", "A3", "A4"]);
-  board.newShip(["B2", "C2", "D2"]);
-  board.receiveAttack("A1");
-  board.receiveAttack("A2");
-  board.receiveAttack("A3");
-  board.receiveAttack("A4");
-  board.receiveAttack("B2");
-  board.receiveAttack("C2");
+  board.newShip(["1,1", "1,2", "1,3", "1,4"]);
+  board.newShip(["2,2", "3,2", "4,2"]);
+  board.receiveAttack("1,1");
+  board.receiveAttack("1,2");
+  board.receiveAttack("1,3");
+  board.receiveAttack("1,4");
+  board.receiveAttack("2,2");
+  board.receiveAttack("3,2");
 
   const result = board.allSunk();
 

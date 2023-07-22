@@ -24,49 +24,84 @@ import {
   infoPlayerMove,
   addSquareEventListeners,
 } from "./DOM";
-import {
-  allMoves,
-  create2dArray,
-  findNeighbours,
-  randomIndex,
-  shipsArray,
-} from "./helper";
 
 const player = PlayerFactory();
 const computerBoard = GameboardFactory();
 const computer = PlayerFactory();
 const playerBoard = GameboardFactory();
-const array2d = create2dArray();
 
 startEventListener();
 createBoardGrids(player);
 
 function Game() {
-  for (let i = 0; i < shipsArray.length; i++) {
-    for (let j = 0; j < shipsArray[i].length; j++) {
-      createRandomShipSquare();
-    }
-  }
+  /*
+  // max = 10, ship = each ship object within ships array
+  generateRandomLocation(board, ship) {
+    let didPlace = false;
+    let directionString;
+    let valid;
 
-  function createRandomShipSquare() {
-    let coord1;
-    let index = randomIndex();
-    let neighbours = findNeighbours(index, array2d);
+    while(!didPlace) {
+      let x = this.getRandomInt(); //can I change this to generateRandomIndex?
+      let y = this.getRandomInt();
 
-    if (playerBoard.occupied.includes(allMoves[index])) {
-      createRandomShipSquare();
-    } else {
-      for (let neighbour in neighbours) {
-        if (playerBoard.occupied.includes(neighbour)) {
-          createRandomShipSquare();
-        } else {
-          coord1 = allMoves[index];
-          console.log(coord1);
-          return coord1;
-        }
+      [valid, directionString] = this.generateRandomDirection(x, y, ship);
+
+      if (valid) {
+        this.placeShip(x, y, "S", board, directionString, ship);
+        didPlace = true;
       }
     }
   }
+  getRandomInt = () => Math.floor(Math.random() * Math.floor(10));
+
+  generateRandomDirection(column, row, ship) {
+    let valid = false;
+    let direction = Math.floor(Math.random() * 4) + 1;
+    let directionString = "";
+
+    if (direction === 1) {
+      //right
+      for (let index = 0; index < ship.size; index++) {
+        if (
+          column + index >= this.gameBoard.length || 
+          this.gameBoard[row][column + index] === "S" ||
+          this.gameBoard[row][column + index] === undefined
+          ) {
+            return [valid, directionString];
+          }
+      }
+      valid = true;
+      directionString = "right";
+      return [valid, directionString];
+    } else if (direction === 2) {
+      //left
+      for (let i = 0; i < ship.size; i++) {
+        if (
+          column - i < 0 ||
+          this.gameBoard[row][column - i] === "S" ||
+          this.gameBoard[row][column - i] === undefined
+        ) {
+          return [valid, directionString];
+        }
+      }
+    }
+  };
+  // c = character (in this case "S" for ships)
+  placeShip (x, y, c, board, direction, ship) {
+    if (direction === "right") {
+      for (let i = 0; i < ship.size; i++) {
+        board[y][x + i] = c; // places character "S" at the coordinate
+        ship.coordinates.push(`${x + i}-${y}`);
+      }
+    } else if (direction === "left") {
+      for (let i = 0; i < ship.size; i++) {
+        board[y][x - i] = c;
+        ship.coordinates.push(`${x - i}-${y}`);
+      }
+    }
+  }*/
+
   playerBoard.newShip(["G1", "G2", "G3", "G4", "G5"]);
   playerBoard.newShip(["B2", "C2", "D2", "E2"]);
   playerBoard.newShip(["I4", "I5", "I6", "I7"]);
@@ -93,8 +128,6 @@ function Game() {
 
   infoPlayerMove();
   addSquareEventListeners();
-
-  //console.log(findNeighbours(randomIndex(), array2d));
 }
 
 export { Game, player, computer, playerBoard, computerBoard };

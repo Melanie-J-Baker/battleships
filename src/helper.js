@@ -142,3 +142,81 @@ const shipsArray = [
   ["", ""],
 ];
 export { allMoves, create2dArray, findNeighbours, randomIndex, shipsArray };
+
+//TAKEN FROM INDEX:
+/*import {
+  allMoves,
+  create2dArray,
+  findNeighbours,
+  randomIndex,
+  shipsArray,
+} from "./helper";*/
+
+//const array2d = create2dArray();
+//const newCoords = [];
+
+/*for (let i = 0; i < shipsArray.length; i++) {
+    for (let j = 0; j < shipsArray[i].length; j++) {
+      if (j === shipsArray[i][0]) {
+        createRandomShipSquare(playerBoard);
+      } else if (j == shipsArray[i][1]) {
+        createRandomNeighbourSquare(playerBoard);
+      } else {
+        //directionOfNeighbour(newCoords[?]);
+      }
+    }
+  }
+
+  function createRandomShipSquare(board) {
+    let coord1;
+    let index = randomIndex();
+    let coords = allMoves[index];
+    let neighbours = findNeighbours(index, array2d);
+
+    if (board.occupied.includes(coords)) {
+      createRandomShipSquare(board);
+    } else {
+      for (let neighbour in neighbours) {
+        if (board.occupied.includes(neighbour) === false && coord1 === undefined) {
+          coord1 = coords
+          console.log(coord1);
+          newCoords.push(coord1);
+          board.occupied.push(coord1);
+          console.log(newCoords);
+        } else {
+          createRandomShipSquare(board)
+        }
+      }
+    }
+  }
+
+  function createRandomNeighbourSquare(board) {
+    const neighbours = findNeighbours(newCoords.length-1, array2d);
+    const indexes = Object.values(neighbours);
+    indexes.filter(removeOffGrid);
+    //
+    let index = indexes[Math.floor(Math.random() * indexes.length)];
+    let coord2 = allMoves[index];
+    if (board.occupied.includes(coord2)) {
+      createRandomNeighbourSquare(board);
+    } else {
+      newCoords.push(coord2);
+      board.occupied.push(coord2);
+      console.log(newCoords);
+    }
+  }
+
+function removeOffGrid(value, index, arr) {
+    if (value === undefined) {
+    // Removes the value from the original array
+        arr.splice(index, 1);
+        return true;
+    }
+    return false;
+}
+
+  function directionOfNeighbour(coord) {
+    let index = allMoves.indexOf(coord);
+    let neighbours = findNeighbours(index, array2d);
+
+  }*/

@@ -20,7 +20,7 @@ button {
 
 #info {
   width: 250px;
-  height: 30px;
+  height: 40px;
   border: 1px solid black;
   margin: 25px;
 }
@@ -72,4 +72,8 @@ button {
   width: 25px;
   height: 25px;
   border: 1px darkmagenta solid;
+}
+
+.vertical {
+  flex-direction: column;
 }

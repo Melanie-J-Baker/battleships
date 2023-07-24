@@ -66,8 +66,11 @@ function renderMovableBoats() {
   displayDiv.id = "boatsDisplay";
   computerGrid.className = "";
   computerGrid.appendChild(displayDiv);
+
   createPlayerGrid(player);
-  infoBox.textContent = "Please place the ships on your grid";
+
+  infoBox.textContent = "Please place the ships on your grid. Click to rotate";
+
   for (let i = 0; i < shipSizeArray.length; i++) {
     let boat = document.createElement("div");
     switch (shipSizeArray[i][0]) {
@@ -108,6 +111,20 @@ function renderMovableBoats() {
         break;
     }
     displayDiv.appendChild(boat);
+  }
+}
+
+function addBoatEventListeners() {
+  const boats = document.getElementsByClassName("boat");
+  for (let i = 0; i < boats.length; i++) {
+    let boat = boats[i];
+    boat.addEventListener("click", function () {
+      if (boat.classList.contains("vertical")) {
+        boat.classList.remove("vertical");
+      } else {
+        boat.classList.add("vertical");
+      }
+    });
   }
 }
 
@@ -187,6 +204,7 @@ function infoComputerWin() {
 export {
   startEventListener,
   renderMovableBoats,
+  addBoatEventListeners,
   createPlayerGrid,
   createComputerGrid,
   renderPlayerBoats,

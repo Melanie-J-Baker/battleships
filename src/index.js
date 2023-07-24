@@ -20,6 +20,7 @@ import {
   startEventListener,
   createComputerGrid,
   renderMovableBoats,
+  addBoatEventListeners,
   renderPlayerBoats,
   renderComputerBoard,
   infoPlayerMove,
@@ -46,6 +47,7 @@ function Game() {
   playerBoard.newShip(["5,10", "6,10"]);*/
 
   renderMovableBoats();
+  addBoatEventListeners();
 
   computerBoard.newShip(["1,6", "1,7", "1,8", "1,9", "1,10"]);
   computerBoard.newShip(["8,2", "8,3", "8,4", "8,5"]);

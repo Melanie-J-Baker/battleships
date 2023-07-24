@@ -230,8 +230,7 @@ const PlayerFactory = function () {
       board.receiveAttack(target);
       const index = player.availableMoves.indexOf(target);
       if (index > -1) {
-        // only splice array when item is found
-        player.availableMoves.splice(index, 1); // 2nd parameter means remove one item only
+        player.availableMoves.splice(index, 1);
       }
     } else {
       infoRepeatMove();

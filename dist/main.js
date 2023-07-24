@@ -1,58 +1,58 @@
 (() => {
   "use strict";
   var e = {
-    d: (n, t) => {
-      for (var a in t)
-        e.o(t, a) &&
-          !e.o(n, a) &&
-          Object.defineProperty(n, a, { enumerable: !0, get: t[a] });
+    d: (t, a) => {
+      for (var n in a)
+        e.o(a, n) &&
+          !e.o(t, n) &&
+          Object.defineProperty(t, n, { enumerable: !0, get: a[n] });
     },
-    o: (e, n) => Object.prototype.hasOwnProperty.call(e, n),
+    o: (e, t) => Object.prototype.hasOwnProperty.call(e, t),
   };
-  e.d({}, { lA: () => p, UR: () => v, n1: () => d, hM: () => c, mO: () => h });
-  const n = function () {
+  e.d({}, { lA: () => h, UR: () => v, n1: () => m, hM: () => d, mO: () => p });
+  const t = function () {
     var e = [],
-      n = [],
       t = [],
-      a = [];
+      a = [],
+      n = [];
     return {
-      newShip: function (t) {
+      newShip: function (a) {
         if (
           !0 ===
-          n.some(function (e) {
-            return t.indexOf(e) >= 0;
+          t.some(function (e) {
+            return a.indexOf(e) >= 0;
           })
         )
           return "Coordinate(s) already occupied";
-        var a = (function (e) {
-          var n = [];
+        var n = (function (e) {
+          var t = [];
           return (
             e.map(function (e) {
-              return n.push(e);
+              return t.push(e);
             }),
             {
               hit: function (e) {
-                n[e] = "hit";
+                t[e] = "hit";
               },
               isSunk: function () {
-                return n.every(function (e) {
+                return t.every(function (e) {
                   return "hit" === e;
                 });
               },
-              shipCoords: n,
+              shipCoords: t,
             }
           );
-        })(t);
-        e.push(a);
-        for (var i = 0; i < a.shipCoords.length; i++) n.push(a.shipCoords[i]);
+        })(a);
+        e.push(n);
+        for (var r = 0; r < n.shipCoords.length; r++) t.push(n.shipCoords[r]);
       },
-      receiveAttack: function (i) {
-        if (!1 !== a.includes(i) || !1 !== t.includes(i))
+      receiveAttack: function (r) {
+        if (!1 !== n.includes(r) || !1 !== a.includes(r))
           return "Square has already been attacked!";
-        for (var r = 0; r < e.length; r++)
-          for (var o = 0; o < e[r].shipCoords.length; o++)
-            e[r].shipCoords[o] === i && (e[r].hit(o), a.push(i));
-        !1 === n.includes(i) && t.push(i);
+        for (var o = 0; o < e.length; o++)
+          for (var i = 0; i < e[o].shipCoords.length; i++)
+            e[o].shipCoords[i] === r && (e[o].hit(i), n.push(r));
+        !1 === t.includes(r) && a.push(r);
       },
       allSunk: function () {
         return e
@@ -64,46 +64,46 @@
           });
       },
       shipCoordsBoard: e,
-      misses: t,
-      hits: a,
-      occupied: n,
+      misses: a,
+      hits: n,
+      occupied: t,
     };
   };
-  function t(e) {
+  function a(e) {
     for (
-      var n = document.getElementsByClassName("square cSquare"), t = 0;
-      t < n.length;
+      var t = document.getElementsByClassName("square cSquare"), a = 0;
+      a < t.length;
+      a++
+    )
+      !0 === e.hits.includes(t[a].id.slice(1))
+        ? (t[a].className = "square cSquare hit")
+        : !0 === e.misses.includes(t[a].id.slice(1)) &&
+          (t[a].className = "square cSquare miss");
+  }
+  function n() {
+    for (
+      var e = document.getElementsByClassName("square cSquare"), t = 0;
+      t < e.length;
       t++
     )
-      !0 === e.hits.includes(n[t].id.slice(1))
-        ? (n[t].className = "square cSquare hit")
-        : !0 === e.misses.includes(n[t].id.slice(1)) &&
-          (n[t].className = "square cSquare miss");
-  }
-  function a() {
-    for (
-      var e = document.getElementsByClassName("square cSquare"), n = 0;
-      n < e.length;
-      n++
-    )
-      e[n].addEventListener("click", c.playerMove);
-  }
-  function i() {
-    for (
-      var e = document.getElementsByClassName("square cSquare"), n = 0;
-      n < e.length;
-      n++
-    )
-      e[n].removeEventListener("click", c.playerMove);
+      e[t].addEventListener("click", d.playerMove);
   }
   function r() {
+    for (
+      var e = document.getElementsByClassName("square cSquare"), t = 0;
+      t < e.length;
+      t++
+    )
+      e[t].removeEventListener("click", d.playerMove);
+  }
+  function o() {
     document.getElementById("info").textContent =
       "Your move! Choose a square to attack.";
   }
-  function o() {
+  function i() {
     document.getElementById("info").textContent = "You have won!";
   }
-  function u() {
+  function l() {
     document.getElementById("info").textContent =
       "Computer has sunk all your ships! You lose!";
   }
@@ -209,99 +209,99 @@
     "10,9",
     "10,10",
   ];
-  const l = function () {
+  const c = function () {
     var e = null,
-      n = function (n) {
-        var t;
+      t = function (t) {
+        var a;
         if (null === e) {
-          var a =
+          var n =
             v.availableMoves[
               Math.floor(Math.random() * v.availableMoves.length)
             ];
-          n.receiveAttack(a), (e = n.hits.includes(a) ? s.indexOf(a) : null);
-          var i = v.availableMoves.indexOf(a);
-          i > -1 && v.availableMoves.splice(i, 1);
+          t.receiveAttack(n), (e = t.hits.includes(n) ? s.indexOf(n) : null);
+          var r = v.availableMoves.indexOf(n);
+          r > -1 && v.availableMoves.splice(r, 1);
         } else if (null !== e) {
-          var r = (function () {
-              for (var e = [], n = 0, t = 0; t < 10; t++) {
+          var o = (function () {
+              for (var e = [], t = 0, a = 0; a < 10; a++) {
                 e.push([]);
-                for (var a = 0; a < 10 && n < 100; a++) e[t].push(n), n++;
+                for (var n = 0; n < 10 && t < 100; n++) e[a].push(t), t++;
               }
               return e;
             })(),
-            o = (function (e, n) {
-              var t,
-                a,
-                i = parseInt(e / 10),
-                r = n[i].findIndex(function (n) {
-                  return n === e;
+            i = (function (e, t) {
+              var a,
+                n,
+                r = parseInt(e / 10),
+                o = t[r].findIndex(function (t) {
+                  return t === e;
                 }),
-                o = n[i][r + 1],
-                u = n[i][r - 1],
-                s = null === (t = n[i - 1]) || void 0 === t ? void 0 : t[r];
+                i = t[r][o + 1],
+                l = t[r][o - 1],
+                s = null === (a = t[r - 1]) || void 0 === a ? void 0 : a[o];
               return {
-                right: o,
-                left: u,
-                bottom: null === (a = n[i + 1]) || void 0 === a ? void 0 : a[r],
+                right: i,
+                left: l,
+                bottom: null === (n = t[r + 1]) || void 0 === n ? void 0 : n[o],
                 top: s,
               };
-            })(e, r),
-            u = Object.values(o).filter(function (e) {
+            })(e, o),
+            l = Object.values(i).filter(function (e) {
               return void 0 !== e;
             }),
-            l = u[Math.floor(Math.random() * u.length)],
-            c = s[l];
-          n.receiveAttack(c),
-            (e = n.hits.includes(c) ? s.indexOf(c) : null),
-            (t = v.availableMoves.indexOf(c)) > -1 &&
-              v.availableMoves.splice(t, 1);
+            c = l[Math.floor(Math.random() * l.length)],
+            u = s[c];
+          t.receiveAttack(u),
+            (e = t.hits.includes(u) ? s.indexOf(u) : null),
+            (a = v.availableMoves.indexOf(u)) > -1 &&
+              v.availableMoves.splice(a, 1);
         }
       },
-      l = function (e) {
-        c.attack(d, e.target.id.slice(1)),
-          t(d),
-          i(),
-          !0 === d.allSunk()
-            ? o()
-            : !0 === h.allSunk()
-            ? u()
+      c = function (e) {
+        d.attack(m, e.target.id.slice(1)),
+          a(m),
+          r(),
+          !0 === m.allSunk()
+            ? i()
+            : !0 === p.allSunk()
+            ? l()
             : ((document.getElementById("info").textContent =
                 "Computer is taking their turn."),
-              setTimeout(p, 1e3));
+              setTimeout(u, 1e3));
       },
-      p = function () {
-        n(h),
+      u = function () {
+        t(p),
           (function (e) {
             for (
-              var n = document.getElementsByClassName("square pSquare"), t = 0;
-              t < n.length;
-              t++
+              var t = document.getElementsByClassName("square pSquare"), a = 0;
+              a < t.length;
+              a++
             )
-              !0 === e.hits.includes(n[t].id.slice(1))
-                ? (n[t].className = "square pSquare hit")
-                : !0 === e.misses.includes(n[t].id.slice(1)) &&
-                  (n[t].className = "square pSquare miss");
-          })(h),
-          !0 === d.allSunk()
-            ? (o(), i())
-            : !0 === h.allSunk()
-            ? (u(), i())
-            : (r(), a());
+              !0 === e.hits.includes(t[a].id.slice(1))
+                ? (t[a].className = "square pSquare hit")
+                : !0 === e.misses.includes(t[a].id.slice(1)) &&
+                  (t[a].className = "square pSquare miss");
+          })(p),
+          !0 === m.allSunk()
+            ? (i(), r())
+            : !0 === p.allSunk()
+            ? (l(), r())
+            : (o(), n());
       };
     return {
-      attack: function (e, n) {
-        if (c.availableMoves.includes(n)) {
-          e.receiveAttack(n);
-          var a = c.availableMoves.indexOf(n);
-          a > -1 && c.availableMoves.splice(a, 1);
+      attack: function (e, t) {
+        if (d.availableMoves.includes(t)) {
+          e.receiveAttack(t);
+          var n = d.availableMoves.indexOf(t);
+          n > -1 && d.availableMoves.splice(n, 1);
         } else
           (document.getElementById("info").textContent =
             "That square has already been attacked!"),
-            i(),
-            t(d),
-            l();
+            r(),
+            a(m),
+            c();
       },
-      randomAttack: n,
+      randomAttack: t,
       availableMoves: [
         "1,1",
         "1,2",
@@ -404,68 +404,137 @@
         "10,9",
         "10,10",
       ],
-      playerMove: l,
-      computerMove: p,
+      playerMove: c,
+      computerMove: u,
       lastHitIndex: e,
     };
   };
-  var c = l(),
-    d = n(),
-    v = l(),
-    h = n();
-  function p() {
-    h.newShip(["7,1", "7,2", "7,3", "7,4", "7,5"]),
-      h.newShip(["2,1", "3,1", "4,1", "5,1"]),
-      h.newShip(["9,4", "9,5", "9,6", "9,7"]),
-      h.newShip(["1,5", "1,6", "1,7"]),
-      h.newShip(["4,5", "4,6", "4,7"]),
-      h.newShip(["8,9", "9,9", "10,9"]),
-      h.newShip(["10,1", "10,2"]),
-      h.newShip(["3,3", "4,3"]),
-      h.newShip(["1,10", "2,10"]),
-      h.newShip(["5,10", "6,10"]),
-      d.newShip(["1,6", "1,7", "1,8", "1,9", "1,10"]),
-      d.newShip(["8,2", "8,3", "8,4", "8,5"]),
-      d.newShip(["6,9", "7,9", "8,9", "9,9"]),
-      d.newShip(["3,2", "4,2", "5,2"]),
-      d.newShip(["10,5", "10,6", "10,7"]),
-      d.newShip(["4,7", "4,8", "4,9"]),
-      d.newShip(["1,1", "1,2"]),
-      d.newShip(["10,1", "10,2"]),
-      d.newShip(["5,5", "6,5"]),
-      d.newShip(["2,4", "3,4"]),
-      (function (e) {
-        for (
-          var n = document.getElementById("playerGrid").children, t = 0;
-          t < n.length;
-          t++
-        ) {
-          var a = n[t].id.slice(1);
-          e.occupied.includes(a) &&
-            (n[t].className = "square pSquare occupied");
-        }
-      })(h),
-      t(d),
-      r(),
-      a();
-  }
-  document.getElementById("start").addEventListener("click", p),
-    (function (e) {
-      for (
-        var n = document.getElementById("playerGrid"),
+  var u,
+    d = c(),
+    m = t(),
+    v = c(),
+    p = t();
+  function h() {
+    if (
+      ((function () {
+        var e = document.getElementById("info"),
           t = document.getElementById("computerGrid"),
-          a = 0;
-        a < 100;
-        a++
-      ) {
-        var i = document.createElement("div"),
-          r = document.createElement("div");
-        (i.className = "square pSquare"),
-          (i.id = "p" + "".concat(e.availableMoves[a])),
-          (r.className = "square cSquare"),
-          (r.id = "c" + "".concat(e.availableMoves[a])),
-          n.appendChild(i),
-          t.appendChild(r);
-      }
-    })(c);
+          a = [
+            ["C", "C", "C", "C", "C"],
+            ["B", "B", "B", "B"],
+            ["B", "B", "B", "B"],
+            ["D", "D", "D"],
+            ["D", "D", "D"],
+            ["D", "D", "D"],
+            ["P", "P"],
+            ["P", "P"],
+            ["P", "P"],
+            ["P", "P"],
+          ],
+          n = document.createElement("div");
+        (n.id = "boatsDisplay"),
+          (t.className = ""),
+          t.appendChild(n),
+          (function (e) {
+            for (
+              var t = document.getElementById("playerGrid"), a = 0;
+              a < 100;
+              a++
+            ) {
+              var n = document.createElement("div");
+              (n.className = "square pSquare"),
+                (n.id = "p" + "".concat(e.availableMoves[a])),
+                t.appendChild(n);
+            }
+          })(d),
+          (e.textContent = "Please place the ships on your grid");
+        for (var r = 0; r < a.length; r++) {
+          var o = document.createElement("div");
+          switch (a[r][0]) {
+            case "C":
+              o.className = "boat carrier";
+              for (var i = 0; i < a[r].length; i++) {
+                var l = document.createElement("div");
+                (l.className = "boatSquare carrierSquare"), o.appendChild(l);
+              }
+              break;
+            case "B":
+              o.className = "boat battleship";
+              for (var s = 0; s < a[r].length; s++) {
+                var c = document.createElement("div");
+                (c.className = "boatSquare battleshipSquare"), o.appendChild(c);
+              }
+              break;
+            case "D":
+              o.className = "boat destroyer";
+              for (var u = 0; u < a[r].length; u++) {
+                var m = document.createElement("div");
+                (m.className = "boatSquare destroyerSquare"), o.appendChild(m);
+              }
+              break;
+            case "P":
+              o.className = "boat patrolboat";
+              for (var v = 0; v < a[r].length; v++) {
+                var p = document.createElement("div");
+                (p.className = "boatSquare patrolboatSquare"), o.appendChild(p);
+              }
+              break;
+            default:
+              console.log("Something went wrong when creating boats!");
+          }
+          n.appendChild(o);
+        }
+      })(),
+      m.newShip(["1,6", "1,7", "1,8", "1,9", "1,10"]),
+      m.newShip(["8,2", "8,3", "8,4", "8,5"]),
+      m.newShip(["6,9", "7,9", "8,9", "9,9"]),
+      m.newShip(["3,2", "4,2", "5,2"]),
+      m.newShip(["10,5", "10,6", "10,7"]),
+      m.newShip(["4,7", "4,8", "4,9"]),
+      m.newShip(["1,1", "1,2"]),
+      m.newShip(["10,1", "10,2"]),
+      m.newShip(["5,5", "6,5"]),
+      m.newShip(["2,4", "3,4"]),
+      30 === p.occupied.length)
+    ) {
+      var e = document.getElementById("computerGrid"),
+        t = document.getElementById("boatsDisplay");
+      e.removeChild(t),
+        (e.className = "grid"),
+        (function (e) {
+          for (
+            var t = document.getElementById("computerGrid"),
+              a = document.getElementById("computerHeader"),
+              n = 0;
+            n < 100;
+            n++
+          ) {
+            var r = document.createElement("div");
+            (r.className = "square cSquare"),
+              (r.id = "c" + "".concat(e.availableMoves[n])),
+              t.appendChild(r);
+          }
+          a.textContent = "Computer";
+        })(d),
+        (function (e) {
+          for (
+            var t = document.getElementById("playerGrid").children, a = 0;
+            a < t.length;
+            a++
+          ) {
+            var n = t[a].id.slice(1);
+            e.occupied.includes(n) &&
+              (t[a].className = "square pSquare occupied");
+          }
+        })(p),
+        a(m),
+        o(),
+        n();
+    }
+  }
+  (u = document.getElementById("start")).addEventListener("click", function () {
+    "Start Game" === u.textContent
+      ? ((u.textContent = "Restart"), h())
+      : window.location.reload();
+  });
 })();

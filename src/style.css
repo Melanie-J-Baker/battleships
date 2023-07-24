@@ -41,7 +41,6 @@ button {
   height: 250px;
   margin: 10px;
 }
-
 .square {
   border: 1px solid black;
 }
@@ -56,4 +55,21 @@ button {
 
 .miss {
   background-color: skyblue;
+}
+
+#boatsDisplay {
+  display: flex;
+  flex-direction: column;
+}
+
+.boat {
+  display: flex;
+  flex-direction: row;
+  margin: 2px;
+}
+
+.boatSquare {
+  width: 25px;
+  height: 25px;
+  border: 1px darkmagenta solid;
 }

@@ -18,7 +18,8 @@ import GameboardFactory from "./factories/gameboard";
 import PlayerFactory from "./factories/player";
 import {
   startEventListener,
-  createBoardGrids,
+  createComputerGrid,
+  renderMovableBoats,
   renderPlayerBoats,
   renderComputerBoard,
   infoPlayerMove,
@@ -31,10 +32,9 @@ const computer = PlayerFactory();
 const playerBoard = GameboardFactory();
 
 startEventListener();
-createBoardGrids(player);
 
 function Game() {
-  playerBoard.newShip(["7,1", "7,2", "7,3", "7,4", "7,5"]);
+  /*playerBoard.newShip(["7,1", "7,2", "7,3", "7,4", "7,5"]);
   playerBoard.newShip(["2,1", "3,1", "4,1", "5,1"]);
   playerBoard.newShip(["9,4", "9,5", "9,6", "9,7"]);
   playerBoard.newShip(["1,5", "1,6", "1,7"]);
@@ -43,7 +43,10 @@ function Game() {
   playerBoard.newShip(["10,1", "10,2"]);
   playerBoard.newShip(["3,3", "4,3"]);
   playerBoard.newShip(["1,10", "2,10"]);
-  playerBoard.newShip(["5,10", "6,10"]);
+  playerBoard.newShip(["5,10", "6,10"]);*/
+
+  renderMovableBoats();
+
   computerBoard.newShip(["1,6", "1,7", "1,8", "1,9", "1,10"]);
   computerBoard.newShip(["8,2", "8,3", "8,4", "8,5"]);
   computerBoard.newShip(["6,9", "7,9", "8,9", "9,9"]);
@@ -55,11 +58,17 @@ function Game() {
   computerBoard.newShip(["5,5", "6,5"]);
   computerBoard.newShip(["2,4", "3,4"]);
 
-  renderPlayerBoats(playerBoard);
-  renderComputerBoard(computerBoard);
-
-  infoPlayerMove();
-  addSquareEventListeners();
+  if (playerBoard.occupied.length === 30) {
+    const computerGrid = document.getElementById("computerGrid");
+    const displayDiv = document.getElementById("boatsDisplay");
+    computerGrid.removeChild(displayDiv);
+    computerGrid.className = "grid";
+    createComputerGrid(player);
+    renderPlayerBoats(playerBoard);
+    renderComputerBoard(computerBoard);
+    infoPlayerMove();
+    addSquareEventListeners();
+  }
 }
 
 export { Game, player, computer, playerBoard, computerBoard };

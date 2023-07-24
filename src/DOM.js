@@ -10,26 +10,105 @@
 // a) There are several options available for letting users place their ships. You can let them type coordinates for each ship, or investigate implementing drag and drop.
 // b) You can polish the intelligence of the computer player by having it try adjacent slots after getting a ‘hit’.
 // c) Optionally, create a 2 player option that lets users take turns by passing the device back and forth. If you’re going to go this route, make sure the game is playable on a mobile screen and implement a ‘pass device’ screen so that players don’t see each others boards!
-import { Game, player } from "./index";
+import { Game, player, playerBoard } from "./index";
 
-function createBoardGrids(player) {
+function createPlayerGrid(player) {
   const playerGrid = document.getElementById("playerGrid");
-  const computerGrid = document.getElementById("computerGrid");
   for (let i = 0; i < 100; i++) {
     let playerSquare = document.createElement("div");
-    let computerSquare = document.createElement("div");
     playerSquare.className = "square pSquare";
     playerSquare.id = "p" + `${player.availableMoves[i]}`;
+    playerGrid.appendChild(playerSquare);
+  }
+}
+
+function createComputerGrid(player) {
+  const computerGrid = document.getElementById("computerGrid");
+  const header = document.getElementById("computerHeader");
+  for (let i = 0; i < 100; i++) {
+    let computerSquare = document.createElement("div");
     computerSquare.className = "square cSquare";
     computerSquare.id = "c" + `${player.availableMoves[i]}`;
-    playerGrid.appendChild(playerSquare);
     computerGrid.appendChild(computerSquare);
   }
+  header.textContent = "Computer";
 }
 
 function startEventListener() {
   const start = document.getElementById("start");
-  start.addEventListener("click", Game);
+  start.addEventListener("click", function () {
+    if (start.textContent === "Start Game") {
+      start.textContent = "Restart";
+      Game();
+    } else {
+      window.location.reload();
+    }
+  });
+}
+
+function renderMovableBoats() {
+  const infoBox = document.getElementById("info");
+  const computerGrid = document.getElementById("computerGrid");
+  const shipSizeArray = [
+    ["C", "C", "C", "C", "C"],
+    ["B", "B", "B", "B"],
+    ["B", "B", "B", "B"],
+    ["D", "D", "D"],
+    ["D", "D", "D"],
+    ["D", "D", "D"],
+    ["P", "P"],
+    ["P", "P"],
+    ["P", "P"],
+    ["P", "P"],
+  ];
+
+  const displayDiv = document.createElement("div");
+  displayDiv.id = "boatsDisplay";
+  computerGrid.className = "";
+  computerGrid.appendChild(displayDiv);
+  createPlayerGrid(player);
+  infoBox.textContent = "Please place the ships on your grid";
+  for (let i = 0; i < shipSizeArray.length; i++) {
+    let boat = document.createElement("div");
+    switch (shipSizeArray[i][0]) {
+      case "C":
+        boat.className = "boat carrier";
+        for (let j = 0; j < shipSizeArray[i].length; j++) {
+          let boatSquare = document.createElement("div");
+          boatSquare.className = "boatSquare carrierSquare";
+          boat.appendChild(boatSquare);
+        }
+        break;
+      case "B":
+        boat.className = "boat battleship";
+        for (let j = 0; j < shipSizeArray[i].length; j++) {
+          let boatSquare = document.createElement("div");
+          boatSquare.className = "boatSquare battleshipSquare";
+          boat.appendChild(boatSquare);
+        }
+        break;
+      case "D":
+        boat.className = "boat destroyer";
+        for (let j = 0; j < shipSizeArray[i].length; j++) {
+          let boatSquare = document.createElement("div");
+          boatSquare.className = "boatSquare destroyerSquare";
+          boat.appendChild(boatSquare);
+        }
+        break;
+      case "P":
+        boat.className = "boat patrolboat";
+        for (let j = 0; j < shipSizeArray[i].length; j++) {
+          let boatSquare = document.createElement("div");
+          boatSquare.className = "boatSquare patrolboatSquare";
+          boat.appendChild(boatSquare);
+        }
+        break;
+      default:
+        console.log("Something went wrong when creating boats!");
+        break;
+    }
+    displayDiv.appendChild(boat);
+  }
 }
 
 function renderPlayerBoats(playerBoard) {
@@ -107,7 +186,9 @@ function infoComputerWin() {
 
 export {
   startEventListener,
-  createBoardGrids,
+  renderMovableBoats,
+  createPlayerGrid,
+  createComputerGrid,
   renderPlayerBoats,
   renderComputerBoard,
   addSquareEventListeners,

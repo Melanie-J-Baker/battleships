@@ -1,4 +1,4 @@
-/*const create2dArray = () => {
+const create2dArray = () => {
   let array2d = [];
   let counter = 0;
   for (let i = 0; i < 100 / 10; i++) {
@@ -39,7 +39,7 @@ const shipsArray = [
   ["", ""],
   ["", ""],
 ];
-export { allMoves, create2dArray, findNeighbours, randomIndex, shipsArray };
+export { create2dArray, findNeighbours, randomIndex, shipsArray };
 
 //TAKEN FROM INDEX:
 /*import {
@@ -117,4 +117,72 @@ function removeOffGrid(value, index, arr) {
     let index = allMoves.indexOf(coord);
     let neighbours = findNeighbours(index, array2d);
 
+  }
+
+    /*
+  // max = 10, ship = each ship object within ships array
+  generateRandomLocation(board, ship) {
+    let didPlace = false;
+    let directionString;
+    let valid;
+
+    while(!didPlace) {
+      let x = this.getRandomInt(); //can I change this to generateRandomIndex?
+      let y = this.getRandomInt();
+
+      [valid, directionString] = this.generateRandomDirection(x, y, ship);
+
+      if (valid) {
+        this.placeShip(x, y, "S", board, directionString, ship);
+        didPlace = true;
+      }
+    }
+  }
+  getRandomInt = () => Math.floor(Math.random() * Math.floor(10));
+
+  generateRandomDirection(column, row, ship) {
+    let valid = false;
+    let direction = Math.floor(Math.random() * 4) + 1;
+    let directionString = "";
+
+    if (direction === 1) {
+      //right
+      for (let index = 0; index < ship.size; index++) {
+        if (
+          column + index >= this.gameBoard.length || 
+          this.gameBoard[row][column + index] === "S" ||
+          this.gameBoard[row][column + index] === undefined
+          ) {
+            return [valid, directionString];
+          }
+      }
+      valid = true;
+      directionString = "right";
+      return [valid, directionString];
+    } else if (direction === 2) {
+      //left
+      for (let i = 0; i < ship.size; i++) {
+        if (
+          column - i < 0 ||
+          this.gameBoard[row][column - i] === "S" ||
+          this.gameBoard[row][column - i] === undefined
+        ) {
+          return [valid, directionString];
+        }
+      }
+    }
+  };
+  // c = character (in this case "S" for ships)
+  placeShip (x, y, c, board, direction, ship) {
+    if (direction === "right") {
+      for (let i = 0; i < ship.size; i++) {
+        board[y][x + i] = c; // places character "S" at the coordinate
+        ship.coordinates.push(`${x + i},${y}`);
+      }
+    } else if (direction === "left") {
+      for (let i = 0; i < ship.size; i++) {
+        board[y][x - i] = c;
+        ship.coordinates.push(`${x - i},${y}`);
+      }
+    }
   }*/

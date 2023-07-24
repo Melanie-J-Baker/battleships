@@ -66,6 +66,8 @@ button {
   display: flex;
   flex-direction: row;
   margin: 2px;
+  width: max-content;
+  cursor: move;
 }
 
 .boatSquare {

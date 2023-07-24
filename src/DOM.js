@@ -19,6 +19,8 @@ function createPlayerGrid(player) {
     let playerSquare = document.createElement("div");
     playerSquare.className = "square pSquare";
     playerSquare.id = "p" + `${player.availableMoves[i]}`;
+    playerSquare.addEventListener("dragover", dragoverHandler);
+    playerSquare.addEventListener("drop", dropHandler);
     playerGrid.appendChild(playerSquare);
   }
   playerHeader.textContent = "Player";
@@ -78,34 +80,46 @@ function renderMovableBoats() {
     switch (shipSizeArray[i][0]) {
       case "C":
         boat.className = "boat carrier";
+        boat.id = "carrier" + `${i}`;
         for (let j = 0; j < shipSizeArray[i].length; j++) {
           let boatSquare = document.createElement("div");
           boatSquare.className = "boatSquare carrierSquare";
+          boatSquare.draggable = false;
           boat.appendChild(boatSquare);
+          //boat.firstChild.addEventListener, ("dragstart", dragoverHandler);
         }
         break;
       case "B":
         boat.className = "boat battleship";
+        boat.id = "battleship" + `${i}`;
         for (let j = 0; j < shipSizeArray[i].length; j++) {
           let boatSquare = document.createElement("div");
           boatSquare.className = "boatSquare battleshipSquare";
+          boatSquare.draggable = false;
           boat.appendChild(boatSquare);
+          //boat.firstChild.addEventListener, ("dragstart", dragoverHandler);
         }
         break;
       case "D":
         boat.className = "boat destroyer";
+        boat.id = "destroyer" + `${i}`;
         for (let j = 0; j < shipSizeArray[i].length; j++) {
           let boatSquare = document.createElement("div");
           boatSquare.className = "boatSquare destroyerSquare";
+          boatSquare.draggable = false;
           boat.appendChild(boatSquare);
+          //boat.firstChild.addEventListener, ("dragstart", dragoverHandler);
         }
         break;
       case "P":
         boat.className = "boat patrolboat";
+        boat.id = "patrolboat" + `${i}`;
         for (let j = 0; j < shipSizeArray[i].length; j++) {
           let boatSquare = document.createElement("div");
           boatSquare.className = "boatSquare patrolboatSquare";
+          boatSquare.draggable = false;
           boat.appendChild(boatSquare);
+          //boat.firstChild.addEventListener, ("dragstart", dragoverHandler);
         }
         break;
       default:
@@ -120,6 +134,8 @@ function addBoatEventListeners() {
   const boats = document.getElementsByClassName("boat");
   for (let i = 0; i < boats.length; i++) {
     let boat = boats[i];
+    boat.draggable = true;
+    boat.addEventListener("dragstart", dragstartHandler);
     boat.addEventListener("click", function () {
       if (boat.classList.contains("vertical")) {
         boat.classList.remove("vertical");
@@ -128,6 +144,92 @@ function addBoatEventListeners() {
       }
     });
   }
+}
+
+function dragstartHandler(e) {
+  e.dataTransfer.setData("text", e.target.id);
+  e.dataTransfer.setData("text/class", e.target.classList);
+}
+
+function dragoverHandler(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = "move";
+}
+
+function dropHandler(e) {
+  e.preventDefault();
+  alert(e.target.id);
+  let movedID = e.dataTransfer.getData("text");
+  let movedClass = e.dataTransfer.getData("text/class");
+  let boat = document.getElementById(movedID);
+  let length = boat.children.length;
+  let checkValidity = checkValid(e.target.id, movedID, movedClass);
+  if (checkValidity === false) {
+    alert("Boat cannot be placed there!");
+  } else {
+    for (let i = 0; i < length; i++) {
+      if (movedClass.includes("vertical")) {
+        let movedCoord = e.target.id.slice(1);
+        let x = movedCoord.split(",")[0];
+        let y = movedCoord.split(",")[1];
+        let newX = +x + i;
+        let newXString = newX.toString();
+        let newID = "p" + newXString + "," + y;
+        alert(newID);
+        let nextSquare = document.getElementById(newID);
+        nextSquare.appendChild(boat.children[0]);
+      } else {
+        let movedCoord = e.target.id.slice(1);
+        let x = movedCoord.split(",")[0];
+        let y = movedCoord.split(",")[1];
+        let newY = +y + i;
+        let newYString = newY.toString();
+        let newID = "p" + x + "," + newYString;
+        let nextSquare = document.getElementById(newID);
+        nextSquare.appendChild(boat.children[0]);
+      }
+    }
+  }
+}
+
+function checkValid(target, movedID, movedClass) {
+  let shipType = movedID.slice(0, -1);
+  let targetPosition = target.slice(1);
+  let x = targetPosition.split(",")[0];
+  let y = targetPosition.split(",")[1];
+  let length;
+  switch (shipType) {
+    case "carrier":
+      length = 5;
+      break;
+    case "battleship":
+      length = 4;
+      break;
+    case "destroyer":
+      length = 3;
+      break;
+    case "patrolboat":
+      length = 2;
+      break;
+  }
+  if (movedClass.includes("vertical")) {
+    if (+y + length <= 10 && +y > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    if (+x + length <= 10 && +x > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  /*if (x > 10 || x < 0 || y > 10 || y < 0 || y + length > 10) {
+      return false;
+    } else {
+      return true
+    }*/
 }
 
 function renderPlayerBoats(playerBoard) {

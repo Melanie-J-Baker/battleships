@@ -534,7 +534,7 @@
   }
   (u = document.getElementById("start")).addEventListener("click", function () {
     "Start Game" === u.textContent
-      ? ((u.textContent = "Restart"), h())
+      ? ((u.textContent = "Restart Game"), h())
       : window.location.reload();
   });
 })();

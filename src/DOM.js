@@ -38,7 +38,7 @@ function startEventListener() {
   const start = document.getElementById("start");
   start.addEventListener("click", function () {
     if (start.textContent === "Start Game") {
-      start.textContent = "Restart";
+      start.textContent = "Restart Game";
       Game();
     } else {
       window.location.reload();

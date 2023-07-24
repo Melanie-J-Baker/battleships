@@ -9,7 +9,7 @@
     },
     o: (e, t) => Object.prototype.hasOwnProperty.call(e, t),
   };
-  e.d({}, { lA: () => h, UR: () => v, n1: () => m, hM: () => d, mO: () => p });
+  e.d({}, { lA: () => p, UR: () => v, n1: () => m, hM: () => d, mO: () => h });
   const t = function () {
     var e = [],
       t = [],
@@ -263,14 +263,14 @@
           r(),
           !0 === m.allSunk()
             ? i()
-            : !0 === p.allSunk()
+            : !0 === h.allSunk()
             ? l()
             : ((document.getElementById("info").textContent =
                 "Computer is taking their turn."),
               setTimeout(u, 1e3));
       },
       u = function () {
-        t(p),
+        t(h),
           (function (e) {
             for (
               var t = document.getElementsByClassName("square pSquare"), a = 0;
@@ -281,10 +281,10 @@
                 ? (t[a].className = "square pSquare hit")
                 : !0 === e.misses.includes(t[a].id.slice(1)) &&
                   (t[a].className = "square pSquare miss");
-          })(p),
+          })(h),
           !0 === m.allSunk()
             ? (i(), r())
-            : !0 === p.allSunk()
+            : !0 === h.allSunk()
             ? (l(), r())
             : (o(), n());
       };
@@ -413,8 +413,8 @@
     d = c(),
     m = t(),
     v = c(),
-    p = t();
-  function h() {
+    h = t();
+  function p() {
     if (
       ((function () {
         var e = document.getElementById("info"),
@@ -447,7 +447,8 @@
                 t.appendChild(n);
             }
           })(d),
-          (e.textContent = "Please place the ships on your grid");
+          (e.textContent =
+            "Please place the ships on your grid. Click to rotate");
         for (var r = 0; r < a.length; r++) {
           var o = document.createElement("div");
           switch (a[r][0]) {
@@ -475,8 +476,8 @@
             case "P":
               o.className = "boat patrolboat";
               for (var v = 0; v < a[r].length; v++) {
-                var p = document.createElement("div");
-                (p.className = "boatSquare patrolboatSquare"), o.appendChild(p);
+                var h = document.createElement("div");
+                (h.className = "boatSquare patrolboatSquare"), o.appendChild(h);
               }
               break;
             default:
@@ -484,6 +485,23 @@
           }
           n.appendChild(o);
         }
+      })(),
+      (function () {
+        for (
+          var e = document.getElementsByClassName("boat"),
+            t = function () {
+              var t = e[a];
+              t.addEventListener("click", function () {
+                t.classList.contains("vertical")
+                  ? t.classList.remove("vertical")
+                  : t.classList.add("vertical");
+              });
+            },
+            a = 0;
+          a < e.length;
+          a++
+        )
+          t();
       })(),
       m.newShip(["1,6", "1,7", "1,8", "1,9", "1,10"]),
       m.newShip(["8,2", "8,3", "8,4", "8,5"]),
@@ -495,7 +513,7 @@
       m.newShip(["10,1", "10,2"]),
       m.newShip(["5,5", "6,5"]),
       m.newShip(["2,4", "3,4"]),
-      30 === p.occupied.length)
+      30 === h.occupied.length)
     ) {
       var e = document.getElementById("computerGrid"),
         t = document.getElementById("boatsDisplay");
@@ -526,7 +544,7 @@
             e.occupied.includes(n) &&
               (t[a].className = "square pSquare occupied");
           }
-        })(p),
+        })(h),
         a(m),
         o(),
         n();
@@ -534,7 +552,7 @@
   }
   (u = document.getElementById("start")).addEventListener("click", function () {
     "Start Game" === u.textContent
-      ? ((u.textContent = "Restart Game"), h())
+      ? ((u.textContent = "Restart Game"), p())
       : window.location.reload();
   });
 })();

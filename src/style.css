@@ -21,8 +21,8 @@ button {
 #info {
   width: 250px;
   height: 40px;
-  border: 1px solid black;
   margin: 25px;
+  text-align: center;
 }
 
 #playerDiv,
@@ -36,11 +36,11 @@ button {
   display: grid;
   grid-template-columns: repeat(10, 25px);
   grid-template-rows: repeat(10, 25px);
-  border: 1px solid black;
   width: 250px;
   height: 250px;
   margin: 10px;
 }
+
 .square {
   border: 1px solid black;
 }

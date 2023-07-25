@@ -10,7 +10,7 @@
 // a) There are several options available for letting users place their ships. You can let them type coordinates for each ship, or investigate implementing drag and drop.
 // b) You can polish the intelligence of the computer player by having it try adjacent slots after getting a ‘hit’.
 // c) Optionally, create a 2 player option that lets users take turns by passing the device back and forth. If you’re going to go this route, make sure the game is playable on a mobile screen and implement a ‘pass device’ screen so that players don’t see each others boards!
-import { Game, player } from "./index";
+import { Game, player, playerBoard } from "./index";
 
 function createPlayerGrid(player) {
   const playerGrid = document.getElementById("playerGrid");
@@ -161,12 +161,14 @@ function dropHandler(e) {
   alert(e.target.id);
   let movedID = e.dataTransfer.getData("text");
   let movedClass = e.dataTransfer.getData("text/class");
+
   let boat = document.getElementById(movedID);
   let length = boat.children.length;
   let checkValidity = checkValid(e.target.id, movedID, movedClass);
   if (checkValidity === false) {
     alert("Boat cannot be placed there!");
   } else {
+    let newBoatCoords = [];
     for (let i = 0; i < length; i++) {
       if (movedClass.includes("vertical")) {
         let movedCoord = e.target.id.slice(1);
@@ -175,9 +177,15 @@ function dropHandler(e) {
         let newX = +x + i;
         let newXString = newX.toString();
         let newID = "p" + newXString + "," + y;
-        alert(newID);
-        let nextSquare = document.getElementById(newID);
-        nextSquare.appendChild(boat.children[0]);
+        if (checkAvailable(playerBoard, newID) === true) {
+          let newCoord = newXString + "," + y;
+          newBoatCoords.push(newCoord);
+          let nextSquare = document.getElementById(newID);
+          boat.children[0].id = newID;
+          nextSquare.parentNode.replaceChild(boat.children[0], nextSquare);
+        } else {
+          alert("Boat cannot be placed there!");
+        }
       } else {
         let movedCoord = e.target.id.slice(1);
         let x = movedCoord.split(",")[0];
@@ -185,10 +193,20 @@ function dropHandler(e) {
         let newY = +y + i;
         let newYString = newY.toString();
         let newID = "p" + x + "," + newYString;
-        let nextSquare = document.getElementById(newID);
-        nextSquare.appendChild(boat.children[0]);
+        if (checkAvailable(playerBoard, newID) === true) {
+          let newCoord = x + "," + newYString;
+          console.log(newBoatCoords);
+          newBoatCoords.push(newCoord);
+          let nextSquare = document.getElementById(newID);
+          boat.children[0].id = newID;
+          nextSquare.parentNode.replaceChild(boat.children[0], nextSquare);
+        } else {
+          alert("Boat cannot be placed there!");
+        }
       }
     }
+    playerBoard.newShip(newBoatCoords);
+    renderPlayerBoats(playerBoard);
   }
 }
 
@@ -225,11 +243,14 @@ function checkValid(target, movedID, movedClass) {
       return false;
     }
   }
-  /*if (x > 10 || x < 0 || y > 10 || y < 0 || y + length > 10) {
-      return false;
-    } else {
-      return true
-    }*/
+}
+
+function checkAvailable(board, target) {
+  if (board.occupied.includes(target)) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 function renderPlayerBoats(playerBoard) {

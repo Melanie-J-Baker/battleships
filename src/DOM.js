@@ -143,8 +143,10 @@ function addBoatEventListeners() {
 }
 
 function dragstartHandler(e) {
+  const infoBox = document.getElementById("info");
   e.dataTransfer.setData("text", e.target.id);
   e.dataTransfer.setData("text/class", e.target.classList);
+  infoBox.textContent = "Place your ships on the grid. Click to rotate ship";
 }
 
 function dragoverHandler(e) {
@@ -335,22 +337,22 @@ function infoComputerWin() {
   infoBox.textContent = "Computer has sunk all your ships! You lose!";
 }
 
-function infoSunkBoat(shipCoordsArray) {
-  console.log(shipCoordsArray);
+function infoSunkBoat(playerName, shipCoordsArray) {
   const infoBox = document.getElementById("info");
   let length = shipCoordsArray.shipCoords.length;
+  console.log(playerName);
   switch (length) {
     case 5:
-      infoBox.textContent = "Carrier sunk!";
+      infoBox.textContent = `${playerName}'s Carrier sunk!`;
       break;
     case 4:
-      infoBox.textContent = "Battleship sunk!";
+      infoBox.textContent = `${playerName}'s Battleship sunk!`;
       break;
     case 3:
-      infoBox.textContent = "Destroyer sunk!";
+      infoBox.textContent = `${playerName}'s Destroyer sunk!`;
       break;
     case 2:
-      infoBox.textContent = "Patrol boat sunk!";
+      infoBox.textContent = `${playerName}'s Patrol boat sunk!`;
       break;
   }
 }

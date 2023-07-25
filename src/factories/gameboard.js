@@ -6,7 +6,8 @@
 import ShipFactory from "./ship";
 import { infoSunkBoat } from "../DOM";
 
-const GameboardFactory = () => {
+const GameboardFactory = (name) => {
+  const playerName = name;
   const shipCoordsBoard = [];
   const occupied = [];
   const misses = [];
@@ -33,10 +34,8 @@ const GameboardFactory = () => {
           if (shipCoordsBoard[i].shipCoords[j] === coord) {
             shipCoordsBoard[i].hit(j);
             hits.push(coord);
-            for (let i = 0; i < shipCoordsBoard.length; i++) {
-              if (shipCoordsBoard[i].isSunk()) {
-                infoSunkBoat(shipCoordsBoard[i]);
-              }
+            if (shipCoordsBoard[i].isSunk()) {
+              infoSunkBoat(playerName, shipCoordsBoard[i]);
             }
           }
         }

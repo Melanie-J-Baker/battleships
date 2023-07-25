@@ -12,17 +12,19 @@
   e.d(
     {},
     {
-      lA: () => S,
-      UR: () => b,
-      n1: () => C,
-      rH: () => k,
-      hM: () => g,
-      mO: () => y,
+      lA: () => b,
+      UR: () => g,
+      n1: () => f,
+      rH: () => y,
+      hM: () => h,
+      mO: () => C,
     },
   );
   function t(e) {
+    var t = document.getElementById("info");
     e.dataTransfer.setData("text", e.target.id),
-      e.dataTransfer.setData("text/class", e.target.classList);
+      e.dataTransfer.setData("text/class", e.target.classList),
+      (t.textContent = "Place your ships on the grid. Click to rotate ship");
   }
   function a(e) {
     e.preventDefault(), (e.dataTransfer.dropEffect = "move");
@@ -60,32 +62,32 @@
       l = [];
     if (!1 === c) t.textContent = "Boat cannot be placed there!";
     else
-      for (var u = 0; u < s; u++)
+      for (var d = 0; d < s; d++)
         if (n.includes("vertical")) {
-          var d = e.target.id.slice(1),
-            v = d.split(",")[0],
-            m = d.split(",")[1],
-            p = (+v + u).toString(),
-            h = "p" + p + "," + m;
-          if (!0 === r(y, h)) {
-            var f = p + "," + m;
+          var u = e.target.id.slice(1),
+            m = u.split(",")[0],
+            v = u.split(",")[1],
+            p = (+m + d).toString(),
+            h = "p" + p + "," + v;
+          if (!0 === r(C, h)) {
+            var f = p + "," + v;
             l.push(f);
             var g = document.getElementById(h);
             (i.children[0].id = h), g.parentNode.replaceChild(i.children[0], g);
           } else t.textContent = "Boat cannot be placed there!";
         } else {
-          var C = e.target.id.slice(1),
-            b = C.split(",")[0],
-            S = (+C.split(",")[1] + u).toString(),
-            E = "p" + b + "," + S;
-          if (!0 === r(y, E)) {
-            var B = b + "," + S;
+          var b = e.target.id.slice(1),
+            k = b.split(",")[0],
+            E = (+b.split(",")[1] + d).toString(),
+            S = "p" + k + "," + E;
+          if (!0 === r(C, S)) {
+            var B = k + "," + E;
             l.push(B);
-            var q = document.getElementById(E);
-            (i.children[0].id = E), q.parentNode.replaceChild(i.children[0], q);
+            var q = document.getElementById(S);
+            (i.children[0].id = S), q.parentNode.replaceChild(i.children[0], q);
           } else t.textContent = "Boat cannot be placed there!";
         }
-    y.newShip(l), o(y), 30 === y.occupied.length && k();
+    C.newShip(l), o(C), 30 === C.occupied.length && y();
   }
   function r(e, t) {
     return !e.occupied.includes(t);
@@ -117,7 +119,7 @@
       t < e.length;
       t++
     )
-      e[t].addEventListener("click", g.playerMove);
+      e[t].addEventListener("click", h.playerMove);
   }
   function c() {
     for (
@@ -125,7 +127,7 @@
       t < e.length;
       t++
     )
-      e[t].removeEventListener("click", g.playerMove);
+      e[t].removeEventListener("click", h.playerMove);
   }
   function l() {
     var e = document.getElementById("info");
@@ -135,45 +137,39 @@
         }, 2e3)
       : (e.textContent = "Your move! Choose a square to attack.");
   }
-  function u() {
-    document.getElementById("info").textContent = "You have won!";
-  }
-  function d() {
-    document.getElementById("info").textContent =
-      "Computer has sunk all your ships! You lose!";
-  }
-  function v(e) {
-    console.log(e);
-    var t = document.getElementById("info");
-    switch (e.shipCoords.length) {
+  function d(e, t) {
+    var a = document.getElementById("info"),
+      n = t.shipCoords.length;
+    switch ((console.log(e), n)) {
       case 5:
-        t.textContent = "Carrier sunk!";
+        a.textContent = "".concat(e, "'s Carrier sunk!");
         break;
       case 4:
-        t.textContent = "Battleship sunk!";
+        a.textContent = "".concat(e, "'s Battleship sunk!");
         break;
       case 3:
-        t.textContent = "Destroyer sunk!";
+        a.textContent = "".concat(e, "'s Destroyer sunk!");
         break;
       case 2:
-        t.textContent = "Patrol boat sunk!";
+        a.textContent = "".concat(e, "'s Patrol boat sunk!");
     }
   }
-  const m = function () {
-    var e = [],
-      t = [],
+  const u = function (e) {
+    var t = e,
       a = [],
-      n = [];
+      n = [],
+      r = [],
+      o = [];
     return {
-      newShip: function (a) {
+      newShip: function (e) {
         if (
           !0 ===
-          t.some(function (e) {
-            return a.indexOf(e) >= 0;
+          n.some(function (t) {
+            return e.indexOf(t) >= 0;
           })
         )
           return "Coordinate(s) already occupied";
-        var n = (function (e) {
+        var t = (function (e) {
           var t = [];
           return (
             e.map(function (e) {
@@ -191,23 +187,21 @@
               shipCoords: t,
             }
           );
-        })(a);
-        e.push(n);
-        for (var r = 0; r < n.shipCoords.length; r++) t.push(n.shipCoords[r]);
+        })(e);
+        a.push(t);
+        for (var r = 0; r < t.shipCoords.length; r++) n.push(t.shipCoords[r]);
       },
-      receiveAttack: function (r) {
-        if (!1 !== n.includes(r) || !1 !== a.includes(r))
+      receiveAttack: function (e) {
+        if (!1 !== o.includes(e) || !1 !== r.includes(e))
           return "Square has already been attacked!";
-        for (var o = 0; o < e.length; o++)
-          for (var i = 0; i < e[o].shipCoords.length; i++)
-            if (e[o].shipCoords[i] === r) {
-              e[o].hit(i), n.push(r);
-              for (var s = 0; s < e.length; s++) e[s].isSunk() && v(e[s]);
-            }
-        !1 === t.includes(r) && a.push(r);
+        for (var i = 0; i < a.length; i++)
+          for (var s = 0; s < a[i].shipCoords.length; s++)
+            a[i].shipCoords[s] === e &&
+              (a[i].hit(s), o.push(e), a[i].isSunk() && d(t, a[i]));
+        !1 === n.includes(e) && r.push(e);
       },
       allSunk: function () {
-        return e
+        return a
           .map(function (e) {
             return e.isSunk();
           })
@@ -215,13 +209,13 @@
             return !0 === e;
           });
       },
-      shipCoordsBoard: e,
-      misses: a,
-      hits: n,
-      occupied: t,
+      shipCoordsBoard: a,
+      misses: r,
+      hits: o,
+      occupied: n,
     };
   };
-  var p = [
+  var m = [
     "1,1",
     "1,2",
     "1,3",
@@ -323,18 +317,18 @@
     "10,9",
     "10,10",
   ];
-  const h = function () {
+  const v = function () {
     var e = null,
       t = function (t) {
         var a;
         if (null === e) {
           var n =
-            b.availableMoves[
-              Math.floor(Math.random() * b.availableMoves.length)
+            g.availableMoves[
+              Math.floor(Math.random() * g.availableMoves.length)
             ];
-          t.receiveAttack(n), (e = t.hits.includes(n) ? p.indexOf(n) : null);
-          var r = b.availableMoves.indexOf(n);
-          r > -1 && b.availableMoves.splice(r, 1);
+          t.receiveAttack(n), (e = t.hits.includes(n) ? m.indexOf(n) : null);
+          var r = g.availableMoves.indexOf(n);
+          r > -1 && g.availableMoves.splice(r, 1);
         } else if (null !== e) {
           var o = (function () {
               for (var e = [], t = 0, a = 0; a < 10; a++) {
@@ -364,22 +358,20 @@
               return void 0 !== e;
             }),
             c = s[Math.floor(Math.random() * s.length)],
-            l = p[c];
+            l = m[c];
           t.receiveAttack(l),
-            (e = t.hits.includes(l) ? p.indexOf(l) : null),
-            (a = b.availableMoves.indexOf(l)) > -1 &&
-              b.availableMoves.splice(a, 1);
+            (e = t.hits.includes(l) ? m.indexOf(l) : null),
+            (a = g.availableMoves.indexOf(l)) > -1 &&
+              g.availableMoves.splice(a, 1);
         }
       },
       a = function (e) {
         var t;
-        g.attack(C, e.target.id.slice(1)),
-          i(C),
+        h.attack(f, e.target.id.slice(1)),
+          i(f),
           c(),
-          !0 === C.allSunk()
-            ? u()
-            : !0 === y.allSunk()
-            ? d()
+          !0 === f.allSunk()
+            ? (document.getElementById("info").textContent = "You have won!")
             : ("Your move! Choose a square to attack." !==
               (t = document.getElementById("info")).textContent
                 ? setTimeout(function () {
@@ -389,7 +381,7 @@
               setTimeout(n, 1e3));
       },
       n = function () {
-        t(y),
+        t(C),
           (function (e) {
             for (
               var t = document.getElementsByClassName("square pSquare"), a = 0;
@@ -400,24 +392,24 @@
                 ? (t[a].className = "square pSquare hit")
                 : !0 === e.misses.includes(t[a].id.slice(1)) &&
                   (t[a].className = "square pSquare miss");
-          })(y),
+          })(C),
           !0 === C.allSunk()
-            ? (u(), c())
-            : !0 === y.allSunk()
-            ? (d(), c())
+            ? ((document.getElementById("info").textContent =
+                "Computer has sunk all your ships! You lose!"),
+              c())
             : (l(), s());
       };
     return {
       attack: function (e, t) {
-        if (g.availableMoves.includes(t)) {
+        if (h.availableMoves.includes(t)) {
           e.receiveAttack(t);
-          var n = g.availableMoves.indexOf(t);
-          n > -1 && g.availableMoves.splice(n, 1);
+          var n = h.availableMoves.indexOf(t);
+          n > -1 && h.availableMoves.splice(n, 1);
         } else
           (document.getElementById("info").textContent =
             "That square has already been attacked!"),
             c(),
-            i(C),
+            i(f),
             a();
       },
       randomAttack: t,
@@ -528,12 +520,12 @@
       lastHitIndex: e,
     };
   };
-  var f,
-    g = h(),
-    C = m(),
-    b = h(),
-    y = m();
-  function S() {
+  var p,
+    h = v(),
+    f = u("Computer"),
+    g = v(),
+    C = u("Player");
+  function b() {
     (function () {
       var e = document.getElementById("info"),
         t = document.getElementById("computerGrid"),
@@ -569,7 +561,7 @@
               t.appendChild(i);
           }
           r.textContent = "Player";
-        })(g),
+        })(h),
         (e.textContent = "Place your ships on the grid. Click to rotate ship");
       for (var i = 0; i < r.length; i++) {
         var s = document.createElement("div");
@@ -586,31 +578,31 @@
           case "B":
             (s.className = "boat battleship"),
               (s.id = "battleship" + "".concat(i));
-            for (var u = 0; u < r[i].length; u++) {
-              var d = document.createElement("div");
-              (d.className = "boatSquare battleshipSquare"),
-                (d.draggable = !1),
-                s.appendChild(d);
+            for (var d = 0; d < r[i].length; d++) {
+              var u = document.createElement("div");
+              (u.className = "boatSquare battleshipSquare"),
+                (u.draggable = !1),
+                s.appendChild(u);
             }
             break;
           case "D":
             (s.className = "boat destroyer"),
               (s.id = "destroyer" + "".concat(i));
-            for (var v = 0; v < r[i].length; v++) {
-              var m = document.createElement("div");
-              (m.className = "boatSquare destroyerSquare"),
-                (m.draggable = !1),
-                s.appendChild(m);
+            for (var m = 0; m < r[i].length; m++) {
+              var v = document.createElement("div");
+              (v.className = "boatSquare destroyerSquare"),
+                (v.draggable = !1),
+                s.appendChild(v);
             }
             break;
           case "P":
             (s.className = "boat patrolboat"),
               (s.id = "patrolboat" + "".concat(i));
             for (var p = 0; p < r[i].length; p++) {
-              var h = document.createElement("div");
-              (h.className = "boatSquare patrolboatSquare"),
-                (h.draggable = !1),
-                s.appendChild(h);
+              var f = document.createElement("div");
+              (f.className = "boatSquare patrolboatSquare"),
+                (f.draggable = !1),
+                s.appendChild(f);
             }
             break;
           default:
@@ -638,18 +630,18 @@
         )
           a();
       })(),
-      C.newShip(["1,6", "1,7", "1,8", "1,9", "1,10"]),
-      C.newShip(["8,2", "8,3", "8,4", "8,5"]),
-      C.newShip(["6,9", "7,9", "8,9", "9,9"]),
-      C.newShip(["3,2", "4,2", "5,2"]),
-      C.newShip(["10,5", "10,6", "10,7"]),
-      C.newShip(["4,7", "4,8", "4,9"]),
-      C.newShip(["1,1", "1,2"]),
-      C.newShip(["10,1", "10,2"]),
-      C.newShip(["5,5", "6,5"]),
-      C.newShip(["2,4", "3,4"]);
+      f.newShip(["1,6", "1,7", "1,8", "1,9", "1,10"]),
+      f.newShip(["8,2", "8,3", "8,4", "8,5"]),
+      f.newShip(["6,9", "7,9", "8,9", "9,9"]),
+      f.newShip(["3,2", "4,2", "5,2"]),
+      f.newShip(["10,5", "10,6", "10,7"]),
+      f.newShip(["4,7", "4,8", "4,9"]),
+      f.newShip(["1,1", "1,2"]),
+      f.newShip(["10,1", "10,2"]),
+      f.newShip(["5,5", "6,5"]),
+      f.newShip(["2,4", "3,4"]);
   }
-  function k() {
+  function y() {
     var e = document.getElementById("computerGrid"),
       t = document.getElementById("boatsDisplay");
     e.removeChild(t),
@@ -668,15 +660,15 @@
             t.appendChild(r);
         }
         a.textContent = "Computer";
-      })(g),
-      o(y),
-      i(C),
+      })(h),
+      o(C),
+      i(f),
       l(),
       s();
   }
-  (f = document.getElementById("start")).addEventListener("click", function () {
-    "Start Game" === f.textContent
-      ? ((f.textContent = "Restart Game"), S())
+  (p = document.getElementById("start")).addEventListener("click", function () {
+    "Start Game" === p.textContent
+      ? ((p.textContent = "Restart Game"), b())
       : window.location.reload();
   });
 })();

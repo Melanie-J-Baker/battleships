@@ -285,8 +285,6 @@ const PlayerFactory = function () {
     removeSquareEventListeners();
     if (computerBoard.allSunk() === true) {
       infoPlayerWin();
-    } else if (playerBoard.allSunk() === true) {
-      infoComputerWin();
     } else {
       infoComputerMove();
       setTimeout(computerMove, 1000);
@@ -296,10 +294,7 @@ const PlayerFactory = function () {
   const computerMove = () => {
     randomAttack(playerBoard);
     renderPlayerBoard(playerBoard);
-    if (computerBoard.allSunk() === true) {
-      infoPlayerWin();
-      removeSquareEventListeners();
-    } else if (playerBoard.allSunk() === true) {
+    if (playerBoard.allSunk() === true) {
       infoComputerWin();
       removeSquareEventListeners();
     } else {

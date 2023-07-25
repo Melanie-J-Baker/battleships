@@ -28,9 +28,9 @@ import {
 } from "./DOM";
 
 const player = PlayerFactory();
-const computerBoard = GameboardFactory();
+const computerBoard = GameboardFactory("Computer");
 const computer = PlayerFactory();
-const playerBoard = GameboardFactory();
+const playerBoard = GameboardFactory("Player");
 
 startEventListener();
 

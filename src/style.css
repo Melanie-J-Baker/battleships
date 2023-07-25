@@ -67,6 +67,10 @@ button {
   flex-direction: row;
   margin: 2px;
   width: max-content;
+}
+
+.boatSquare:first-child {
+  background-image: url("./assets/move.svg");
   cursor: move;
 }
 

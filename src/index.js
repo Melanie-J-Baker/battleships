@@ -35,17 +35,6 @@ const playerBoard = GameboardFactory();
 startEventListener();
 
 function Game() {
-  /*playerBoard.newShip(["7,1", "7,2", "7,3", "7,4", "7,5"]);
-  playerBoard.newShip(["2,1", "3,1", "4,1", "5,1"]);
-  playerBoard.newShip(["9,4", "9,5", "9,6", "9,7"]);
-  playerBoard.newShip(["1,5", "1,6", "1,7"]);
-  playerBoard.newShip(["4,5", "4,6", "4,7"]);
-  playerBoard.newShip(["8,9", "9,9", "10,9"]);
-  playerBoard.newShip(["10,1", "10,2"]);
-  playerBoard.newShip(["3,3", "4,3"]);
-  playerBoard.newShip(["1,10", "2,10"]);
-  playerBoard.newShip(["5,10", "6,10"]);*/
-
   renderMovableBoats();
   addBoatEventListeners();
 
@@ -59,18 +48,18 @@ function Game() {
   computerBoard.newShip(["10,1", "10,2"]);
   computerBoard.newShip(["5,5", "6,5"]);
   computerBoard.newShip(["2,4", "3,4"]);
-
-  if (playerBoard.occupied.length === 30) {
-    const computerGrid = document.getElementById("computerGrid");
-    const displayDiv = document.getElementById("boatsDisplay");
-    computerGrid.removeChild(displayDiv);
-    computerGrid.className = "grid";
-    createComputerGrid(player);
-    renderPlayerBoats(playerBoard);
-    renderComputerBoard(computerBoard);
-    infoPlayerMove();
-    addSquareEventListeners();
-  }
 }
 
-export { Game, player, computer, playerBoard, computerBoard };
+function playGame() {
+  const computerGrid = document.getElementById("computerGrid");
+  const displayDiv = document.getElementById("boatsDisplay");
+  computerGrid.removeChild(displayDiv);
+  computerGrid.className = "grid";
+  createComputerGrid(player);
+  renderPlayerBoats(playerBoard);
+  renderComputerBoard(computerBoard);
+  infoPlayerMove();
+  addSquareEventListeners();
+}
+
+export { Game, player, computer, playerBoard, computerBoard, playGame };

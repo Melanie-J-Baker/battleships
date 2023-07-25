@@ -73,7 +73,7 @@ function renderMovableBoats() {
 
   createPlayerGrid(player);
 
-  infoBox.textContent = "Please place the ships on your grid. Click to rotate";
+  infoBox.textContent = "Place your ships on the grid. Click to rotate ship";
 
   for (let i = 0; i < shipSizeArray.length; i++) {
     let boat = document.createElement("div");
@@ -160,10 +160,10 @@ function dropHandler(e) {
   let boat = document.getElementById(movedID);
   let length = boat.children.length;
   let checkValidity = checkValid(e.target.id, movedID, movedClass);
+  let newBoatCoords = [];
   if (checkValidity === false) {
     infoBox.textContent = "Boat cannot be placed there!";
   } else {
-    let newBoatCoords = [];
     for (let i = 0; i < length; i++) {
       if (movedClass.includes("vertical")) {
         let movedCoord = e.target.id.slice(1);
@@ -190,7 +190,6 @@ function dropHandler(e) {
         let newID = "p" + x + "," + newYString;
         if (checkAvailable(playerBoard, newID) === true) {
           let newCoord = x + "," + newYString;
-          console.log(newBoatCoords);
           newBoatCoords.push(newCoord);
           let nextSquare = document.getElementById(newID);
           boat.children[0].id = newID;
@@ -200,11 +199,11 @@ function dropHandler(e) {
         }
       }
     }
-    playerBoard.newShip(newBoatCoords);
-    renderPlayerBoats(playerBoard);
-    if (playerBoard.occupied.length === 30) {
-      playGame();
-    }
+  }
+  playerBoard.newShip(newBoatCoords);
+  renderPlayerBoats(playerBoard);
+  if (playerBoard.occupied.length === 30) {
+    playGame();
   }
 }
 
@@ -301,12 +300,24 @@ function removeSquareEventListeners() {
 
 function infoPlayerMove() {
   const infoBox = document.getElementById("info");
-  infoBox.textContent = "Your move! Choose a square to attack.";
+  if (infoBox.textContent !== "Computer is taking their turn.") {
+    setTimeout(() => {
+      infoBox.textContent = "Your move! Choose a square to attack.";
+    }, 2000);
+  } else {
+    infoBox.textContent = "Your move! Choose a square to attack.";
+  }
 }
 
 function infoComputerMove() {
   const infoBox = document.getElementById("info");
-  infoBox.textContent = "Computer is taking their turn.";
+  if (infoBox.textContent !== "Your move! Choose a square to attack.") {
+    setTimeout(() => {
+      infoBox.textContent = "Computer is taking their turn.";
+    }, 2000);
+  } else {
+    infoBox.textContent = "Computer is taking their turn.";
+  }
 }
 
 function infoRepeatMove() {
@@ -324,6 +335,25 @@ function infoComputerWin() {
   infoBox.textContent = "Computer has sunk all your ships! You lose!";
 }
 
+function infoSunkBoat(shipCoordsArray) {
+  console.log(shipCoordsArray);
+  const infoBox = document.getElementById("info");
+  let length = shipCoordsArray.shipCoords.length;
+  switch (length) {
+    case 5:
+      infoBox.textContent = "Carrier sunk!";
+      break;
+    case 4:
+      infoBox.textContent = "Battleship sunk!";
+      break;
+    case 3:
+      infoBox.textContent = "Destroyer sunk!";
+      break;
+    case 2:
+      infoBox.textContent = "Patrol boat sunk!";
+      break;
+  }
+}
 export {
   startEventListener,
   renderMovableBoats,
@@ -340,4 +370,5 @@ export {
   infoRepeatMove,
   infoPlayerWin,
   infoComputerWin,
+  infoSunkBoat,
 };

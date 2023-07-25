@@ -4,6 +4,7 @@
 // e) Gameboards should be able to report whether or not all of their ships have been sunk.
 
 import ShipFactory from "./ship";
+import { infoSunkBoat } from "../DOM";
 
 const GameboardFactory = () => {
   const shipCoordsBoard = [];
@@ -32,6 +33,11 @@ const GameboardFactory = () => {
           if (shipCoordsBoard[i].shipCoords[j] === coord) {
             shipCoordsBoard[i].hit(j);
             hits.push(coord);
+            for (let i = 0; i < shipCoordsBoard.length; i++) {
+              if (shipCoordsBoard[i].isSunk()) {
+                infoSunkBoat(shipCoordsBoard[i]);
+              }
+            }
           }
         }
       }

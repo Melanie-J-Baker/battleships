@@ -44,8 +44,7 @@ function startEventListener() {
   start.addEventListener("click", function () {
     if (start.textContent === "Start Game") {
       start.textContent = "Restart Game";
-      heading.className = "";
-
+      heading.classList.remove("large");
       Game();
     } else {
       window.location.reload();
@@ -270,10 +269,12 @@ function renderComputerBoard(computerBoard) {
   for (let i = 0; i < cSquares.length; i++) {
     if (computerBoard.hits.includes(cSquares[i].id.slice(1)) === true) {
       cSquares[i].className = "square cSquare hit";
+      //cSquares[i].removeEventListener('click', player.playerMove);
     } else if (
       computerBoard.misses.includes(cSquares[i].id.slice(1)) === true
     ) {
       cSquares[i].className = "square cSquare miss";
+      //cSquares[i].removeEventListener('click', player.playerMove);
     }
   }
 }
@@ -292,7 +293,13 @@ function renderPlayerBoard(playerBoard) {
 function addSquareEventListeners() {
   const cSquares = document.getElementsByClassName("square cSquare");
   for (var i = 0; i < cSquares.length; i++) {
-    cSquares[i].addEventListener("click", player.playerMove);
+    cSquares[i].removeEventListener("click", player.playerMove);
+    if (
+      cSquares[i].classList.contains("hit") === false &&
+      cSquares[i].classList.contains("miss") === false
+    ) {
+      cSquares[i].addEventListener("click", player.playerMove);
+    }
   }
 }
 
@@ -323,11 +330,6 @@ function infoComputerMove() {
   } else {
     infoBox.textContent = "Computer is taking their turn.";
   }
-}
-
-function infoRepeatMove() {
-  const infoBox = document.getElementById("info");
-  infoBox.textContent = "That square has already been attacked!";
 }
 
 function infoPlayerWin() {
@@ -372,7 +374,6 @@ export {
   renderPlayerBoard,
   infoPlayerMove,
   infoComputerMove,
-  infoRepeatMove,
   infoPlayerWin,
   infoComputerWin,
   infoSunkBoat,

@@ -10,7 +10,6 @@ import {
   removeSquareEventListeners,
   infoPlayerMove,
   infoComputerMove,
-  infoRepeatMove,
   infoPlayerWin,
   infoComputerWin,
 } from "../DOM";
@@ -226,19 +225,13 @@ const PlayerFactory = function () {
   let lastHitIndex = null;
 
   const attack = (board, target) => {
-    if (player.availableMoves.includes(target)) {
-      board.receiveAttack(target);
-      const index = player.availableMoves.indexOf(target);
-      if (index > -1) {
-        player.availableMoves.splice(index, 1);
-      }
-    } else {
-      infoRepeatMove();
-      removeSquareEventListeners();
-      renderComputerBoard(computerBoard);
-      playerMove();
+    board.receiveAttack(target);
+    const index = player.availableMoves.indexOf(target);
+    if (index > -1) {
+      player.availableMoves.splice(index, 1);
     }
   };
+
   const randomAttack = (board) => {
     let index;
     if (lastHitIndex === null) {
@@ -280,14 +273,17 @@ const PlayerFactory = function () {
   };
 
   const playerMove = (event) => {
-    player.attack(computerBoard, event.target.id.slice(1));
-    renderComputerBoard(computerBoard);
-    removeSquareEventListeners();
-    if (computerBoard.allSunk() === true) {
-      infoPlayerWin();
-    } else {
-      infoComputerMove();
-      setTimeout(computerMove, 1000);
+    let targetCoord = event.target.id.slice(1);
+    if (player.availableMoves.includes(targetCoord)) {
+      player.attack(computerBoard, targetCoord);
+      renderComputerBoard(computerBoard);
+      removeSquareEventListeners();
+      if (computerBoard.allSunk() === true) {
+        infoPlayerWin();
+      } else {
+        infoComputerMove();
+        setTimeout(computerMove, 1000);
+      }
     }
   };
 

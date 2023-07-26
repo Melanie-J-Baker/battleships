@@ -59,8 +59,7 @@ button:hover {
   text-align: center;
   font-family: monospace;
   font-weight: bold;
-  font-size: 15px;
-  background-color: rgba(231, 230, 228, 0.5);
+  font-size: 20px;
 }
 
 #playerDiv,
@@ -98,6 +97,12 @@ button:hover {
   background-size: cover;
 }
 
+.cSquare:hover {
+  width: 27px;
+  height: 27px;
+  background-color: rgb(56, 110, 131);
+}
+
 .occupied {
   background-color: rgb(36, 56, 56);
 }
@@ -117,6 +122,8 @@ button:hover {
 #boatsDisplay {
   display: flex;
   flex-direction: column;
+  width: 200px;
+  height: 250px;
 }
 
 .boat {
@@ -136,9 +143,38 @@ button:hover {
 
 .boatSquare:first-child {
   background-image: url("./assets/move.svg");
+  background-size: cover;
   cursor: move;
 }
 
 .vertical {
   flex-direction: column;
+}
+
+@media only screen and (min-width: 1200px) {
+  #grids {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .grid {
+    grid-template-columns: repeat(10, 40px);
+    grid-template-rows: repeat(10, 40px);
+    width: 400px;
+    height: 400px;
+  }
+  #info {
+    margin-right: 50px;
+  }
+  .boatSquare {
+    width: 40px;
+    height: 40px;
+  }
+  .cSquare:hover {
+    width: 42px;
+    height: 42px;
+  }
+  #boatsDisplay {
+    width: 300px;
+  }
 }

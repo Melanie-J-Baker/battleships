@@ -11,7 +11,7 @@
 // b) You can polish the intelligence of the computer player by having it try adjacent slots after getting a ‘hit’.
 // c) Optionally, create a 2 player option that lets users take turns by passing the device back and forth. If you’re going to go this route, make sure the game is playable on a mobile screen and implement a ‘pass device’ screen so that players don’t see each others boards!
 import { Game, player, playerBoard, playGame } from "./index";
-import findNeighbours from "./helper";
+//import findNeighbours from "./helper";
 
 function createPlayerGrid(player) {
   const playerGrid = document.getElementById("playerGrid");
@@ -178,10 +178,10 @@ function dropHandler(e) {
         let newXString = newX.toString();
         let newID = "p" + newXString + "," + y;
         let newCoord = newXString + "," + y;
-        let newIndex = player.availableMoves.indexOf(newCoord);
+        //let newIndex = player.availableMoves.indexOf(newCoord);
         if (
-          checkAvailable(playerBoard, newID) === true &&
-          checkNeighbours(newIndex) === true
+          checkAvailable(playerBoard, newID) === true /*&&
+          /*checkNeighbours(newIndex) === true*/
         ) {
           newBoatCoords.push(newCoord);
           let nextSquare = document.getElementById(newID);
@@ -198,10 +198,10 @@ function dropHandler(e) {
         let newYString = newY.toString();
         let newCoord = x + "," + newYString;
         let newID = "p" + x + "," + newYString;
-        let newIndex = player.availableMoves.indexOf(newCoord);
+        //let newIndex = player.availableMoves.indexOf(newCoord);
         if (
-          checkAvailable(playerBoard, newID) === true &&
-          checkNeighbours(newIndex) === true
+          checkAvailable(playerBoard, newID) === true /*&&
+          checkNeighbours(newIndex) === true*/
         ) {
           newBoatCoords.push(newCoord);
           let nextSquare = document.getElementById(newID);
@@ -263,7 +263,7 @@ function checkAvailable(board, target) {
   }
 }
 
-function checkNeighbours(index) {
+/*function checkNeighbours(index) {
   let neighbours = findNeighbours(index);
   const neighboursArray = Object.values(neighbours);
   const validNeighbours = neighboursArray.filter((x) => x !== undefined);
@@ -278,7 +278,7 @@ function checkNeighbours(index) {
       return true;
     }
   }
-}
+}*/
 
 function renderPlayerBoats(playerBoard) {
   const playerSquares = document.getElementById("playerGrid").children;

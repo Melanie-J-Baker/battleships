@@ -40,9 +40,12 @@ function createComputerGrid(player) {
 
 function startEventListener() {
   const start = document.getElementById("start");
+  const heading = document.querySelector("h1");
   start.addEventListener("click", function () {
     if (start.textContent === "Start Game") {
       start.textContent = "Restart Game";
+      heading.className = "";
+
       Game();
     } else {
       window.location.reload();

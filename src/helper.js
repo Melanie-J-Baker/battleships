@@ -1,4 +1,4 @@
-const create2dArray = () => {
+const findNeighbours = (index) => {
   let array2d = [];
   let counter = 0;
   for (let i = 0; i < 100 / 10; i++) {
@@ -8,10 +8,6 @@ const create2dArray = () => {
       counter++;
     }
   }
-  return array2d;
-};
-
-const findNeighbours = (index, array2d) => {
   const rowIndex = parseInt(index / 10);
   const columnIndex = array2d[rowIndex].findIndex((c) => c === index);
   // right neighbour
@@ -23,4 +19,4 @@ const findNeighbours = (index, array2d) => {
   return neighbours;
 };
 
-export { create2dArray, findNeighbours };
+export default findNeighbours;

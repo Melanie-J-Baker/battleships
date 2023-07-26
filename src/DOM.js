@@ -11,6 +11,7 @@
 // b) You can polish the intelligence of the computer player by having it try adjacent slots after getting a ‘hit’.
 // c) Optionally, create a 2 player option that lets users take turns by passing the device back and forth. If you’re going to go this route, make sure the game is playable on a mobile screen and implement a ‘pass device’ screen so that players don’t see each others boards!
 import { Game, player, playerBoard, playGame } from "./index";
+import findNeighbours from "./helper";
 
 function createPlayerGrid(player) {
   const playerGrid = document.getElementById("playerGrid");
@@ -176,8 +177,12 @@ function dropHandler(e) {
         let newX = +x + i;
         let newXString = newX.toString();
         let newID = "p" + newXString + "," + y;
-        if (checkAvailable(playerBoard, newID) === true) {
-          let newCoord = newXString + "," + y;
+        let newCoord = newXString + "," + y;
+        let newIndex = player.availableMoves.indexOf(newCoord);
+        if (
+          checkAvailable(playerBoard, newID) === true &&
+          checkNeighbours(newIndex) === true
+        ) {
           newBoatCoords.push(newCoord);
           let nextSquare = document.getElementById(newID);
           boat.children[0].id = newID;
@@ -191,9 +196,13 @@ function dropHandler(e) {
         let y = movedCoord.split(",")[1];
         let newY = +y + i;
         let newYString = newY.toString();
+        let newCoord = x + "," + newYString;
         let newID = "p" + x + "," + newYString;
-        if (checkAvailable(playerBoard, newID) === true) {
-          let newCoord = x + "," + newYString;
+        let newIndex = player.availableMoves.indexOf(newCoord);
+        if (
+          checkAvailable(playerBoard, newID) === true &&
+          checkNeighbours(newIndex) === true
+        ) {
           newBoatCoords.push(newCoord);
           let nextSquare = document.getElementById(newID);
           boat.children[0].id = newID;
@@ -254,6 +263,23 @@ function checkAvailable(board, target) {
   }
 }
 
+function checkNeighbours(index) {
+  let neighbours = findNeighbours(index);
+  const neighboursArray = Object.values(neighbours);
+  const validNeighbours = neighboursArray.filter((x) => x !== undefined);
+  const neighbourCoords = [];
+  for (let i = 0; i < validNeighbours.length; i++) {
+    neighbourCoords.push(player.availableMoves[validNeighbours[i]]);
+  }
+  for (let i = 0; i < neighbourCoords.length; i++) {
+    if (playerBoard.occupied.includes(neighbourCoords[i])) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+}
+
 function renderPlayerBoats(playerBoard) {
   const playerSquares = document.getElementById("playerGrid").children;
   for (let i = 0; i < playerSquares.length; i++) {
@@ -269,12 +295,10 @@ function renderComputerBoard(computerBoard) {
   for (let i = 0; i < cSquares.length; i++) {
     if (computerBoard.hits.includes(cSquares[i].id.slice(1)) === true) {
       cSquares[i].className = "square cSquare hit";
-      //cSquares[i].removeEventListener('click', player.playerMove);
     } else if (
       computerBoard.misses.includes(cSquares[i].id.slice(1)) === true
     ) {
       cSquares[i].className = "square cSquare miss";
-      //cSquares[i].removeEventListener('click', player.playerMove);
     }
   }
 }

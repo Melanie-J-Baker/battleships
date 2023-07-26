@@ -13,7 +13,7 @@ import {
   infoPlayerWin,
   infoComputerWin,
 } from "../DOM";
-import { create2dArray, findNeighbours } from "../helper";
+import findNeighbours from "../helper";
 
 const allMoves = [
   "1,1",
@@ -251,8 +251,7 @@ const PlayerFactory = function () {
         computer.availableMoves.splice(index, 1); // 2nd parameter means remove one item only
       }
     } else if (lastHitIndex !== null) {
-      let array2d = create2dArray();
-      let neighbours = findNeighbours(lastHitIndex, array2d);
+      let neighbours = findNeighbours(lastHitIndex);
       const neighboursArray = Object.values(neighbours);
       const validNeighbours = neighboursArray.filter((x) => x !== undefined);
       let neighbourIndex =

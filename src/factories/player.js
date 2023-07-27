@@ -253,17 +253,22 @@ const PlayerFactory = function () {
     } else if (lastHitIndex !== null) {
       let neighbours = findNeighbours(lastHitIndex);
       const neighboursArray = Object.values(neighbours);
-      const validNeighbours = neighboursArray.filter((x) => x !== undefined);
+      // Create array without diagonal neighbours
+      const directNeighbours = [];
+      for (let i = 0; i < 4; i++) {
+        directNeighbours.push(neighboursArray[i]);
+      }
+      const validNeighbours = directNeighbours.filter((x) => x !== undefined);
       let neighbourIndex =
         validNeighbours[Math.floor(Math.random() * validNeighbours.length)];
-      let neighbourCoords = allMoves[neighbourIndex];
-      board.receiveAttack(neighbourCoords);
-      if (board.hits.includes(neighbourCoords)) {
-        lastHitIndex = allMoves.indexOf(neighbourCoords);
+      let neighbourCoord = allMoves[neighbourIndex];
+      board.receiveAttack(neighbourCoord);
+      if (board.hits.includes(neighbourCoord)) {
+        lastHitIndex = allMoves.indexOf(neighbourCoord);
       } else {
         lastHitIndex = null;
       }
-      index = computer.availableMoves.indexOf(neighbourCoords);
+      index = computer.availableMoves.indexOf(neighbourCoord);
       if (index > -1) {
         // only splice array when item is found
         computer.availableMoves.splice(index, 1); // 2nd parameter means remove one item only

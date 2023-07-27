@@ -11,11 +11,19 @@
 // b) You can polish the intelligence of the computer player by having it try adjacent slots after getting a ‘hit’.
 // c) Optionally, create a 2 player option that lets users take turns by passing the device back and forth. If you’re going to go this route, make sure the game is playable on a mobile screen and implement a ‘pass device’ screen so that players don’t see each others boards!
 import { Game, player, playerBoard, playGame } from "./index";
+import { neighbourCoords } from "./factories/gameboard";
 //import findNeighbours from "./helper";
 
+const playerGrid = document.getElementById("playerGrid");
+const playerHeader = document.getElementById("playerHeader");
+const computerGrid = document.getElementById("computerGrid");
+const computerHeader = document.getElementById("computerHeader");
+const start = document.getElementById("start");
+const heading = document.querySelector("h1");
+const infoBox = document.getElementById("info");
+const displayDiv = document.createElement("div");
+
 function createPlayerGrid(player) {
-  const playerGrid = document.getElementById("playerGrid");
-  const playerHeader = document.getElementById("playerHeader");
   for (let i = 0; i < 100; i++) {
     let playerSquare = document.createElement("div");
     playerSquare.className = "square pSquare";
@@ -28,8 +36,6 @@ function createPlayerGrid(player) {
 }
 
 function createComputerGrid(player) {
-  const computerGrid = document.getElementById("computerGrid");
-  const computerHeader = document.getElementById("computerHeader");
   for (let i = 0; i < 100; i++) {
     let computerSquare = document.createElement("div");
     computerSquare.className = "square cSquare";
@@ -40,8 +46,6 @@ function createComputerGrid(player) {
 }
 
 function startEventListener() {
-  const start = document.getElementById("start");
-  const heading = document.querySelector("h1");
   start.addEventListener("click", function () {
     if (start.textContent === "Start Game") {
       start.textContent = "Restart Game";
@@ -54,8 +58,6 @@ function startEventListener() {
 }
 
 function renderMovableBoats() {
-  const infoBox = document.getElementById("info");
-  const computerGrid = document.getElementById("computerGrid");
   const shipSizeArray = [
     ["C", "C", "C", "C", "C"],
     ["B", "B", "B", "B"],
@@ -69,7 +71,6 @@ function renderMovableBoats() {
     ["P", "P"],
   ];
 
-  const displayDiv = document.createElement("div");
   displayDiv.id = "boatsDisplay";
   computerGrid.className = "";
   computerGrid.appendChild(displayDiv);
@@ -146,7 +147,6 @@ function addBoatEventListeners() {
 }
 
 function dragstartHandler(e) {
-  const infoBox = document.getElementById("info");
   e.dataTransfer.setData("text", e.target.id);
   e.dataTransfer.setData("text/class", e.target.classList);
   infoBox.textContent = "Place your ships on the grid. Click to rotate ship";
@@ -158,16 +158,19 @@ function dragoverHandler(e) {
 }
 
 function dropHandler(e) {
+  //const playerSquares = document.getElementsByClassName("square pSquare");
   e.preventDefault();
-  const infoBox = document.getElementById("info");
   let movedID = e.dataTransfer.getData("text");
   let movedClass = e.dataTransfer.getData("text/class");
   let boat = document.getElementById(movedID);
   let length = boat.children.length;
   let checkValidity = checkValid(e.target.id, movedID, movedClass);
   let newBoatCoords = [];
-  if (checkValidity === false) {
+  let validBoat;
+  if (checkValidity === false || validBoat === false) {
     infoBox.textContent = "Boat cannot be placed there!";
+    validBoat = false;
+    newBoatCoords = [];
   } else {
     for (let i = 0; i < length; i++) {
       if (movedClass.includes("vertical")) {
@@ -180,8 +183,9 @@ function dropHandler(e) {
         let newCoord = newXString + "," + y;
         //let newIndex = player.availableMoves.indexOf(newCoord);
         if (
-          checkAvailable(playerBoard, newID) === true /*&&
-          /*checkNeighbours(newIndex) === true*/
+          checkAvailable(playerBoard, newID) === true &&
+          neighbourCoords.includes(newCoord) === false &&
+          validBoat !== false
         ) {
           newBoatCoords.push(newCoord);
           let nextSquare = document.getElementById(newID);
@@ -189,6 +193,8 @@ function dropHandler(e) {
           nextSquare.parentNode.replaceChild(boat.children[0], nextSquare);
         } else {
           infoBox.textContent = "Boat cannot be placed there!";
+          newBoatCoords = [];
+          validBoat = false;
         }
       } else {
         let movedCoord = e.target.id.slice(1);
@@ -200,8 +206,9 @@ function dropHandler(e) {
         let newID = "p" + x + "," + newYString;
         //let newIndex = player.availableMoves.indexOf(newCoord);
         if (
-          checkAvailable(playerBoard, newID) === true /*&&
-          checkNeighbours(newIndex) === true*/
+          checkAvailable(playerBoard, newID) === true &&
+          neighbourCoords.includes(newCoord) === false &&
+          validBoat !== false
         ) {
           newBoatCoords.push(newCoord);
           let nextSquare = document.getElementById(newID);
@@ -209,14 +216,20 @@ function dropHandler(e) {
           nextSquare.parentNode.replaceChild(boat.children[0], nextSquare);
         } else {
           infoBox.textContent = "Boat cannot be placed there!";
+          newBoatCoords = [];
+          validBoat = false;
         }
       }
     }
   }
-  playerBoard.newShip(newBoatCoords);
-  renderPlayerBoats(playerBoard);
-  if (playerBoard.occupied.length === 30) {
-    playGame();
+  if (
+    newBoatCoords.some((coord) => neighbourCoords.includes(coord)) === false
+  ) {
+    playerBoard.newShip(newBoatCoords);
+    renderPlayerBoats(playerBoard);
+    if (playerBoard.occupied.length === 30) {
+      playGame();
+    }
   }
 }
 
@@ -262,23 +275,6 @@ function checkAvailable(board, target) {
     return true;
   }
 }
-
-/*function checkNeighbours(index) {
-  let neighbours = findNeighbours(index);
-  const neighboursArray = Object.values(neighbours);
-  const validNeighbours = neighboursArray.filter((x) => x !== undefined);
-  const neighbourCoords = [];
-  for (let i = 0; i < validNeighbours.length; i++) {
-    neighbourCoords.push(player.availableMoves[validNeighbours[i]]);
-  }
-  for (let i = 0; i < neighbourCoords.length; i++) {
-    if (playerBoard.occupied.includes(neighbourCoords[i])) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-}*/
 
 function renderPlayerBoats(playerBoard) {
   const playerSquares = document.getElementById("playerGrid").children;
@@ -335,7 +331,6 @@ function removeSquareEventListeners() {
 }
 
 function infoPlayerMove() {
-  const infoBox = document.getElementById("info");
   if (infoBox.textContent !== "Computer is taking their turn.") {
     setTimeout(() => {
       infoBox.textContent = "Your move! Choose a square to attack.";
@@ -346,7 +341,6 @@ function infoPlayerMove() {
 }
 
 function infoComputerMove() {
-  const infoBox = document.getElementById("info");
   if (infoBox.textContent !== "Your move! Choose a square to attack.") {
     setTimeout(() => {
       infoBox.textContent = "Computer is taking their turn.";
@@ -357,17 +351,14 @@ function infoComputerMove() {
 }
 
 function infoPlayerWin() {
-  const infoBox = document.getElementById("info");
   infoBox.textContent = "You have won!";
 }
 
 function infoComputerWin() {
-  const infoBox = document.getElementById("info");
   infoBox.textContent = "Computer has sunk all your ships! You lose!";
 }
 
 function infoSunkBoat(playerName, shipCoordsArray) {
-  const infoBox = document.getElementById("info");
   let length = shipCoordsArray.shipCoords.length;
   console.log(playerName);
   switch (length) {

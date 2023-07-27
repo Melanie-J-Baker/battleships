@@ -3,8 +3,12 @@
 // d) Gameboards should keep track of missed attacks so they can display them properly.
 // e) Gameboards should be able to report whether or not all of their ships have been sunk.
 
+import { player } from "../index";
 import ShipFactory from "./ship";
 import { infoSunkBoat } from "../DOM";
+import findNeighbours from "../helper";
+
+const neighbourCoords = [];
 
 const GameboardFactory = (name) => {
   const playerName = name;
@@ -14,13 +18,30 @@ const GameboardFactory = (name) => {
   const hits = [];
 
   function newShip(coords) {
-    const blocked = occupied.some((r) => coords.indexOf(r) >= 0);
+    let blocked = occupied.some((r) => coords.indexOf(r) >= 0);
+    if (coords.some((coord) => neighbourCoords.includes(coord)) === true) {
+      blocked = true;
+    }
     if (blocked !== true) {
       // place ships at specific coordinates by calling the ship factory function
       const ship = ShipFactory(coords);
       shipCoordsBoard.push(ship);
       for (let i = 0; i < ship.shipCoords.length; i++) {
         occupied.push(ship.shipCoords[i]);
+        let index = player.availableMoves.indexOf(ship.shipCoords[i]);
+        let neighbours = findNeighbours(index);
+        const neighboursArray = Object.values(neighbours);
+        const validNeighbours = neighboursArray.filter((x) => x !== undefined);
+        for (let i = 0; i < validNeighbours.length; i++) {
+          if (
+            neighbourCoords.includes(
+              player.availableMoves[validNeighbours[i]],
+            ) === false
+          ) {
+            neighbourCoords.push(player.availableMoves[validNeighbours[i]]);
+            console.log(neighbourCoords);
+          }
+        }
       }
     } else {
       return "Coordinate(s) already occupied";
@@ -64,4 +85,4 @@ const GameboardFactory = (name) => {
   };
 };
 
-export default GameboardFactory;
+export { GameboardFactory, neighbourCoords };

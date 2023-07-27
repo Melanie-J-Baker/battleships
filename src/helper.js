@@ -10,12 +10,24 @@ const findNeighbours = (index) => {
   }
   const rowIndex = parseInt(index / 10);
   const columnIndex = array2d[rowIndex].findIndex((c) => c === index);
-  // right neighbour
   const right = array2d[rowIndex][columnIndex + 1];
   const left = array2d[rowIndex][columnIndex - 1];
   const top = array2d[rowIndex - 1]?.[columnIndex];
   const bottom = array2d[rowIndex + 1]?.[columnIndex];
-  const neighbours = { right, left, bottom, top };
+  const topleft = array2d[rowIndex - 1]?.[columnIndex - 1];
+  const topright = array2d[rowIndex - 1]?.[columnIndex + 1];
+  const bottomleft = array2d[rowIndex + 1][columnIndex - 1];
+  const bottomright = array2d[rowIndex + 1][columnIndex + 1];
+  const neighbours = {
+    right,
+    left,
+    bottom,
+    top,
+    topleft,
+    topright,
+    bottomleft,
+    bottomright,
+  };
   return neighbours;
 };
 

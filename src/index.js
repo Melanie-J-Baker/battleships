@@ -14,14 +14,14 @@
 // c) Optionally, create a 2 player option that lets users take turns by passing the device back and forth.
 // If you’re going to go this route, make sure the game is playable on a mobile screen and implement a ‘pass device’ screen so that players don’t see each others boards!
 
-import GameboardFactory from "./factories/gameboard";
+import { GameboardFactory } from "./factories/gameboard";
 import PlayerFactory from "./factories/player";
 import {
   startEventListener,
   createComputerGrid,
   renderMovableBoats,
   addBoatEventListeners,
-  renderPlayerBoats,
+  //renderPlayerBoats,
   renderComputerBoard,
   infoPlayerMove,
   addSquareEventListeners,
@@ -37,7 +37,9 @@ startEventListener();
 function Game() {
   renderMovableBoats();
   addBoatEventListeners();
+}
 
+function playGame() {
   computerBoard.newShip(["1,6", "1,7", "1,8", "1,9", "1,10"]);
   computerBoard.newShip(["8,2", "8,3", "8,4", "8,5"]);
   computerBoard.newShip(["6,9", "7,9", "8,9", "9,9"]);
@@ -48,15 +50,13 @@ function Game() {
   computerBoard.newShip(["10,1", "10,2"]);
   computerBoard.newShip(["5,5", "6,5"]);
   computerBoard.newShip(["2,4", "3,4"]);
-}
 
-function playGame() {
   const computerGrid = document.getElementById("computerGrid");
   const displayDiv = document.getElementById("boatsDisplay");
   computerGrid.removeChild(displayDiv);
   computerGrid.className = "grid";
   createComputerGrid(player);
-  renderPlayerBoats(playerBoard);
+  //renderPlayerBoats(playerBoard);
   renderComputerBoard(computerBoard);
   infoPlayerMove();
   addSquareEventListeners();

@@ -1,8 +1,3 @@
-// 2. Create Gameboard factory.
-// a) Note that we have not yet created any User Interface. We should know our code is coming together by running the tests. You shouldnt be relying on console.log or DOM methods to make sure your code is working.
-// d) Gameboards should keep track of missed attacks so they can display them properly.
-// e) Gameboards should be able to report whether or not all of their ships have been sunk.
-
 import { player } from "../index";
 import ShipFactory from "./ship";
 import { infoSunkBoat } from "../DOM";
@@ -20,7 +15,6 @@ const GameboardFactory = (name) => {
   function newShip(coords) {
     let blocked = occupied.some((r) => coords.indexOf(r) >= 0);
     if (blocked !== true) {
-      // place ships at specific coordinates by calling the ship factory function
       const ship = ShipFactory(coords);
       shipCoordsBoard.push(ship);
       for (let i = 0; i < ship.shipCoords.length; i++) {

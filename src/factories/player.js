@@ -1,7 +1,3 @@
-// 3. Create Player.
-// a) Players can take turns playing the game by attacking the enemy Gameboard.
-// b) The game is played against the computer, so make the computer capable of making random plays.
-// AI does not have to be smart, but should know whether or not a given move is legal. (i.e. it shouldnt shoot the same coordinate twice).
 import { player, computer, playerBoard, computerBoard } from "../index";
 import {
   renderComputerBoard,
@@ -247,8 +243,7 @@ const PlayerFactory = function () {
       }
       let index = computer.availableMoves.indexOf(randomTarget);
       if (index > -1) {
-        // only splice array when item is found
-        computer.availableMoves.splice(index, 1); // 2nd parameter means remove one item only
+        computer.availableMoves.splice(index, 1);
       }
     } else if (lastHitIndex !== null) {
       let neighbours = findNeighbours(lastHitIndex);
@@ -270,8 +265,7 @@ const PlayerFactory = function () {
       }
       index = computer.availableMoves.indexOf(neighbourCoord);
       if (index > -1) {
-        // only splice array when item is found
-        computer.availableMoves.splice(index, 1); // 2nd parameter means remove one item only
+        computer.availableMoves.splice(index, 1);
       }
     }
   };

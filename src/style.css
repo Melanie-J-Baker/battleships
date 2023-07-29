@@ -14,6 +14,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   background-image: url("./assets/background2.jpg");
   background-size: cover;
   height: 100vh;
@@ -26,7 +27,6 @@ h1 {
   -webkit-text-fill-color: rgb(57, 85, 85);
   text-shadow: 3px 3px 4px black;
   padding-top: 10px;
-  -webkit-text-stroke-color: #f12004;
 }
 
 .large {
@@ -68,6 +68,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
 }
 
 .gridHeader {
@@ -128,7 +129,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   width: 200px;
-  height: 250px;
+  height: 300px;
   margin-left: 20px;
 }
 
@@ -192,6 +193,10 @@ button:hover {
     grid-template-rows: repeat(10, 50px);
     width: 500px;
     height: 500px;
+  }
+  .gridHeader {
+    font-family: Machine, Impact, sans-serif;
+    font-size: 40px;
   }
   #info {
     margin-right: 50px;

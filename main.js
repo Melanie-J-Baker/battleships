@@ -29,7 +29,7 @@
     s = document.getElementById("info"),
     l = document.createElement("div"),
     c = document.getElementById("winner");
-  function u(e) {
+  function d(e) {
     for (var t = 0; t < 100; t++) {
       var a = document.createElement("div");
       (a.className = "square cSquare"),
@@ -38,7 +38,7 @@
     }
     r.textContent = "Computer";
   }
-  function d(e) {
+  function u(e) {
     e.dataTransfer.setData("text", e.target.id),
       e.dataTransfer.setData("text/class", e.target.classList),
       (s.textContent = "Place your ships on the grid. Click to rotate ship");
@@ -78,17 +78,18 @@
       })(e.target.id, a, n),
       l = [];
     if (!1 === i || !1 === t)
-      (e.dataTransfer.dropEffect = "none"),
-        (s.textContent = "Boat cannot be placed there!"),
+      (s.textContent = "Boat cannot be placed there!"),
         (t = !1),
-        (l = []);
+        (l = []),
+        (r.draggable = !1),
+        (r.draggable = !0);
     else
       for (var c = 0; c < o; c++)
         if (n.includes("vertical")) {
-          var u = e.target.id.slice(1),
-            d = u.split(",")[0],
-            v = u.split(",")[1],
-            p = (+d + c).toString(),
+          var d = e.target.id.slice(1),
+            u = d.split(",")[0],
+            v = d.split(",")[1],
+            p = (+u + c).toString(),
             m = "p" + p + "," + v,
             f = p + "," + v;
           if (!0 === h(N, m) && !1 === k.includes(f) && !1 !== t) {
@@ -96,25 +97,27 @@
             var g = document.getElementById(m);
             (r.children[0].id = m), g.parentNode.replaceChild(r.children[0], g);
           } else
-            (e.dataTransfer.dropEffect = "none"),
-              (s.textContent = "Boat cannot be placed there!"),
+            (s.textContent = "Boat cannot be placed there!"),
               (l = []),
-              (t = !1);
+              (t = !1),
+              (r.draggable = !1),
+              (r.draggable = !0);
         } else {
           var b = e.target.id.slice(1),
             C = b.split(",")[0],
             y = (+b.split(",")[1] + c).toString(),
             S = C + "," + y,
-            E = "p" + C + "," + y;
-          if (!0 === h(N, E) && !1 === k.includes(S) && !1 !== t) {
+            q = "p" + C + "," + y;
+          if (!0 === h(N, q) && !1 === k.includes(S) && !1 !== t) {
             l.push(S);
-            var q = document.getElementById(E);
-            (r.children[0].id = E), q.parentNode.replaceChild(r.children[0], q);
+            var E = document.getElementById(q);
+            (r.children[0].id = q), E.parentNode.replaceChild(r.children[0], E);
           } else
-            (e.dataTransfer.dropEffect = "none"),
-              (s.textContent = "Boat cannot be placed there!"),
+            (s.textContent = "Boat cannot be placed there!"),
               (l = []),
-              (t = !1);
+              (t = !1),
+              (r.draggable = !1),
+              (r.draggable = !0);
         }
     !1 ===
       l.some(function (e) {
@@ -193,24 +196,24 @@
   const y = function (e) {
     for (var t, a, n, r, o, i, s = [], l = 0, c = 0; c < 10; c++) {
       s.push([]);
-      for (var u = 0; u < 10 && l < 100; u++) s[c].push(l), l++;
+      for (var d = 0; d < 10 && l < 100; d++) s[c].push(l), l++;
     }
-    var d = parseInt(e / 10),
-      v = s[d].findIndex(function (t) {
+    var u = parseInt(e / 10),
+      v = s[u].findIndex(function (t) {
         return t === e;
       }),
-      p = s[d][v + 1],
-      h = s[d][v - 1],
-      m = null === (t = s[d - 1]) || void 0 === t ? void 0 : t[v];
+      p = s[u][v + 1],
+      h = s[u][v - 1],
+      m = null === (t = s[u - 1]) || void 0 === t ? void 0 : t[v];
     return {
       right: p,
       left: h,
-      bottom: null === (a = s[d + 1]) || void 0 === a ? void 0 : a[v],
+      bottom: null === (a = s[u + 1]) || void 0 === a ? void 0 : a[v],
       top: m,
-      topleft: null === (n = s[d - 1]) || void 0 === n ? void 0 : n[v - 1],
-      topright: null === (r = s[d - 1]) || void 0 === r ? void 0 : r[v + 1],
-      bottomleft: null === (o = s[d + 1]) || void 0 === o ? void 0 : o[v - 1],
-      bottomright: null === (i = s[d + 1]) || void 0 === i ? void 0 : i[v + 1],
+      topleft: null === (n = s[u - 1]) || void 0 === n ? void 0 : n[v - 1],
+      topright: null === (r = s[u - 1]) || void 0 === r ? void 0 : r[v + 1],
+      bottomleft: null === (o = s[u + 1]) || void 0 === o ? void 0 : o[v - 1],
+      bottomright: null === (i = s[u + 1]) || void 0 === i ? void 0 : i[v + 1],
     };
   };
   var k = [],
@@ -290,7 +293,7 @@
         occupied: n,
       };
     },
-    E = [
+    q = [
       "1,1",
       "1,2",
       "1,3",
@@ -392,7 +395,7 @@
       "10,9",
       "10,10",
     ];
-  const q = function () {
+  const E = function () {
     var e = null,
       t = function (t) {
         var a;
@@ -401,7 +404,7 @@
             M.availableMoves[
               Math.floor(Math.random() * M.availableMoves.length)
             ];
-          t.receiveAttack(n), (e = t.hits.includes(n) ? E.indexOf(n) : null);
+          t.receiveAttack(n), (e = t.hits.includes(n) ? q.indexOf(n) : null);
           var r = M.availableMoves.indexOf(n);
           r > -1 && M.availableMoves.splice(r, 1);
         } else if (null !== e) {
@@ -410,11 +413,11 @@
           var c = s.filter(function (e) {
               return void 0 !== e;
             }),
-            u = c[Math.floor(Math.random() * c.length)],
-            d = E[u];
-          t.receiveAttack(d),
-            (e = t.hits.includes(d) ? E.indexOf(d) : null),
-            (a = M.availableMoves.indexOf(d)) > -1 &&
+            d = c[Math.floor(Math.random() * c.length)],
+            u = q[d];
+          t.receiveAttack(u),
+            (e = t.hits.includes(u) ? q.indexOf(u) : null),
+            (a = M.availableMoves.indexOf(u)) > -1 &&
               M.availableMoves.splice(a, 1);
         }
       },
@@ -566,9 +569,9 @@
       lastHitIndex: e,
     };
   };
-  var x = q(),
+  var x = E(),
     B = S("Computer"),
-    M = q(),
+    M = E(),
     N = S("Player");
   function w() {
     (function () {
@@ -614,11 +617,11 @@
           case "B":
             (o.className = "boat battleship"),
               (o.id = "battleship" + "".concat(r));
-            for (var u = 0; u < e[r].length; u++) {
-              var d = document.createElement("div");
-              (d.className = "boatSquare battleshipSquare"),
-                (d.draggable = !1),
-                o.appendChild(d);
+            for (var d = 0; d < e[r].length; d++) {
+              var u = document.createElement("div");
+              (u.className = "boatSquare battleshipSquare"),
+                (u.draggable = !1),
+                o.appendChild(u);
             }
             break;
           case "D":
@@ -653,7 +656,7 @@
             t = function () {
               var t = e[a];
               (t.draggable = !0),
-                t.addEventListener("dragstart", d),
+                t.addEventListener("dragstart", u),
                 t.addEventListener("click", function () {
                   t.classList.contains("vertical")
                     ? t.classList.remove("vertical")
@@ -680,11 +683,14 @@
       B.newShip(["2,4", "3,4"]);
     var e = document.getElementById("computerGrid"),
       t = document.getElementById("boatsDisplay");
-    e.removeChild(t), (e.className = "grid"), u(x), m(B), b(), f();
+    e.removeChild(t), (e.className = "grid"), d(x), m(B), b(), f();
   }
   o.addEventListener("click", function () {
     "Start Game" === o.textContent
-      ? ((o.textContent = "Restart Game"), i.classList.remove("large"), w())
+      ? ((o.textContent = "Restart Game"),
+        i.classList.remove("large"),
+        (s.style.display = "block"),
+        w())
       : window.location.reload();
   });
 })();

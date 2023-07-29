@@ -12,7 +12,6 @@
 // c) Optionally, create a 2 player option that lets users take turns by passing the device back and forth. If you’re going to go this route, make sure the game is playable on a mobile screen and implement a ‘pass device’ screen so that players don’t see each others boards!
 import { Game, player, playerBoard, playGame } from "./index";
 import { neighbourCoords } from "./factories/gameboard";
-//import findNeighbours from "./helper";
 
 const playerGrid = document.getElementById("playerGrid");
 const playerHeader = document.getElementById("playerHeader");
@@ -51,6 +50,7 @@ function startEventListener() {
     if (start.textContent === "Start Game") {
       start.textContent = "Restart Game";
       heading.classList.remove("large");
+      infoBox.style.display = "block";
       Game();
     } else {
       window.location.reload();
@@ -168,10 +168,11 @@ function dropHandler(e) {
   let newBoatCoords = [];
   let validBoat;
   if (checkValidity === false || validBoat === false) {
-    e.dataTransfer.dropEffect = "none";
     infoBox.textContent = "Boat cannot be placed there!";
     validBoat = false;
     newBoatCoords = [];
+    boat.draggable = false;
+    boat.draggable = true;
   } else {
     for (let i = 0; i < length; i++) {
       if (movedClass.includes("vertical")) {
@@ -192,10 +193,11 @@ function dropHandler(e) {
           boat.children[0].id = newID;
           nextSquare.parentNode.replaceChild(boat.children[0], nextSquare);
         } else {
-          e.dataTransfer.dropEffect = "none";
           infoBox.textContent = "Boat cannot be placed there!";
           newBoatCoords = [];
           validBoat = false;
+          boat.draggable = false;
+          boat.draggable = true;
         }
       } else {
         let movedCoord = e.target.id.slice(1);
@@ -215,10 +217,11 @@ function dropHandler(e) {
           boat.children[0].id = newID;
           nextSquare.parentNode.replaceChild(boat.children[0], nextSquare);
         } else {
-          e.dataTransfer.dropEffect = "none";
           infoBox.textContent = "Boat cannot be placed there!";
           newBoatCoords = [];
           validBoat = false;
+          boat.draggable = false;
+          boat.draggable = true;
         }
       }
     }

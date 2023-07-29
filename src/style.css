@@ -26,6 +26,7 @@ h1 {
   -webkit-text-fill-color: rgb(57, 85, 85);
   text-shadow: 3px 3px 4px black;
   padding-top: 10px;
+  -webkit-text-stroke-color: #f12004;
 }
 
 .large {
@@ -53,13 +54,13 @@ button:hover {
 }
 
 #info {
+  display: none;
   width: 250px;
-  height: 40px;
-  margin: 15px;
-  text-align: center;
+  height: 50px;
   font-family: monospace;
   font-weight: bold;
   font-size: 20px;
+  margin-left: 10px;
 }
 
 #playerDiv,
@@ -128,6 +129,7 @@ button:hover {
   flex-direction: column;
   width: 200px;
   height: 250px;
+  margin-left: 20px;
 }
 
 .boat {

@@ -16,8 +16,8 @@ const findNeighbours = (index) => {
   const bottom = array2d[rowIndex + 1]?.[columnIndex];
   const topleft = array2d[rowIndex - 1]?.[columnIndex - 1];
   const topright = array2d[rowIndex - 1]?.[columnIndex + 1];
-  const bottomleft = array2d[rowIndex + 1][columnIndex - 1];
-  const bottomright = array2d[rowIndex + 1][columnIndex + 1];
+  const bottomleft = array2d[rowIndex + 1]?.[columnIndex - 1];
+  const bottomright = array2d[rowIndex + 1]?.[columnIndex + 1];
   const neighbours = {
     right,
     left,

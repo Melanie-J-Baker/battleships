@@ -7,6 +7,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  --dark-orange: rgb(255, 17, 0);
 }
 
 #main {
@@ -36,7 +37,7 @@ button {
   margin-bottom: 20px;
   border: none;
   border-radius: 10px;
-  background-color: rgb(255, 17, 0);
+  background-color: var(--dark-orange);
   color: white;
   padding: 10px 40px;
   font-size: 15px;
@@ -102,6 +103,10 @@ button:hover {
   background-color: rgb(56, 110, 131);
 }
 
+.cSquare.hit:hover {
+  background-color: rgb(196, 5, 5);
+}
+
 .occupied {
   background-color: rgb(36, 56, 56);
 }
@@ -138,6 +143,7 @@ button:hover {
   height: 25px;
   border: 1px black solid;
   background-color: rgb(36, 56, 56);
+  cursor: not-allowed;
 }
 
 .boatSquare:first-child {
@@ -150,6 +156,29 @@ button:hover {
   flex-direction: column;
 }
 
+#winner {
+  display: none;
+  color: #f12004;
+  z-index: 1;
+  font-family: "Machine", Impact, sans-serif;
+  font-size: 15rem;
+  animation: glow 2s ease-in-out infinite alternate;
+  text-align: center;
+  position: absolute;
+  top: 20%;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px #f58c13;
+  }
+  to {
+    text-shadow:
+      0 0 50px #f1d904,
+      0 0 10px #e3f776;
+  }
+}
+
 @media only screen and (min-width: 1200px) {
   #grids {
     display: flex;
@@ -157,21 +186,22 @@ button:hover {
     align-items: center;
   }
   .grid {
-    grid-template-columns: repeat(10, 40px);
-    grid-template-rows: repeat(10, 40px);
-    width: 400px;
-    height: 400px;
+    grid-template-columns: repeat(10, 50px);
+    grid-template-rows: repeat(10, 50px);
+    width: 500px;
+    height: 500px;
   }
   #info {
     margin-right: 50px;
+    font-size: 25px;
   }
   .boatSquare {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
   }
   .cSquare:hover {
-    width: 42px;
-    height: 42px;
+    width: 52px;
+    height: 52px;
   }
   #boatsDisplay {
     width: 300px;

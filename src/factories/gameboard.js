@@ -19,9 +19,6 @@ const GameboardFactory = (name) => {
 
   function newShip(coords) {
     let blocked = occupied.some((r) => coords.indexOf(r) >= 0);
-    if (coords.some((coord) => neighbourCoords.includes(coord)) === true) {
-      blocked = true;
-    }
     if (blocked !== true) {
       // place ships at specific coordinates by calling the ship factory function
       const ship = ShipFactory(coords);
@@ -39,10 +36,10 @@ const GameboardFactory = (name) => {
             ) === false
           ) {
             neighbourCoords.push(player.availableMoves[validNeighbours[i]]);
-            console.log(neighbourCoords);
           }
         }
       }
+      console.log(occupied);
     } else {
       return "Coordinate(s) already occupied";
     }

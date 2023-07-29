@@ -22,6 +22,7 @@ const start = document.getElementById("start");
 const heading = document.querySelector("h1");
 const infoBox = document.getElementById("info");
 const displayDiv = document.createElement("div");
+const winnerText = document.getElementById("winner");
 
 function createPlayerGrid(player) {
   for (let i = 0; i < 100; i++) {
@@ -158,7 +159,6 @@ function dragoverHandler(e) {
 }
 
 function dropHandler(e) {
-  //const playerSquares = document.getElementsByClassName("square pSquare");
   e.preventDefault();
   let movedID = e.dataTransfer.getData("text");
   let movedClass = e.dataTransfer.getData("text/class");
@@ -168,6 +168,7 @@ function dropHandler(e) {
   let newBoatCoords = [];
   let validBoat;
   if (checkValidity === false || validBoat === false) {
+    e.dataTransfer.dropEffect = "none";
     infoBox.textContent = "Boat cannot be placed there!";
     validBoat = false;
     newBoatCoords = [];
@@ -181,7 +182,6 @@ function dropHandler(e) {
         let newXString = newX.toString();
         let newID = "p" + newXString + "," + y;
         let newCoord = newXString + "," + y;
-        //let newIndex = player.availableMoves.indexOf(newCoord);
         if (
           checkAvailable(playerBoard, newID) === true &&
           neighbourCoords.includes(newCoord) === false &&
@@ -192,6 +192,7 @@ function dropHandler(e) {
           boat.children[0].id = newID;
           nextSquare.parentNode.replaceChild(boat.children[0], nextSquare);
         } else {
+          e.dataTransfer.dropEffect = "none";
           infoBox.textContent = "Boat cannot be placed there!";
           newBoatCoords = [];
           validBoat = false;
@@ -204,7 +205,6 @@ function dropHandler(e) {
         let newYString = newY.toString();
         let newCoord = x + "," + newYString;
         let newID = "p" + x + "," + newYString;
-        //let newIndex = player.availableMoves.indexOf(newCoord);
         if (
           checkAvailable(playerBoard, newID) === true &&
           neighbourCoords.includes(newCoord) === false &&
@@ -215,6 +215,7 @@ function dropHandler(e) {
           boat.children[0].id = newID;
           nextSquare.parentNode.replaceChild(boat.children[0], nextSquare);
         } else {
+          e.dataTransfer.dropEffect = "none";
           infoBox.textContent = "Boat cannot be placed there!";
           newBoatCoords = [];
           validBoat = false;
@@ -351,7 +352,8 @@ function infoComputerMove() {
 }
 
 function infoPlayerWin() {
-  infoBox.textContent = "You have won!";
+  winnerText.style.display = "block";
+  infoBox.textContent = "All of Computer's ships have been sunk! You have won!";
 }
 
 function infoComputerWin() {

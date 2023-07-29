@@ -12,12 +12,12 @@
   e.d(
     {},
     {
-      lA: () => N,
-      UR: () => B,
-      n1: () => E,
-      rH: () => w,
+      lA: () => w,
+      UR: () => M,
+      n1: () => B,
+      rH: () => D,
       hM: () => x,
-      mO: () => M,
+      mO: () => N,
     },
   );
   var t = document.getElementById("playerGrid"),
@@ -27,8 +27,9 @@
     o = document.getElementById("start"),
     i = document.querySelector("h1"),
     s = document.getElementById("info"),
-    l = document.createElement("div");
-  function c(e) {
+    l = document.createElement("div"),
+    c = document.getElementById("winner");
+  function u(e) {
     for (var t = 0; t < 100; t++) {
       var a = document.createElement("div");
       (a.className = "square cSquare"),
@@ -37,15 +38,15 @@
     }
     r.textContent = "Computer";
   }
-  function u(e) {
+  function d(e) {
     e.dataTransfer.setData("text", e.target.id),
       e.dataTransfer.setData("text/class", e.target.classList),
       (s.textContent = "Place your ships on the grid. Click to rotate ship");
   }
-  function d(e) {
+  function v(e) {
     e.preventDefault(), (e.dataTransfer.dropEffect = "move");
   }
-  function v(e) {
+  function p(e) {
     e.preventDefault();
     var t,
       a = e.dataTransfer.getData("text"),
@@ -77,44 +78,49 @@
       })(e.target.id, a, n),
       l = [];
     if (!1 === i || !1 === t)
-      (s.textContent = "Boat cannot be placed there!"), (t = !1), (l = []);
+      (e.dataTransfer.dropEffect = "none"),
+        (s.textContent = "Boat cannot be placed there!"),
+        (t = !1),
+        (l = []);
     else
       for (var c = 0; c < o; c++)
         if (n.includes("vertical")) {
           var u = e.target.id.slice(1),
             d = u.split(",")[0],
             v = u.split(",")[1],
-            h = (+d + c).toString(),
-            m = "p" + h + "," + v,
-            f = h + "," + v;
-          if (!0 === p(M, m) && !1 === y.includes(f) && !1 !== t) {
+            p = (+d + c).toString(),
+            m = "p" + p + "," + v,
+            f = p + "," + v;
+          if (!0 === h(N, m) && !1 === k.includes(f) && !1 !== t) {
             l.push(f);
             var g = document.getElementById(m);
             (r.children[0].id = m), g.parentNode.replaceChild(r.children[0], g);
           } else
-            (s.textContent = "Boat cannot be placed there!"),
+            (e.dataTransfer.dropEffect = "none"),
+              (s.textContent = "Boat cannot be placed there!"),
               (l = []),
               (t = !1);
         } else {
-          var C = e.target.id.slice(1),
-            b = C.split(",")[0],
-            S = (+C.split(",")[1] + c).toString(),
-            k = b + "," + S,
-            q = "p" + b + "," + S;
-          if (!0 === p(M, q) && !1 === y.includes(k) && !1 !== t) {
-            l.push(k);
-            var x = document.getElementById(q);
-            (r.children[0].id = q), x.parentNode.replaceChild(r.children[0], x);
+          var b = e.target.id.slice(1),
+            C = b.split(",")[0],
+            y = (+b.split(",")[1] + c).toString(),
+            S = C + "," + y,
+            E = "p" + C + "," + y;
+          if (!0 === h(N, E) && !1 === k.includes(S) && !1 !== t) {
+            l.push(S);
+            var q = document.getElementById(E);
+            (r.children[0].id = E), q.parentNode.replaceChild(r.children[0], q);
           } else
-            (s.textContent = "Boat cannot be placed there!"),
+            (e.dataTransfer.dropEffect = "none"),
+              (s.textContent = "Boat cannot be placed there!"),
               (l = []),
               (t = !1);
         }
     !1 ===
       l.some(function (e) {
-        return y.includes(e);
+        return k.includes(e);
       }) &&
-      (M.newShip(l),
+      (N.newShip(l),
       (function (e) {
         for (
           var t = document.getElementById("playerGrid").children, a = 0;
@@ -125,13 +131,13 @@
           e.occupied.includes(n) &&
             (t[a].className = "square pSquare occupied");
         }
-      })(M),
-      30 === M.occupied.length && w());
+      })(N),
+      30 === N.occupied.length && D());
   }
-  function p(e, t) {
+  function h(e, t) {
     return !e.occupied.includes(t);
   }
-  function h(e) {
+  function m(e) {
     for (
       var t = document.getElementsByClassName("square cSquare"), a = 0;
       a < t.length;
@@ -142,7 +148,7 @@
         : !0 === e.misses.includes(t[a].id.slice(1)) &&
           (t[a].className = "square cSquare miss");
   }
-  function m() {
+  function f() {
     for (
       var e = document.getElementsByClassName("square cSquare"), t = 0;
       t < e.length;
@@ -153,7 +159,7 @@
           !1 === e[t].classList.contains("miss") &&
           e[t].addEventListener("click", x.playerMove);
   }
-  function f() {
+  function g() {
     for (
       var e = document.getElementsByClassName("square cSquare"), t = 0;
       t < e.length;
@@ -161,7 +167,7 @@
     )
       e[t].removeEventListener("click", x.playerMove);
   }
-  function g() {
+  function b() {
     "Computer is taking their turn." !== s.textContent
       ? setTimeout(function () {
           s.textContent = "Your move! Choose a square to attack.";
@@ -184,30 +190,30 @@
         s.textContent = "".concat(e, "'s Patrol boat sunk!");
     }
   }
-  const b = function (e) {
-    for (var t, a, n, r, o = [], i = 0, s = 0; s < 10; s++) {
-      o.push([]);
-      for (var l = 0; l < 10 && i < 100; l++) o[s].push(i), i++;
+  const y = function (e) {
+    for (var t, a, n, r, o, i, s = [], l = 0, c = 0; c < 10; c++) {
+      s.push([]);
+      for (var u = 0; u < 10 && l < 100; u++) s[c].push(l), l++;
     }
-    var c = parseInt(e / 10),
-      u = o[c].findIndex(function (t) {
+    var d = parseInt(e / 10),
+      v = s[d].findIndex(function (t) {
         return t === e;
       }),
-      d = o[c][u + 1],
-      v = o[c][u - 1],
-      p = null === (t = o[c - 1]) || void 0 === t ? void 0 : t[u];
+      p = s[d][v + 1],
+      h = s[d][v - 1],
+      m = null === (t = s[d - 1]) || void 0 === t ? void 0 : t[v];
     return {
-      right: d,
-      left: v,
-      bottom: null === (a = o[c + 1]) || void 0 === a ? void 0 : a[u],
-      top: p,
-      topleft: null === (n = o[c - 1]) || void 0 === n ? void 0 : n[u - 1],
-      topright: null === (r = o[c - 1]) || void 0 === r ? void 0 : r[u + 1],
-      bottomleft: o[c + 1][u - 1],
-      bottomright: o[c + 1][u + 1],
+      right: p,
+      left: h,
+      bottom: null === (a = s[d + 1]) || void 0 === a ? void 0 : a[v],
+      top: m,
+      topleft: null === (n = s[d - 1]) || void 0 === n ? void 0 : n[v - 1],
+      topright: null === (r = s[d - 1]) || void 0 === r ? void 0 : r[v + 1],
+      bottomleft: null === (o = s[d + 1]) || void 0 === o ? void 0 : o[v - 1],
+      bottomright: null === (i = s[d + 1]) || void 0 === i ? void 0 : i[v + 1],
     };
   };
-  var y = [],
+  var k = [],
     S = function (e) {
       var t = e,
         a = [],
@@ -216,18 +222,14 @@
         o = [];
       return {
         newShip: function (e) {
-          var t = n.some(function (t) {
-            return e.indexOf(t) >= 0;
-          });
           if (
-            (!0 ===
-              e.some(function (e) {
-                return y.includes(e);
-              }) && (t = !0),
-            !0 === t)
+            !0 ===
+            n.some(function (t) {
+              return e.indexOf(t) >= 0;
+            })
           )
             return "Coordinate(s) already occupied";
-          var r = (function (e) {
+          var t = (function (e) {
             var t = [];
             return (
               e.map(function (e) {
@@ -246,22 +248,23 @@
               }
             );
           })(e);
-          a.push(r);
-          for (var o = 0; o < r.shipCoords.length; o++) {
-            n.push(r.shipCoords[o]);
+          a.push(t);
+          for (var r = 0; r < t.shipCoords.length; r++) {
+            n.push(t.shipCoords[r]);
             for (
-              var i = x.availableMoves.indexOf(r.shipCoords[o]),
-                s = b(i),
-                l = Object.values(s).filter(function (e) {
+              var o = x.availableMoves.indexOf(t.shipCoords[r]),
+                i = y(o),
+                s = Object.values(i).filter(function (e) {
                   return void 0 !== e;
                 }),
-                c = 0;
-              c < l.length;
-              c++
+                l = 0;
+              l < s.length;
+              l++
             )
-              !1 === y.includes(x.availableMoves[l[c]]) &&
-                (y.push(x.availableMoves[l[c]]), console.log(y));
+              !1 === k.includes(x.availableMoves[s[l]]) &&
+                k.push(x.availableMoves[s[l]]);
           }
+          console.log(n);
         },
         receiveAttack: function (e) {
           if (!1 !== o.includes(e) || !1 !== r.includes(e))
@@ -287,7 +290,7 @@
         occupied: n,
       };
     },
-    k = [
+    E = [
       "1,1",
       "1,2",
       "1,3",
@@ -395,28 +398,28 @@
         var a;
         if (null === e) {
           var n =
-            B.availableMoves[
-              Math.floor(Math.random() * B.availableMoves.length)
+            M.availableMoves[
+              Math.floor(Math.random() * M.availableMoves.length)
             ];
-          t.receiveAttack(n), (e = t.hits.includes(n) ? k.indexOf(n) : null);
-          var r = B.availableMoves.indexOf(n);
-          r > -1 && B.availableMoves.splice(r, 1);
+          t.receiveAttack(n), (e = t.hits.includes(n) ? E.indexOf(n) : null);
+          var r = M.availableMoves.indexOf(n);
+          r > -1 && M.availableMoves.splice(r, 1);
         } else if (null !== e) {
-          for (var o = b(e), i = Object.values(o), s = [], l = 0; l < 4; l++)
+          for (var o = y(e), i = Object.values(o), s = [], l = 0; l < 4; l++)
             s.push(i[l]);
           var c = s.filter(function (e) {
               return void 0 !== e;
             }),
             u = c[Math.floor(Math.random() * c.length)],
-            d = k[u];
+            d = E[u];
           t.receiveAttack(d),
-            (e = t.hits.includes(d) ? k.indexOf(d) : null),
-            (a = B.availableMoves.indexOf(d)) > -1 &&
-              B.availableMoves.splice(a, 1);
+            (e = t.hits.includes(d) ? E.indexOf(d) : null),
+            (a = M.availableMoves.indexOf(d)) > -1 &&
+              M.availableMoves.splice(a, 1);
         }
       },
       a = function () {
-        t(M),
+        t(N),
           (function (e) {
             for (
               var t = document.getElementsByClassName("square pSquare"), a = 0;
@@ -427,11 +430,11 @@
                 ? (t[a].className = "square pSquare hit")
                 : !0 === e.misses.includes(t[a].id.slice(1)) &&
                   (t[a].className = "square pSquare miss");
-          })(M),
-          !0 === M.allSunk()
+          })(N),
+          !0 === N.allSunk()
             ? ((s.textContent = "Computer has sunk all your ships! You lose!"),
-              f())
-            : (g(), m());
+              g())
+            : (b(), f());
       };
     return {
       attack: function (e, t) {
@@ -545,11 +548,13 @@
       playerMove: function (e) {
         var t = e.target.id.slice(1);
         x.availableMoves.includes(t) &&
-          (x.attack(E, t),
-          h(E),
-          f(),
-          !0 === E.allSunk()
-            ? (s.textContent = "You have won!")
+          (x.attack(B, t),
+          m(B),
+          g(),
+          !0 === B.allSunk()
+            ? ((c.style.display = "block"),
+              (s.textContent =
+                "All of Computer's ships have been sunk! You have won!"))
             : ("Your move! Choose a square to attack." !== s.textContent
                 ? setTimeout(function () {
                     s.textContent = "Computer is taking their turn.";
@@ -562,10 +567,10 @@
     };
   };
   var x = q(),
-    E = S("Computer"),
-    B = q(),
-    M = S("Player");
-  function N() {
+    B = S("Computer"),
+    M = q(),
+    N = S("Player");
+  function w() {
     (function () {
       var e = [
         ["C", "C", "C", "C", "C"],
@@ -587,8 +592,8 @@
             var r = document.createElement("div");
             (r.className = "square pSquare"),
               (r.id = "p" + "".concat(e.availableMoves[n])),
-              r.addEventListener("dragover", d),
-              r.addEventListener("drop", v),
+              r.addEventListener("dragover", v),
+              r.addEventListener("drop", p),
               t.appendChild(r);
           }
           a.textContent = "Player";
@@ -610,10 +615,10 @@
             (o.className = "boat battleship"),
               (o.id = "battleship" + "".concat(r));
             for (var u = 0; u < e[r].length; u++) {
-              var p = document.createElement("div");
-              (p.className = "boatSquare battleshipSquare"),
-                (p.draggable = !1),
-                o.appendChild(p);
+              var d = document.createElement("div");
+              (d.className = "boatSquare battleshipSquare"),
+                (d.draggable = !1),
+                o.appendChild(d);
             }
             break;
           case "D":
@@ -648,7 +653,7 @@
             t = function () {
               var t = e[a];
               (t.draggable = !0),
-                t.addEventListener("dragstart", u),
+                t.addEventListener("dragstart", d),
                 t.addEventListener("click", function () {
                   t.classList.contains("vertical")
                     ? t.classList.remove("vertical")
@@ -662,24 +667,24 @@
           t();
       })();
   }
-  function w() {
-    E.newShip(["1,6", "1,7", "1,8", "1,9", "1,10"]),
-      E.newShip(["8,2", "8,3", "8,4", "8,5"]),
-      E.newShip(["6,9", "7,9", "8,9", "9,9"]),
-      E.newShip(["3,2", "4,2", "5,2"]),
-      E.newShip(["10,5", "10,6", "10,7"]),
-      E.newShip(["4,7", "4,8", "4,9"]),
-      E.newShip(["1,1", "1,2"]),
-      E.newShip(["10,1", "10,2"]),
-      E.newShip(["5,5", "6,5"]),
-      E.newShip(["2,4", "3,4"]);
+  function D() {
+    B.newShip(["1,6", "1,7", "1,8", "1,9", "1,10"]),
+      B.newShip(["8,2", "8,3", "8,4", "8,5"]),
+      B.newShip(["6,9", "7,9", "8,9", "9,9"]),
+      B.newShip(["3,2", "4,2", "5,2"]),
+      B.newShip(["10,5", "10,6", "10,7"]),
+      B.newShip(["4,7", "4,8", "4,9"]),
+      B.newShip(["1,1", "1,2"]),
+      B.newShip(["10,1", "10,2"]),
+      B.newShip(["5,5", "6,5"]),
+      B.newShip(["2,4", "3,4"]);
     var e = document.getElementById("computerGrid"),
       t = document.getElementById("boatsDisplay");
-    e.removeChild(t), (e.className = "grid"), c(x), h(E), g(), m();
+    e.removeChild(t), (e.className = "grid"), u(x), m(B), b(), f();
   }
   o.addEventListener("click", function () {
     "Start Game" === o.textContent
-      ? ((o.textContent = "Restart Game"), i.classList.remove("large"), N())
+      ? ((o.textContent = "Restart Game"), i.classList.remove("large"), w())
       : window.location.reload();
   });
 })();

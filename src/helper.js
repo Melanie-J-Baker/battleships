@@ -21,8 +21,8 @@ const findNeighbours = (index) => {
   const neighbours = {
     right,
     left,
-    bottom,
     top,
+    bottom,
     topleft,
     topright,
     bottomleft,

@@ -201,15 +201,12 @@
     var u = parseInt(e / 10),
       v = s[u].findIndex(function (t) {
         return t === e;
-      }),
-      p = s[u][v + 1],
-      h = s[u][v - 1],
-      m = null === (t = s[u - 1]) || void 0 === t ? void 0 : t[v];
+      });
     return {
-      right: p,
-      left: h,
+      right: s[u][v + 1],
+      left: s[u][v - 1],
+      top: null === (t = s[u - 1]) || void 0 === t ? void 0 : t[v],
       bottom: null === (a = s[u + 1]) || void 0 === a ? void 0 : a[v],
-      top: m,
       topleft: null === (n = s[u - 1]) || void 0 === n ? void 0 : n[v - 1],
       topright: null === (r = s[u - 1]) || void 0 === r ? void 0 : r[v + 1],
       bottomleft: null === (o = s[u + 1]) || void 0 === o ? void 0 : o[v - 1],

@@ -1,6 +1,6 @@
 @font-face {
   font-family: Machine;
-  src: url("./assets/MachineStd.otf");
+  src: url("./src/assets/MachineStd.otf");
 }
 
 * {
@@ -15,7 +15,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-image: url("./assets/background2.jpg");
+  background-image: url("./src/assets/background2.jpg");
   background-size: cover;
   height: 100vh;
 }
@@ -95,7 +95,7 @@ button:hover {
 }
 
 .cSquare {
-  background-image: url("./assets/question.svg");
+  background-image: url("./src/assets/question.svg");
   background-size: cover;
 }
 
@@ -116,12 +116,12 @@ button:hover {
 .hit {
   background-color: red;
   background-size: cover;
-  background-image: url("./assets/hit.svg");
+  background-image: url("./src/assets/hit.svg");
 }
 
 .miss {
   background-color: rgb(154, 210, 233);
-  background-image: url("./assets/waves.svg");
+  background-image: url("./src/assets/waves.svg");
   background-size: cover;
 }
 
@@ -150,7 +150,7 @@ button:hover {
 }
 
 .boatSquare:first-child {
-  background-image: url("./assets/move.svg");
+  background-image: url("./src/assets/move.svg");
   background-size: cover;
   cursor: move;
 }

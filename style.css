@@ -1,0 +1,223 @@
+@font-face {
+  font-family: Machine;
+  src: url("./assets/MachineStd.otf");
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  --dark-orange: rgb(255, 17, 0);
+}
+
+#main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url("./assets/background2.jpg");
+  background-size: cover;
+  height: 100vh;
+}
+
+h1 {
+  margin-top: 10px;
+  font-family: Machine, Impact, sans-serif;
+  font-size: 80px;
+  -webkit-text-fill-color: rgb(57, 85, 85);
+  text-shadow: 3px 3px 4px black;
+  padding-top: 10px;
+}
+
+.large {
+  font-size: 300px;
+  margin-top: 100px;
+}
+
+button {
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--dark-orange);
+  color: white;
+  padding: 10px 40px;
+  font-size: 15px;
+  font-family: monospace;
+  box-shadow: 3px 3px 3px black;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: rgb(211, 18, 4);
+  box-shadow: 5px 5px 5px black;
+  font-weight: bold;
+}
+
+#info {
+  display: none;
+  width: 250px;
+  height: 50px;
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+#playerDiv,
+#computerDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.gridHeader {
+  font-family: Machine, Impact, sans-serif;
+  font-size: 30px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(10, 25px);
+  grid-template-rows: repeat(10, 25px);
+  width: 250px;
+  height: 250px;
+  margin: 10px;
+}
+
+#computerGrid:hover {
+  cursor: pointer;
+}
+
+.square {
+  border: 1px solid black;
+  background-color: rgb(95, 150, 172);
+}
+
+.cSquare {
+  background-image: url("./assets/question.svg");
+  background-size: cover;
+}
+
+.cSquare:hover {
+  width: 27px;
+  height: 27px;
+  background-color: rgb(56, 110, 131);
+}
+
+.cSquare.hit:hover {
+  background-color: rgb(196, 5, 5);
+}
+
+.occupied {
+  background-color: rgb(36, 56, 56);
+}
+
+.hit {
+  background-color: red;
+  background-size: cover;
+  background-image: url("./assets/hit.svg");
+}
+
+.miss {
+  background-color: rgb(154, 210, 233);
+  background-image: url("./assets/waves.svg");
+  background-size: cover;
+}
+
+#boatsDisplay {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  height: 300px;
+  margin-left: 20px;
+}
+
+.boat {
+  display: flex;
+  flex-direction: row;
+  margin: 2px;
+  width: max-content;
+  height: max-content;
+}
+
+.boatSquare {
+  width: 25px;
+  height: 25px;
+  border: 1px black solid;
+  background-color: rgb(36, 56, 56);
+  cursor: not-allowed;
+}
+
+.boatSquare:first-child {
+  background-image: url("./assets/move.svg");
+  background-size: cover;
+  cursor: move;
+}
+
+.vertical {
+  flex-direction: column;
+}
+
+#winner {
+  display: none;
+  color: #f12004;
+  z-index: 1;
+  font-family: "Machine", Impact, sans-serif;
+  font-size: 15rem;
+  animation: glow 2s ease-in-out infinite alternate;
+  text-align: center;
+  position: absolute;
+  top: 20%;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px #f58c13;
+  }
+
+  to {
+    text-shadow:
+      0 0 50px #f1d904,
+      0 0 10px #e3f776;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  #grids {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .grid {
+    grid-template-columns: repeat(10, 50px);
+    grid-template-rows: repeat(10, 50px);
+    width: 500px;
+    height: 500px;
+  }
+
+  .gridHeader {
+    font-family: Machine, Impact, sans-serif;
+    font-size: 40px;
+  }
+
+  #info {
+    margin-right: 50px;
+    font-size: 25px;
+  }
+
+  .boatSquare {
+    width: 50px;
+    height: 50px;
+  }
+
+  .cSquare:hover {
+    width: 52px;
+    height: 52px;
+  }
+
+  #boatsDisplay {
+    width: 300px;
+  }
+}

@@ -25,10 +25,6 @@
     "url": "https://github.com/Melanie-J-Baker/battleships/issues"
   },
   "homepage": "https://github.com/Melanie-J-Baker/battleships#readme",
-  "dependencies": {
-    "webpack": "^5.88.1",
-    "webpack-cli": "^5.1.4"
-  },
   "devDependencies": {
     "@babel/core": "^7.22.8",
     "@babel/preset-env": "^7.22.7",
@@ -42,6 +38,8 @@
     "jest": "^29.6.1",
     "lint-staged": "^13.2.3",
     "prettier": "3.0.0",
-    "style-loader": "^3.3.3"
+    "style-loader": "^3.3.3",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
   }
 }

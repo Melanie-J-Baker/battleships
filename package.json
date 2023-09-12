@@ -8,7 +8,9 @@
     "build": "webpack --progress --mode=production",
     "watch": "webpack --progress --watch",
     "jestwatch": "jest --watch *.js",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
@@ -35,6 +37,7 @@
     "css-loader": "^6.8.1",
     "eslint": "^8.44.0",
     "eslint-config-prettier": "^8.8.0",
+    "gh-pages": "^6.0.0",
     "husky": "^8.0.3",
     "jest": "^29.6.1",
     "lint-staged": "^13.2.3",

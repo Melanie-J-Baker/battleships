@@ -1,4 +1,6 @@
-Battleships game built as part of the Odin Project. 
+Battleships game built as part of the Odin Project.
+
+https://melanie-j-baker.github.io/battleships/
 
 Built according to Test Driven Development (TDD) principles using Jest. HTML Drag and Drop API used to place players ships. Computer player will try adjacent slots after getting a 'hit'.
 

@@ -1,6 +1,6 @@
 import { Ship } from "../types/ship";
 
-const ShipFactory = function (coords: string[]): Ship {
+export const ShipFactory = function (coords: string[]): Ship {
   const shipCoords: string[] = [];
   coords.map((coord: string) => {
     shipCoords.push(coord);
@@ -17,4 +17,3 @@ const ShipFactory = function (coords: string[]): Ship {
     shipCoords,
   };
 };
-export default ShipFactory;

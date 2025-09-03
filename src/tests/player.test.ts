@@ -1,7 +1,4 @@
-// 3. Create Player.
-// a) Players can take turns playing the game by attacking the enemy Gameboard.
-// b) The game is played against the computer, so make the computer capable of making random plays. The AI does not have to be smart, but it should know whether or not a given move is legal. (i.e. it shouldnt shoot the same coordinate twice).
-import PlayerFactory from "../factories/player";
+import { PlayerFactory } from "../factories/player";
 import { GameboardFactory } from "../factories/gameboard";
 
 test("player can attack computer", () => {
@@ -31,7 +28,7 @@ test("computer can random attack player", () => {
   const playerBoard = GameboardFactory("test");
   const computer = PlayerFactory();
   playerBoard.newShip(["1,1", "1,2", "1,3", "1,4"]);
-  computer.randomAttack(playerBoard);
+  computer.computerMove(playerBoard);
   const moves = playerBoard.hits.length + playerBoard.misses.length;
   expect(moves).not.toStrictEqual(0);
 });
@@ -43,9 +40,5 @@ test("player destroys computer ships", () => {
   player.attack(computerBoard, "5,4");
   player.attack(computerBoard, "6,4");
   expect(computerBoard.allSunk()).toBeTruthy();
-  expect(computerBoard.shipCoordsBoard[0].shipCoords).toStrictEqual([
-    "hit",
-    "hit",
-    "hit",
-  ]);
+  expect(computerBoard.hits).toStrictEqual(["4,4", "5,4", "6,4"]);
 });

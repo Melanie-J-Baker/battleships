@@ -1,6 +1,18 @@
-const findNeighbours = (index) => {
-  let array2d = [];
+export const findNeighbours = (
+  index: number,
+): {
+  right?: number;
+  left?: number;
+  top?: number;
+  bottom?: number;
+  topleft?: number;
+  topright?: number;
+  bottomleft?: number;
+  bottomright?: number;
+} => {
+  const array2d: number[][] = [];
   let counter = 0;
+
   for (let i = 0; i < 100 / 10; i++) {
     array2d.push([]);
     for (let j = 0; j < 10 && counter < 100; j++) {
@@ -8,8 +20,9 @@ const findNeighbours = (index) => {
       counter++;
     }
   }
-  const rowIndex = parseInt(index / 10);
+  const rowIndex = Math.floor(index / 10);
   const columnIndex = array2d[rowIndex].findIndex((c) => c === index);
+
   const right = array2d[rowIndex][columnIndex + 1];
   const left = array2d[rowIndex][columnIndex - 1];
   const top = array2d[rowIndex - 1]?.[columnIndex];
@@ -18,7 +31,8 @@ const findNeighbours = (index) => {
   const topright = array2d[rowIndex - 1]?.[columnIndex + 1];
   const bottomleft = array2d[rowIndex + 1]?.[columnIndex - 1];
   const bottomright = array2d[rowIndex + 1]?.[columnIndex + 1];
-  const neighbours = {
+
+  return {
     right,
     left,
     top,
@@ -28,7 +42,4 @@ const findNeighbours = (index) => {
     bottomleft,
     bottomright,
   };
-  return neighbours;
 };
-
-export default findNeighbours;

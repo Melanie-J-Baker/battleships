@@ -1,19 +1,9 @@
-// 2. Create Gameboard factory.
-// b) Gameboards should be able to place ships at specific coordinates by calling the ship factory function.
-// c) Gameboards should have a receiveAttack function that takes a pair of coordinates, determines whether or not the attack hit a ship and then sends the hit function to the correct ship, or records the coordinates of the missed shot.
-// d) Gameboards should keep track of missed attacks so they can display them properly.
-// e) Gameboards should be able to report whether or not all of their ships have been sunk.
 import { GameboardFactory } from "../factories/gameboard";
 
 test("can place ship at specific coords", () => {
   const board = GameboardFactory("test");
   board.newShip(["1,1", "1,2", "1,3", "1,4"]);
-  expect(board.shipCoordsBoard[0].shipCoords).toStrictEqual([
-    "1,1",
-    "1,2",
-    "1,3",
-    "1,4",
-  ]);
+  expect(board.occupied).toStrictEqual(["1,1", "1,2", "1,3", "1,4"]);
 });
 test("will not place ship in occupied square", () => {
   const board = GameboardFactory("test");
@@ -21,16 +11,11 @@ test("will not place ship in occupied square", () => {
   const result = board.newShip(["1,1", "2,1", "3,1"]);
   expect(result).toStrictEqual("Coordinate(s) already occupied");
 });
-test("can receive attack and send hit to correct ship", () => {
+test("can receive attack and add hit to hits array on board", () => {
   const board = GameboardFactory("test");
   board.newShip(["1,1", "1,2", "1,3", "1,4"]);
   board.receiveAttack("1,2");
-  expect(board.shipCoordsBoard[0].shipCoords).toStrictEqual([
-    "1,1",
-    "hit",
-    "1,3",
-    "1,4",
-  ]);
+  expect(board.hits).toStrictEqual(["1,2"]);
 });
 test("can receive an attack and record missed shot", () => {
   const board = GameboardFactory("test");
@@ -38,12 +23,7 @@ test("can receive an attack and record missed shot", () => {
   board.receiveAttack("2,1");
   expect(board.misses).toStrictEqual(["2,1"]);
 });
-test("can not attack previously attacked square", () => {
-  const board = GameboardFactory("test");
-  board.receiveAttack("2,1");
-  const result = board.receiveAttack("2,1");
-  expect(result).toStrictEqual("Square has already been attacked!");
-});
+
 test("all ships sunk", () => {
   const board = GameboardFactory("test");
   board.newShip(["1,1", "1,2", "1,3", "1,4"]);

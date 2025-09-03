@@ -12,6 +12,8 @@ import {
 import { Gameboard } from "./types/gameboard";
 import { Player } from "./types/player";
 
+startEventListener();
+
 export function createPlayersAndBoards() {
   const player: Player = PlayerFactory();
   const computer: Player = PlayerFactory();
@@ -24,7 +26,6 @@ export function createPlayersAndBoards() {
 export function initGame(): void {
   const { player, computer, playerBoard, computerBoard } =
     createPlayersAndBoards();
-  startEventListener();
   renderMovableBoats(player);
   addBoatEventListeners();
   createComputerGrid(computer);

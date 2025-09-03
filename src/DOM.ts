@@ -217,6 +217,9 @@ export function finalizeBoatPlacement(
     renderPlayerBoats(playerBoard);
     return true;
   } else {
+    playerBoard.occupied = playerBoard.occupied.filter(
+      (coord) => !coords.includes(coord),
+    );
     if (infoBox) infoBox.textContent = "Boat cannot be placed there!";
     return false;
   }

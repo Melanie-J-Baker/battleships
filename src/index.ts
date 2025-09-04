@@ -8,6 +8,7 @@ import {
   renderComputerBoard,
   infoPlayerMove,
   addSquareEventListeners,
+  renderPlayerBoard,
 } from "./DOM";
 import { Gameboard } from "./types/gameboard";
 import { Player } from "./types/player";
@@ -28,7 +29,16 @@ export function initGame(): void {
     createPlayersAndBoards();
   renderMovableBoats(player);
   addBoatEventListeners();
-  createComputerGrid(computer);
+}
+
+export function startBattle(
+  player: Player,
+  computer: Player,
+  playerBoard: Gameboard,
+  computerBoard: Gameboard,
+) {
+  createComputerGrid(computer, computerBoard);
+  renderPlayerBoard(playerBoard);
   renderComputerBoard(computerBoard);
   infoPlayerMove();
   addSquareEventListeners((e: MouseEvent) =>

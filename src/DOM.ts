@@ -1,4 +1,4 @@
-import { initGame } from "./index";
+import { initGame, startBattle } from "./index";
 import { findNeighbours } from "./helper";
 import { Gameboard } from "./types/gameboard";
 import { Player } from "./types/player";
@@ -45,19 +45,6 @@ export function createPlayerGrid(player: Player) {
     playerGrid.appendChild(playerSquare);
   }
   playerHeader.textContent = "Player";
-}
-
-export function createComputerGrid(player: Player) {
-  const { computerGrid, computerHeader } = getDOMElements();
-  if (!computerGrid || !computerHeader) return;
-  computerGrid.innerHTML = "";
-  for (let i = 0; i < 100; i++) {
-    let computerSquare = document.createElement("div");
-    computerSquare.className = "square cSquare";
-    computerSquare.id = "c" + `${player.availableMoves[i]}`;
-    computerGrid.appendChild(computerSquare);
-  }
-  computerHeader.textContent = "Computer";
 }
 
 export function startEventListener() {
@@ -199,32 +186,6 @@ function dropHandler(e: DragEvent): string[] | null {
   return coords;
 }
 
-export function finalizeBoatPlacement(
-  playerBoard: Gameboard,
-  coords: string[],
-): boolean {
-  const { infoBox } = getDOMElements();
-  const neighbourCoords = findNeighbours(parseInt(coords[0]));
-  if (
-    coords.length > 0 &&
-    !coords.some(
-      (c) =>
-        Object.values(neighbourCoords).includes(parseInt(c)) &&
-        coords.every((c) => !playerBoard.occupied.includes(c)),
-    )
-  ) {
-    playerBoard.newShip(coords);
-    renderPlayerBoats(playerBoard);
-    return true;
-  } else {
-    playerBoard.occupied = playerBoard.occupied.filter(
-      (coord) => !coords.includes(coord),
-    );
-    if (infoBox) infoBox.textContent = "Boat cannot be placed there!";
-    return false;
-  }
-}
-
 // Rendering
 export function renderPlayerBoats(playerBoard: Gameboard): void {
   const { playerGrid } = getDOMElements();
@@ -238,6 +199,69 @@ export function renderPlayerBoats(playerBoard: Gameboard): void {
       div.className = "square pSquare occupied";
     }
   }
+}
+
+export function finalizeBoatPlacement(
+  playerBoard: Gameboard,
+  coords: string[],
+  player: Player,
+  computer: Player,
+  computerBoard: Gameboard,
+): boolean {
+  const { infoBox } = getDOMElements();
+  const neighbourCoords = findNeighbours(parseInt(coords[0]));
+  if (
+    coords.length > 0 &&
+    !coords.some(
+      (c) =>
+        Object.values(neighbourCoords).includes(parseInt(c)) &&
+        coords.every((c) => !playerBoard.occupied.includes(c)),
+    )
+  ) {
+    playerBoard.newShip(coords);
+    renderPlayerBoats(playerBoard);
+
+    // Check if all boats placed
+    if (playerBoard.occupied.length === 30) {
+      if (infoBox)
+        infoBox.textContent = "All ships placed! Let the battle begin!";
+      startBattle(player, computer, playerBoard, computerBoard);
+    }
+
+    return true;
+  } else {
+    playerBoard.occupied = playerBoard.occupied.filter(
+      (coord) => !coords.includes(coord),
+    );
+    if (infoBox) infoBox.textContent = "Boat cannot be placed there!";
+    return false;
+  }
+}
+
+export function createComputerGrid(player: Player, computerBoard: Gameboard) {
+  const { computerGrid, computerHeader } = getDOMElements();
+  if (!computerGrid || !computerHeader) return;
+  computerGrid.innerHTML = "";
+  computerGrid.className = "grid";
+  for (let i = 0; i < 100; i++) {
+    let computerSquare = document.createElement("div");
+    computerSquare.className = "square cSquare";
+    computerSquare.id = "c" + `${player.availableMoves[i]}`;
+    computerGrid.appendChild(computerSquare);
+  }
+  computerHeader.textContent = "Computer";
+
+  // Create computer's boats
+  computerBoard.newShip(["1,6", "1,7", "1,8", "1,9", "1,10"]);
+  computerBoard.newShip(["8,2", "8,3", "8,4", "8,5"]);
+  computerBoard.newShip(["6,9", "7,9", "8,9", "9,9"]);
+  computerBoard.newShip(["3,2", "4,2", "5,2"]);
+  computerBoard.newShip(["10,5", "10,6", "10,7"]);
+  computerBoard.newShip(["4,7", "4,8", "4,9"]);
+  computerBoard.newShip(["1,1", "1,2"]);
+  computerBoard.newShip(["10,1", "10,2"]);
+  computerBoard.newShip(["5,5", "6,5"]);
+  computerBoard.newShip(["2,4", "3,4"]);
 }
 
 export function renderComputerBoard(computerBoard: Gameboard): void {

@@ -25,9 +25,9 @@ export function createPlayersAndBoards() {
 }
 
 export function initGame(): void {
-  const { player, computer, playerBoard, computerBoard } =
+  const { player, playerBoard, computer, computerBoard } =
     createPlayersAndBoards();
-  renderMovableBoats(player);
+  renderMovableBoats(player, playerBoard, computer, computerBoard);
   addBoatEventListeners();
 }
 

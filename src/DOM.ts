@@ -32,7 +32,12 @@ export function getDOMElements() {
   };
 }
 
-export function createPlayerGrid(player: Player) {
+export function createPlayerGrid(
+  player: Player,
+  playerBoard: Gameboard,
+  computer: Player,
+  computerBoard: Gameboard,
+) {
   const { playerGrid, playerHeader } = getDOMElements();
   if (!playerGrid || !playerHeader) return;
   playerGrid.innerHTML = "";
@@ -41,7 +46,9 @@ export function createPlayerGrid(player: Player) {
     playerSquare.className = "square pSquare";
     playerSquare.id = "p" + `${player.availableMoves[i]}`;
     playerSquare.addEventListener("dragover", dragoverHandler);
-    playerSquare.addEventListener("drop", (e) => dropHandler(e));
+    playerSquare.addEventListener("drop", (e) =>
+      dropHandler(e, playerBoard, player, computer, computerBoard),
+    );
     playerGrid.appendChild(playerSquare);
   }
   playerHeader.textContent = "Player";
@@ -61,7 +68,12 @@ export function startEventListener() {
   });
 }
 
-export function renderMovableBoats(player: Player): void {
+export function renderMovableBoats(
+  player: Player,
+  playerBoard: Gameboard,
+  computer: Player,
+  computerBoard: Gameboard,
+): void {
   const { infoBox, computerGrid } = getDOMElements();
   if (!computerGrid || !infoBox) return;
   let displayDiv = document.getElementById(
@@ -75,7 +87,7 @@ export function renderMovableBoats(player: Player): void {
     displayDiv.innerHTML = "";
   }
   computerGrid.className = "";
-  createPlayerGrid(player);
+  createPlayerGrid(player, playerBoard, computer, computerBoard);
 
   infoBox.textContent = "Place your ships on the grid. Click to rotate ship";
 
@@ -144,7 +156,13 @@ function dragoverHandler(e: DragEvent): void {
 }
 
 // Drop handler that attempts DOM placement of boat and returns coords so caller can validate and commit to a board
-function dropHandler(e: DragEvent): string[] | null {
+function dropHandler(
+  e: DragEvent,
+  playerBoard: Gameboard,
+  player: Player,
+  computer: Player,
+  computerBoard: Gameboard,
+): string[] | null {
   e.preventDefault();
   const { infoBox } = getDOMElements();
   if (!e.dataTransfer) return null;
@@ -183,6 +201,8 @@ function dropHandler(e: DragEvent): string[] | null {
       return null;
     }
   }
+
+  finalizeBoatPlacement(playerBoard, coords, player, computer, computerBoard);
   return coords;
 }
 

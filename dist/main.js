@@ -31,18 +31,18 @@
   }
   e.d({}, { vv: () => l, hG: () => d });
   const n = (e, t) => {
-    const n = {};
-    return (
-      e < 10 && (n.right = `${e + 1},${t}`),
-      e > 1 && (n.left = `${e - 1},${t}`),
-      t > 1 && (n.top = `${e},${t - 1}`),
-      t < 10 && (n.bottom = `${e},${t + 1}`),
-      e > 1 && t > 1 && (n.topleft = `${e - 1},${t - 1}`),
-      e < 10 && t > 1 && (n.topright = `${e + 1},${t - 1}`),
-      e > 1 && t < 10 && (n.bottomleft = `${e - 1},${t + 1}`),
-      e < 10 && t < 10 && (n.bottomright = `${e + 1},${t + 1}`),
-      n
-    );
+    const n = (e, t) =>
+      e >= 1 && e <= 10 && t >= 1 && t <= 10 ? `${e},${t}` : void 0;
+    return {
+      right: n(e, t + 1),
+      left: n(e, t - 1),
+      top: n(e - 1, t),
+      bottom: n(e + 1, t),
+      topleft: n(e - 1, t - 1),
+      topright: n(e - 1, t + 1),
+      bottomleft: n(e + 1, t - 1),
+      bottomright: n(e + 1, t + 1),
+    };
   };
   function a() {
     const e = [
@@ -87,7 +87,7 @@
       },
       computerMove: r,
       availableMoves: e,
-      lastHit: t,
+      lastHitCoord: t,
     };
   }
   function r(e) {
@@ -129,74 +129,80 @@
     e.preventDefault(), e.dataTransfer && (e.dataTransfer.dropEffect = "move");
   }
   function i(e, t, a, r, s) {
-    var c;
+    var c, i;
     e.preventDefault();
-    const { infoBox: i } = o();
+    const { infoBox: l } = o();
     if (!e.dataTransfer) return null;
-    const l = e.target,
-      u = e.dataTransfer.getData("text"),
-      p = e.dataTransfer.getData("text/class"),
-      m = document.getElementById(u);
+    const u = e.target,
+      p = e.dataTransfer.getData("text"),
+      m = e.dataTransfer.getData("text/class"),
+      f = document.getElementById(p);
     if (
-      !m ||
-      !(null === (c = null == l ? void 0 : l.id) || void 0 === c
+      !f ||
+      !(null === (c = null == u ? void 0 : u.id) || void 0 === c
         ? void 0
         : c.startsWith("p"))
     )
       return null;
-    const f = m.children.length,
-      [h, g] = l.id.slice(1).split(","),
-      v = parseInt(h, 10),
+    const h = f.children.length,
+      [g, v] = u.id.slice(1).split(","),
       y = parseInt(g, 10),
-      B = p.includes("vertical"),
-      C = [];
-    for (let e = 0; e < f; e++) {
-      const t = `p${B ? v + e : v},${B ? y : y + e}`,
-        n = document.getElementById(t);
-      if (!(null == n ? void 0 : n.parentNode))
-        return (
-          i && (i.textContent = "Boat cannot be placed there!"),
-          (m.draggable = !1),
-          (m.draggable = !0),
-          null
-        );
-      (m.children[0].id = t), n.parentNode.replaceChild(m.children[0], n);
+      B = parseInt(v, 10),
+      C = m.includes("vertical"),
+      S = [];
+    for (let e = 0; e < h; e++) {
+      const t = C ? y + e : y,
+        n = C ? B : B + e;
+      S.push(`${t},${n}`);
+    }
+    if (
+      !S.every((e) => {
+        const t = document.getElementById("p" + e);
+        return null !== t && !t.classList.contains("occupied");
+      })
+    )
+      return l && (l.textContent = "Boat cannot be placed there!"), null;
+    for (let e = 0; e < S.length; e++) {
+      const t = S[e],
+        n = document.getElementById("p" + t);
+      (f.children[0].id = "p" + t),
+        null === (i = n.parentNode) ||
+          void 0 === i ||
+          i.replaceChild(f.children[0], n);
     }
     return (
       (function (e, t, a, r, s) {
         const { infoBox: c } = o(),
-          i = new Set(e.occupied);
-        let l = [];
+          i = new Set(e.occupied),
+          l = [];
         for (const e of t) {
           const [t, a] = e.split(","),
             r = parseInt(t, 10),
             o = parseInt(a, 10),
             s = n(r, o);
-          l.push(...Object.values(s).map(String));
+          l.push(...Object.values(s).filter(Boolean));
         }
-        const u = t.some((e) => i.has(e)) || t.some((e) => l.includes(e));
-        l.some((e) => i.has(e)),
-          u
-            ? (e.newShip(t),
-              (function (e) {
-                const { playerGrid: t } = o();
-                if (!t) return;
-                const n = t.children;
-                for (let t = 0; t < n.length; t++) {
-                  const a = n[t],
-                    r = a.id.slice(1);
-                  e.occupied.includes(r) &&
-                    (a.className = "square pSquare occupied");
-                }
-              })(e),
-              30 === e.occupied.length &&
-                (c &&
-                  (c.textContent = "All ships placed! Let the battle begin!"),
-                d(a, r, e, s)))
-            : ((e.occupied = e.occupied.filter((e) => !t.includes(e))),
-              c && (c.textContent = "Boat cannot be placed there!"));
-      })(t, C, a, r, s),
-      C
+        const u = t.some((e) => i.has(e)),
+          p = l.some((e) => i.has(e));
+        u || p
+          ? c && (c.textContent = "Boat cannot be placed there!")
+          : (e.newShip(t),
+            (function (e) {
+              const { playerGrid: t } = o();
+              if (!t) return;
+              const n = t.children;
+              for (let t = 0; t < n.length; t++) {
+                const a = n[t],
+                  r = a.id.slice(1);
+                e.occupied.includes(r) &&
+                  (a.className = "square pSquare occupied");
+              }
+            })(e),
+            30 === e.occupied.length &&
+              (c && (c.textContent = "All ships placed! Let the battle begin!"),
+              d(a, r, e, s)));
+      })(t, S, a, r, s),
+      S
     );
   }
   function l() {

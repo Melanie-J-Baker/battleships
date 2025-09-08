@@ -10,7 +10,7 @@ export function PlayerFactory(): Player {
     ).flat(),
   ];
 
-  let lastHit: string | null = null;
+  let lastHitCoord: string | null = null;
 
   const attack = (board: Gameboard, target: string) => {
     if (!availableMoves.includes(target)) return "That move is not available";
@@ -20,21 +20,21 @@ export function PlayerFactory(): Player {
   };
 
   const computerMove = (board: Gameboard): void => {
-    if (lastHit === null) {
+    if (lastHitCoord === null) {
       // Pick a random square to attack
       const randomTarget =
         availableMoves[Math.floor(Math.random() * availableMoves.length)];
       board.receiveAttack(randomTarget);
 
       if (board.hits.includes(randomTarget)) {
-        lastHit = randomTarget; // Store the last hit coordinate
+        lastHitCoord = randomTarget; // Store the last hit coordinate
       }
 
       const moveIndex = availableMoves.indexOf(randomTarget);
       if (moveIndex > -1) availableMoves.splice(moveIndex, 1);
     } else {
       // Find neigbours of last hit
-      const [xStr, yStr] = lastHit.split(",");
+      const [xStr, yStr] = lastHitCoord.split(",");
       const x = parseInt(xStr, 10);
       const y = parseInt(yStr, 10);
       const neighbours = findNeighbours(x, y);
@@ -52,16 +52,16 @@ export function PlayerFactory(): Player {
           possibleCoords[Math.floor(Math.random() * possibleCoords.length)];
         board.receiveAttack(target);
         if (board.hits.includes(target)) {
-          lastHit = target; // Chain hunting if hit again
+          lastHitCoord = target; // Chain hunting if hit again
         } else {
-          lastHit = null; // Reset if miss
+          lastHitCoord = null; // Reset if miss
         }
 
         const moveIndex = availableMoves.indexOf(target);
         if (moveIndex > -1) availableMoves.splice(moveIndex, 1);
       } else {
         // No valid neighbours remaining - fall back to random
-        lastHit = null;
+        lastHitCoord = null;
         computerMove(board);
       }
     }
@@ -80,6 +80,6 @@ export function PlayerFactory(): Player {
     playerMove,
     computerMove,
     availableMoves,
-    lastHit,
+    lastHitCoord,
   };
 }

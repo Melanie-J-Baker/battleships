@@ -12,21 +12,17 @@ export const findNeighbours = (
   bottomleft?: string;
   bottomright?: string;
 } => {
-  const neighbours: { [key: string]: string | undefined } = {};
+  const inBounds = (x: number, y: number) =>
+    x >= 1 && x <= 10 && y >= 1 && y <= 10 ? `${x},${y}` : undefined;
 
-  // right
-  if (x < 10) neighbours.right = `${x + 1},${y}`;
-  // left
-  if (x > 1) neighbours.left = `${x - 1},${y}`;
-  // top
-  if (y > 1) neighbours.top = `${x},${y - 1}`;
-  // bottom
-  if (y < 10) neighbours.bottom = `${x},${y + 1}`;
-  // diagonals
-  if (x > 1 && y > 1) neighbours.topleft = `${x - 1},${y - 1}`;
-  if (x < 10 && y > 1) neighbours.topright = `${x + 1},${y - 1}`;
-  if (x > 1 && y < 10) neighbours.bottomleft = `${x - 1},${y + 1}`;
-  if (x < 10 && y < 10) neighbours.bottomright = `${x + 1},${y + 1}`;
-
-  return neighbours;
+  return {
+    right: inBounds(x, y + 1),
+    left: inBounds(x, y - 1),
+    top: inBounds(x - 1, y),
+    bottom: inBounds(x + 1, y),
+    topleft: inBounds(x - 1, y - 1),
+    topright: inBounds(x - 1, y + 1),
+    bottomleft: inBounds(x + 1, y - 1),
+    bottomright: inBounds(x + 1, y + 1),
+  };
 };

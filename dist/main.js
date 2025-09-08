@@ -270,7 +270,7 @@
         const e = document.getElementsByClassName("boat");
         for (let t = 0; t < e.length; t++) {
           const n = e[t];
-          n.children[0].addEventListener("dragstart", s),
+          n.addEventListener("dragstart", s),
             n.addEventListener("click", () => {
               n.classList.toggle("vertical");
             });

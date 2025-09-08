@@ -122,31 +122,36 @@ export function renderMovableBoats(
 
 // Add event listeners to boats for dragging and rotating
 export function addBoatEventListeners(): void {
+  const { infoBox } = getDOMElements();
   const boats = document.getElementsByClassName(
     "boat",
   ) as HTMLCollectionOf<HTMLDivElement>;
+
   for (let i = 0; i < boats.length; i++) {
     const boat = boats[i];
-    boat.addEventListener("dragstart", dragstartHandler);
+    const firstChild = boat.firstElementChild as HTMLDivElement | null;
+
+    // Only allow dragging from first square
+    if (firstChild) {
+      firstChild.draggable = true;
+      firstChild.addEventListener("dragstart", (e) => {
+        if (e.dataTransfer) {
+          e.dataTransfer.setData("text", boat.id);
+          e.dataTransfer.setData(
+            "text/class",
+            Array.from(boat.classList).toString(),
+          );
+        }
+      });
+    }
+    boat.draggable = false;
     boat.addEventListener("click", () => {
       boat.classList.toggle("vertical");
     });
+    if (infoBox)
+      infoBox.textContent =
+        "Place your ships on the grid. Click to rotate ship";
   }
-}
-
-// Drag and drop for boat placement
-function dragstartHandler(e: DragEvent): void {
-  const { infoBox } = getDOMElements();
-  const target = e.target as HTMLElement;
-  if (e.dataTransfer) {
-    e.dataTransfer.setData("text", target.id);
-    e.dataTransfer.setData(
-      "text/class",
-      Array.from(target.classList).toString(),
-    );
-  }
-  if (infoBox)
-    infoBox.textContent = "Place your ships on the grid. Click to rotate ship";
 }
 
 function dragoverHandler(e: DragEvent): void {

@@ -127,8 +127,7 @@ export function addBoatEventListeners(): void {
   ) as HTMLCollectionOf<HTMLDivElement>;
   for (let i = 0; i < boats.length; i++) {
     const boat = boats[i];
-    const firstSquare = boat.children[0] as HTMLDivElement;
-    firstSquare.addEventListener("dragstart", dragstartHandler);
+    boat.addEventListener("dragstart", dragstartHandler);
     boat.addEventListener("click", () => {
       boat.classList.toggle("vertical");
     });

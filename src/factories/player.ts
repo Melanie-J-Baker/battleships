@@ -1,6 +1,7 @@
 import { Gameboard } from "../types/gameboard";
 import { findNeighbours } from "../helper";
 import { Player } from "../types/player";
+import { is } from "@babel/types";
 
 export function PlayerFactory(): Player {
   const availableMoves: string[] = [
@@ -9,7 +10,7 @@ export function PlayerFactory(): Player {
     ).flat(),
   ];
 
-  let lastHitIndex: number | null = null;
+  let lastHit: string | null = null;
 
   const attack = (board: Gameboard, target: string) => {
     if (!availableMoves.includes(target)) return "That move is not available";
@@ -19,37 +20,50 @@ export function PlayerFactory(): Player {
   };
 
   const computerMove = (board: Gameboard): void => {
-    if (lastHitIndex === null) {
+    if (lastHit === null) {
+      // Pick a random square to attack
       const randomTarget =
         availableMoves[Math.floor(Math.random() * availableMoves.length)];
       board.receiveAttack(randomTarget);
 
       if (board.hits.includes(randomTarget)) {
-        lastHitIndex = availableMoves.indexOf(randomTarget);
-      } else {
-        lastHitIndex = null;
+        lastHit = randomTarget; // Store the last hit coordinate
       }
 
       const moveIndex = availableMoves.indexOf(randomTarget);
       if (moveIndex > -1) availableMoves.splice(moveIndex, 1);
     } else {
-      // logic using findNeighbours
-      const neighbours = findNeighbours(lastHitIndex);
-      const neighboursArray = Object.values(neighbours).slice(0, 4); // up/down/left/right
-      const validNeighbours = neighboursArray.filter(
-        (x) => x !== undefined,
-      ) as number[];
-      const neighbourIndex =
-        validNeighbours[Math.floor(Math.random() * validNeighbours.length)];
-      const neighbourCoord = availableMoves[neighbourIndex];
+      // Find neigbours of last hit
+      const [xStr, yStr] = lastHit.split(",");
+      const x = parseInt(xStr, 10);
+      const y = parseInt(yStr, 10);
+      const neighbours = findNeighbours(x, y);
 
-      board.receiveAttack(neighbourCoord);
-      lastHitIndex = board.hits.includes(neighbourCoord)
-        ? availableMoves.indexOf(neighbourCoord)
-        : null;
+      // Only orthogonal neighbours (up/down/left/right)
+      const possibleCoords = [
+        neighbours.right,
+        neighbours.left,
+        neighbours.top,
+        neighbours.bottom,
+      ].filter((c): c is string => !!c && availableMoves.includes(c));
 
-      const moveIndex = availableMoves.indexOf(neighbourCoord);
-      if (moveIndex > -1) availableMoves.splice(moveIndex, 1);
+      if (possibleCoords.length > 0) {
+        const target =
+          possibleCoords[Math.floor(Math.random() * possibleCoords.length)];
+        board.receiveAttack(target);
+        if (board.hits.includes(target)) {
+          lastHit = target; // Chain hunting if hit again
+        } else {
+          lastHit = null; // Reset if miss
+        }
+
+        const moveIndex = availableMoves.indexOf(target);
+        if (moveIndex > -1) availableMoves.splice(moveIndex, 1);
+      } else {
+        // No valid neighbours remaining - fall back to random
+        lastHit = null;
+        computerMove(board);
+      }
     }
   };
 
@@ -66,6 +80,6 @@ export function PlayerFactory(): Player {
     playerMove,
     computerMove,
     availableMoves,
-    lastHitIndex,
+    lastHit,
   };
 }

@@ -2,97 +2,95 @@
   "use strict";
   var e = {
     d: (t, n) => {
-      for (var r in n)
-        e.o(n, r) &&
-          !e.o(t, r) &&
-          Object.defineProperty(t, r, { enumerable: !0, get: n[r] });
+      for (var a in n)
+        e.o(n, a) &&
+          !e.o(t, a) &&
+          Object.defineProperty(t, a, { enumerable: !0, get: n[a] });
     },
     o: (e, t) => Object.prototype.hasOwnProperty.call(e, t),
   };
   function t(e) {
     const t = [],
       n = [],
-      r = [];
+      a = [];
     return {
       name: e,
       hits: t,
       misses: n,
-      occupied: r,
+      occupied: a,
       receiveAttack: (e) => {
-        r.includes(e) ? t.push(e) : n.push(e);
+        a.includes(e) ? t.push(e) : n.push(e);
       },
-      allSunk: () => r.length === t.length,
+      allSunk: () => a.length === t.length,
       newShip: (e) => {
-        if (e.some((e) => r.includes(e)))
+        if (e.some((e) => a.includes(e)))
           return "Coordinate(s) already occupied";
-        r.push(...e);
+        a.push(...e);
       },
     };
   }
-  e.d({}, { vv: () => c });
-  const n = (e) => {
-    var t, n, r, a, o, l;
-    const i = [];
-    let d = 0;
-    for (let e = 0; e < 10; e++) {
-      i.push([]);
-      for (let t = 0; t < 10 && d < 100; t++) i[e].push(d), d++;
-    }
-    const c = Math.floor(e / 10),
-      s = i[c].findIndex((t) => t === e);
-    return {
-      right: i[c][s + 1],
-      left: i[c][s - 1],
-      top: null === (t = i[c - 1]) || void 0 === t ? void 0 : t[s],
-      bottom: null === (n = i[c + 1]) || void 0 === n ? void 0 : n[s],
-      topleft: null === (r = i[c - 1]) || void 0 === r ? void 0 : r[s - 1],
-      topright: null === (a = i[c - 1]) || void 0 === a ? void 0 : a[s + 1],
-      bottomleft: null === (o = i[c + 1]) || void 0 === o ? void 0 : o[s - 1],
-      bottomright: null === (l = i[c + 1]) || void 0 === l ? void 0 : l[s + 1],
-    };
+  e.d({}, { vv: () => l, hG: () => d });
+  const n = (e, t) => {
+    const n = {};
+    return (
+      e < 10 && (n.right = `${e + 1},${t}`),
+      e > 1 && (n.left = `${e - 1},${t}`),
+      t > 1 && (n.top = `${e},${t - 1}`),
+      t < 10 && (n.bottom = `${e},${t + 1}`),
+      e > 1 && t > 1 && (n.topleft = `${e - 1},${t - 1}`),
+      e < 10 && t > 1 && (n.topright = `${e + 1},${t - 1}`),
+      e > 1 && t < 10 && (n.bottomleft = `${e - 1},${t + 1}`),
+      e < 10 && t < 10 && (n.bottomright = `${e + 1},${t + 1}`),
+      n
+    );
   };
-  function r() {
+  function a() {
     const e = [
       ...Array.from({ length: 10 }, (e, t) =>
         Array.from({ length: 10 }, (e, n) => `${t + 1},${n + 1}`),
       ).flat(),
     ];
     let t = null;
-    const r = (t, n) => {
-      if (!e.includes(n)) return "That move is not available";
-      t.receiveAttack(n);
-      const r = e.indexOf(n);
-      r > -1 && e.splice(r, 1);
-    };
-    return {
-      attack: r,
-      playerMove: (t, n) => {
-        const a = t.target.id.slice(1);
-        e.includes(a) && r(n, a);
+    const a = (t, n) => {
+        if (!e.includes(n)) return "That move is not available";
+        t.receiveAttack(n);
+        const a = e.indexOf(n);
+        a > -1 && e.splice(a, 1);
       },
-      computerMove: (r) => {
+      r = (a) => {
         if (null === t) {
           const n = e[Math.floor(Math.random() * e.length)];
-          r.receiveAttack(n), (t = r.hits.includes(n) ? e.indexOf(n) : null);
-          const a = e.indexOf(n);
-          a > -1 && e.splice(a, 1);
+          a.receiveAttack(n), a.hits.includes(n) && (t = n);
+          const r = e.indexOf(n);
+          r > -1 && e.splice(r, 1);
         } else {
-          const a = n(t),
-            o = Object.values(a)
-              .slice(0, 4)
-              .filter((e) => void 0 !== e),
-            l = o[Math.floor(Math.random() * o.length)],
-            i = e[l];
-          r.receiveAttack(i), (t = r.hits.includes(i) ? e.indexOf(i) : null);
-          const d = e.indexOf(i);
-          d > -1 && e.splice(d, 1);
+          const [o, s] = t.split(","),
+            c = parseInt(o, 10),
+            i = parseInt(s, 10),
+            l = n(c, i),
+            d = [l.right, l.left, l.top, l.bottom].filter(
+              (t) => !!t && e.includes(t),
+            );
+          if (d.length > 0) {
+            const n = d[Math.floor(Math.random() * d.length)];
+            a.receiveAttack(n), (t = a.hits.includes(n) ? n : null);
+            const r = e.indexOf(n);
+            r > -1 && e.splice(r, 1);
+          } else (t = null), r(a);
         }
+      };
+    return {
+      attack: a,
+      playerMove: (t, n) => {
+        const r = t.target.id.slice(1);
+        e.includes(r) && a(n, r);
       },
+      computerMove: r,
       availableMoves: e,
-      lastHitIndex: t,
+      lastHit: t,
     };
   }
-  function a(e) {
+  function r(e) {
     switch (e) {
       case "C":
         return "carrier";
@@ -118,7 +116,7 @@
       winnerText: document.getElementById("winner"),
     };
   }
-  function l(e) {
+  function s(e) {
     const { infoBox: t } = o(),
       n = e.target;
     e.dataTransfer &&
@@ -127,83 +125,119 @@
       t &&
         (t.textContent = "Place your ships on the grid. Click to rotate ship");
   }
-  function i(e) {
+  function c(e) {
     e.preventDefault(), e.dataTransfer && (e.dataTransfer.dropEffect = "move");
   }
-  function d(e) {
-    var t;
+  function i(e, t, a, r, s) {
+    var c;
     e.preventDefault();
-    const { infoBox: n } = o();
+    const { infoBox: i } = o();
     if (!e.dataTransfer) return null;
-    const r = e.target,
-      a = e.dataTransfer.getData("text"),
-      l = e.dataTransfer.getData("text/class"),
-      i = document.getElementById(a);
+    const l = e.target,
+      u = e.dataTransfer.getData("text"),
+      p = e.dataTransfer.getData("text/class"),
+      m = document.getElementById(u);
     if (
-      !i ||
-      !(null === (t = null == r ? void 0 : r.id) || void 0 === t
+      !m ||
+      !(null === (c = null == l ? void 0 : l.id) || void 0 === c
         ? void 0
-        : t.startsWith("p"))
+        : c.startsWith("p"))
     )
       return null;
-    const d = i.children.length,
-      [c, s] = r.id.slice(1).split(","),
-      u = parseInt(c, 10),
-      p = parseInt(s, 10),
-      f = l.includes("vertical");
-    for (let e = 0; e < d; e++) {
-      const t = `p${f ? u + e : u},${f ? p : p + e}`,
-        r = document.getElementById(t);
-      if (!(null == r ? void 0 : r.parentNode))
+    const f = m.children.length,
+      [h, g] = l.id.slice(1).split(","),
+      v = parseInt(h, 10),
+      y = parseInt(g, 10),
+      B = p.includes("vertical"),
+      C = [];
+    for (let e = 0; e < f; e++) {
+      const t = `p${B ? v + e : v},${B ? y : y + e}`,
+        n = document.getElementById(t);
+      if (!(null == n ? void 0 : n.parentNode))
         return (
-          n && (n.textContent = "Boat cannot be placed there!"),
-          (i.draggable = !1),
-          (i.draggable = !0),
+          i && (i.textContent = "Boat cannot be placed there!"),
+          (m.draggable = !1),
+          (m.draggable = !0),
           null
         );
-      (i.children[0].id = t), r.parentNode.replaceChild(i.children[0], r);
+      (m.children[0].id = t), n.parentNode.replaceChild(m.children[0], n);
     }
-    return [];
+    return (
+      (function (e, t, a, r, s) {
+        const { infoBox: c } = o(),
+          i = new Set(e.occupied);
+        let l = [];
+        for (const e of t) {
+          const [t, a] = e.split(","),
+            r = parseInt(t, 10),
+            o = parseInt(a, 10),
+            s = n(r, o);
+          l.push(...Object.values(s).map(String));
+        }
+        const u = t.some((e) => i.has(e)) || t.some((e) => l.includes(e));
+        l.some((e) => i.has(e)),
+          u
+            ? (e.newShip(t),
+              (function (e) {
+                const { playerGrid: t } = o();
+                if (!t) return;
+                const n = t.children;
+                for (let t = 0; t < n.length; t++) {
+                  const a = n[t],
+                    r = a.id.slice(1);
+                  e.occupied.includes(r) &&
+                    (a.className = "square pSquare occupied");
+                }
+              })(e),
+              30 === e.occupied.length &&
+                (c &&
+                  (c.textContent = "All ships placed! Let the battle begin!"),
+                d(a, r, e, s)))
+            : ((e.occupied = e.occupied.filter((e) => !t.includes(e))),
+              c && (c.textContent = "Boat cannot be placed there!"));
+      })(t, C, a, r, s),
+      C
+    );
   }
-  function c() {
+  function l() {
     const {
       player: e,
-      computer: n,
-      playerBoard: c,
-      computerBoard: s,
+      playerBoard: n,
+      computer: l,
+      computerBoard: d,
     } = {
-      player: r(),
-      computer: r(),
+      player: a(),
+      computer: a(),
       playerBoard: t("Player"),
       computerBoard: t("Computer"),
     };
-    (function (e) {
-      const { infoBox: t, computerGrid: n } = o();
-      if (!n || !t) return;
-      let r = document.getElementById("boatsDisplay");
-      r
-        ? (r.innerHTML = "")
-        : ((r = document.createElement("div")),
-          (r.id = "boatsDisplay"),
-          n.appendChild(r)),
-        (n.className = ""),
-        (function (e) {
-          const { playerGrid: t, playerHeader: n } = o();
-          if (t && n) {
-            t.innerHTML = "";
-            for (let n = 0; n < 100; n++) {
-              let r = document.createElement("div");
-              (r.className = "square pSquare"),
-                (r.id = `p${e.availableMoves[n]}`),
-                r.addEventListener("dragover", i),
-                r.addEventListener("drop", (e) => d(e)),
-                t.appendChild(r);
+    (function (e, t, n, a) {
+      const { infoBox: s, computerGrid: l } = o();
+      if (!l || !s) return;
+      let d = document.getElementById("boatsDisplay");
+      d
+        ? (d.innerHTML = "")
+        : ((d = document.createElement("div")),
+          (d.id = "boatsDisplay"),
+          l.appendChild(d)),
+        (l.className = ""),
+        (function (e, t, n, a) {
+          const { playerGrid: r, playerHeader: s } = o();
+          if (r && s) {
+            r.innerHTML = "";
+            for (let o = 0; o < 100; o++) {
+              let s = document.createElement("div");
+              (s.className = "square pSquare"),
+                (s.id = `p${e.availableMoves[o]}`),
+                s.addEventListener("dragover", c),
+                s.addEventListener("drop", (r) => i(r, t, e, n, a)),
+                r.appendChild(s);
             }
-            n.textContent = "Player";
+            s.textContent = "Player";
           }
-        })(e),
-        (t.textContent = "Place your ships on the grid. Click to rotate ship");
-      const l = [
+        })(e, t, n, a),
+        (s.textContent = "Place your ships on the grid. Click to rotate ship");
+      const u = [
         ["C", "C", "C", "C", "C"],
         ["B", "B", "B", "B"],
         ["B", "B", "B", "B"],
@@ -215,30 +249,88 @@
         ["P", "P"],
         ["P", "P"],
       ];
-      for (let e = 0; e < l.length; e++) {
+      for (let e = 0; e < u.length; e++) {
         const t = document.createElement("div"),
-          n = l[e][0];
-        (t.className = `boat ${a(n)}`), (t.id = `${a(n)}${e}`);
-        for (let r = 0; r < l[e].length; r++) {
+          n = u[e][0];
+        (t.className = `boat ${r(n)}`), (t.id = `${r(n)}${e}`);
+        for (let a = 0; a < u[e].length; a++) {
           const e = document.createElement("div");
-          (e.className = `boatSquare ${a(n)}Square`),
+          (e.className = `boatSquare ${r(n)}Square`),
             (e.draggable = !1),
             t.appendChild(e);
         }
-        r.appendChild(t);
+        d.appendChild(t);
       }
-    })(e),
+    })(e, n, l, d),
       (function () {
         const e = document.getElementsByClassName("boat");
         for (let t = 0; t < e.length; t++) {
           const n = e[t];
           (n.draggable = !0),
-            n.addEventListener("dragstart", l),
+            n.addEventListener("dragstart", s),
             n.addEventListener("click", () => {
               n.classList.toggle("vertical");
             });
         }
       })();
+  }
+  function d(e, t, n, a) {
+    !(function (e, t) {
+      const { computerGrid: n, computerHeader: a } = o();
+      if (n && a) {
+        (n.innerHTML = ""), (n.className = "grid");
+        for (let t = 0; t < 100; t++) {
+          let a = document.createElement("div");
+          (a.className = "square cSquare"),
+            (a.id = `c${e.availableMoves[t]}`),
+            n.appendChild(a);
+        }
+        (a.textContent = "Computer"),
+          t.newShip(["1,6", "1,7", "1,8", "1,9", "1,10"]),
+          t.newShip(["8,2", "8,3", "8,4", "8,5"]),
+          t.newShip(["6,9", "7,9", "8,9", "9,9"]),
+          t.newShip(["3,2", "4,2", "5,2"]),
+          t.newShip(["10,5", "10,6", "10,7"]),
+          t.newShip(["4,7", "4,8", "4,9"]),
+          t.newShip(["1,1", "1,2"]),
+          t.newShip(["10,1", "10,2"]),
+          t.newShip(["5,5", "6,5"]),
+          t.newShip(["2,4", "3,4"]);
+      }
+    })(t, a),
+      (function (e) {
+        const t = document.getElementsByClassName("square pSquare");
+        for (let n = 0; n < t.length; n++) {
+          const a = t[n].id.slice(1);
+          e.hits.includes(a)
+            ? (t[n].className = "square pSquare hit")
+            : e.misses.includes(a)
+            ? (t[n].className = "square pSquare miss")
+            : e.occupied.includes(a) &&
+              (t[n].className = "square pSquare occupied");
+        }
+      })(n),
+      (function (e) {
+        const t = document.getElementsByClassName("square cSquare");
+        for (let n = 0; n < t.length; n++) {
+          const a = t[n].id.slice(1);
+          e.hits.includes(a)
+            ? (t[n].className = "square cSquare hit")
+            : e.misses.includes(a) && (t[n].className = "square cSquare miss");
+        }
+      })(a),
+      (function () {
+        const { infoBox: e } = o();
+        e && (e.textContent = "Your move! Choose a square to attack.");
+      })(),
+      (function (e) {
+        const t = document.getElementsByClassName("square cSquare");
+        for (var n = 0; n < t.length; n++)
+          t[n].removeEventListener("click", e),
+            t[n].classList.contains("hit") ||
+              t[n].classList.contains("miss") ||
+              t[n].addEventListener("click", e);
+      })((t) => e.playerMove(t, a));
   }
   !(function () {
     const { start: e, heading: t, infoBox: n } = o();
@@ -247,7 +339,7 @@
         ? ((e.textContent = "Restart Game"),
           t.classList.remove("large"),
           (n.style.display = "block"),
-          c())
+          l())
         : window.location.reload();
     });
   })();

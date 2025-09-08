@@ -1,45 +1,32 @@
+// Return all 8 surrounding coordinates around (x, y)
 export const findNeighbours = (
-  index: number,
+  x: number,
+  y: number,
 ): {
-  right?: number;
-  left?: number;
-  top?: number;
-  bottom?: number;
-  topleft?: number;
-  topright?: number;
-  bottomleft?: number;
-  bottomright?: number;
+  right?: string;
+  left?: string;
+  top?: string;
+  bottom?: string;
+  topleft?: string;
+  topright?: string;
+  bottomleft?: string;
+  bottomright?: string;
 } => {
-  const array2d: number[][] = [];
-  let counter = 0;
+  const neighbours: { [key: string]: string | undefined } = {};
 
-  for (let i = 0; i < 100 / 10; i++) {
-    array2d.push([]);
-    for (let j = 0; j < 10 && counter < 100; j++) {
-      array2d[i].push(counter);
-      counter++;
-    }
-  }
-  const rowIndex = Math.floor(index / 10);
-  const columnIndex = array2d[rowIndex].findIndex((c) => c === index);
+  // right
+  if (x < 10) neighbours.right = `${x + 1},${y}`;
+  // left
+  if (x > 1) neighbours.left = `${x - 1},${y}`;
+  // top
+  if (y > 1) neighbours.top = `${x},${y - 1}`;
+  // bottom
+  if (y < 10) neighbours.bottom = `${x},${y + 1}`;
+  // diagonals
+  if (x > 1 && y > 1) neighbours.topleft = `${x - 1},${y - 1}`;
+  if (x < 10 && y > 1) neighbours.topright = `${x + 1},${y - 1}`;
+  if (x > 1 && y < 10) neighbours.bottomleft = `${x - 1},${y + 1}`;
+  if (x < 10 && y < 10) neighbours.bottomright = `${x + 1},${y + 1}`;
 
-  const right = array2d[rowIndex][columnIndex + 1];
-  const left = array2d[rowIndex][columnIndex - 1];
-  const top = array2d[rowIndex - 1]?.[columnIndex];
-  const bottom = array2d[rowIndex + 1]?.[columnIndex];
-  const topleft = array2d[rowIndex - 1]?.[columnIndex - 1];
-  const topright = array2d[rowIndex - 1]?.[columnIndex + 1];
-  const bottomleft = array2d[rowIndex + 1]?.[columnIndex - 1];
-  const bottomright = array2d[rowIndex + 1]?.[columnIndex + 1];
-
-  return {
-    right,
-    left,
-    top,
-    bottom,
-    topleft,
-    topright,
-    bottomleft,
-    bottomright,
-  };
+  return neighbours;
 };

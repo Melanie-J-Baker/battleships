@@ -229,15 +229,25 @@ export function finalizeBoatPlacement(
   computerBoard: Gameboard,
 ): boolean {
   const { infoBox } = getDOMElements();
-  const neighbourCoords = findNeighbours(parseInt(coords[0]));
-  if (
-    coords.length > 0 &&
-    !coords.some(
-      (c) =>
-        Object.values(neighbourCoords).includes(parseInt(c)) &&
-        coords.every((c) => !playerBoard.occupied.includes(c)),
-    )
-  ) {
+
+  const occupied = new Set(playerBoard.occupied);
+
+  let allNeighbours: string[] = [];
+  for (const c of coords) {
+    const [xStr, yStr] = c.split(",");
+    const x = parseInt(xStr, 10);
+    const y = parseInt(yStr, 10);
+    const neighbours = findNeighbours(x, y);
+    allNeighbours.push(...Object.values(neighbours).map(String));
+  }
+
+  // Check if overlap or touching
+  const invalid =
+    coords.some((c) => occupied.has(c)) || // overlap existing ship
+    coords.some((c) => allNeighbours.includes(c)); // overlap itself in neighbours
+  allNeighbours.some((n) => occupied.has(n)); // touching another ship
+
+  if (invalid) {
     playerBoard.newShip(coords);
     renderPlayerBoats(playerBoard);
 
@@ -247,7 +257,6 @@ export function finalizeBoatPlacement(
         infoBox.textContent = "All ships placed! Let the battle begin!";
       startBattle(player, computer, playerBoard, computerBoard);
     }
-
     return true;
   } else {
     playerBoard.occupied = playerBoard.occupied.filter(

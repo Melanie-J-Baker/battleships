@@ -68,7 +68,6 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
 }
 
 .gridHeader {
@@ -195,6 +194,7 @@ button:hover {
     grid-template-rows: repeat(10, 50px);
     width: 500px;
     height: 500px;
+    margin-bottom: 0px;
   }
 
   .gridHeader {

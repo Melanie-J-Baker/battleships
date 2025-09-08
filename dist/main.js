@@ -29,7 +29,7 @@
       },
     };
   }
-  e.d({}, { vv: () => i, hG: () => l });
+  e.d({}, { vv: () => c, hG: () => l });
   const n = (e, t) => {
     const n = (e, t) =>
       e >= 1 && e <= 10 && t >= 1 && t <= 10 ? `${e},${t}` : void 0;
@@ -57,40 +57,40 @@
         const a = e.indexOf(n);
         a > -1 && e.splice(a, 1);
       },
-      r = (a) => {
+      s = (a) => {
         if (null === t) {
           const n = e[Math.floor(Math.random() * e.length)];
           a.receiveAttack(n), a.hits.includes(n) && (t = n);
-          const r = e.indexOf(n);
-          r > -1 && e.splice(r, 1);
+          const s = e.indexOf(n);
+          s > -1 && e.splice(s, 1);
         } else {
-          const [o, s] = t.split(","),
+          const [r, o] = t.split(","),
+            i = parseInt(r, 10),
             c = parseInt(o, 10),
-            i = parseInt(s, 10),
-            l = n(c, i),
+            l = n(i, c),
             d = [l.right, l.left, l.top, l.bottom].filter(
               (t) => !!t && e.includes(t),
             );
           if (d.length > 0) {
             const n = d[Math.floor(Math.random() * d.length)];
             a.receiveAttack(n), (t = a.hits.includes(n) ? n : null);
-            const r = e.indexOf(n);
-            r > -1 && e.splice(r, 1);
-          } else (t = null), r(a);
+            const s = e.indexOf(n);
+            s > -1 && e.splice(s, 1);
+          } else (t = null), s(a);
         }
       };
     return {
       attack: a,
       playerMove: (t, n) => {
-        const r = t.target.id.slice(1);
-        e.includes(r) && a(n, r);
+        const s = t.target.id.slice(1);
+        e.includes(s) && a(n, s);
       },
-      computerMove: r,
+      computerMove: s,
       availableMoves: e,
       lastHitCoord: t,
     };
   }
-  function r(e) {
+  function s(e) {
     switch (e) {
       case "C":
         return "carrier";
@@ -104,7 +104,7 @@
         return "";
     }
   }
-  function o() {
+  function r() {
     return {
       playerGrid: document.getElementById("playerGrid"),
       playerHeader: document.getElementById("playerHeader"),
@@ -116,91 +116,79 @@
       winnerText: document.getElementById("winner"),
     };
   }
-  function s(e) {
+  function o(e) {
     e.preventDefault(), e.dataTransfer && (e.dataTransfer.dropEffect = "move");
   }
-  function c(e, t, a, r, s) {
-    var c, i;
-    e.preventDefault();
-    const { infoBox: d } = o();
-    if (!e.dataTransfer) return null;
-    const u = e.target,
-      p = e.dataTransfer.getData("text"),
-      m = e.dataTransfer.getData("text/class"),
-      f = document.getElementById(p);
+  function i(e, t, a, s, o) {
+    var i;
+    if ((e.preventDefault(), !e.dataTransfer)) return null;
+    const c = e.target,
+      d = e.dataTransfer.getData("text"),
+      u = e.dataTransfer.getData("text/class"),
+      p = document.getElementById(d);
     if (
-      !f ||
-      !(null === (c = null == u ? void 0 : u.id) || void 0 === c
+      !p ||
+      !(null === (i = null == c ? void 0 : c.id) || void 0 === i
         ? void 0
-        : c.startsWith("p"))
+        : i.startsWith("p"))
     )
       return null;
-    const h = f.children.length,
-      [g, v] = u.id.slice(1).split(","),
-      y = parseInt(g, 10),
-      B = parseInt(v, 10),
-      C = m.includes("vertical"),
-      S = [];
-    for (let e = 0; e < h; e++) {
-      const t = C ? y + e : y,
-        n = C ? B : B + e;
-      S.push(`${t},${n}`);
+    const m = p.children.length,
+      [h, f] = c.id.slice(1).split(","),
+      g = parseInt(h, 10),
+      v = parseInt(f, 10),
+      y = u.includes("vertical"),
+      B = [];
+    for (let e = 0; e < m; e++) {
+      const t = y ? g + e : g,
+        n = y ? v : v + e;
+      B.push(`${t},${n}`);
     }
-    if (
-      !S.every((e) => {
-        const t = document.getElementById("p" + e);
-        return null !== t && !t.classList.contains("occupied");
-      })
-    )
-      return d && (d.textContent = "Boat cannot be placed there!"), null;
-    for (let e = 0; e < S.length; e++) {
-      const t = S[e],
-        n = document.getElementById("p" + t);
-      (f.children[0].id = "p" + t),
-        null === (i = n.parentNode) ||
-          void 0 === i ||
-          i.replaceChild(f.children[0], n);
-    }
-    return (
-      (function (e, t, a, r, s) {
-        const { infoBox: c } = o(),
-          i = new Set(e.occupied),
-          d = [];
-        for (const e of t) {
-          const [t, a] = e.split(","),
-            r = parseInt(t, 10),
-            o = parseInt(a, 10),
-            s = n(r, o);
-          d.push(...Object.values(s).filter(Boolean));
-        }
-        const u = t.some((e) => i.has(e)),
-          p = d.some((e) => i.has(e));
-        u || p
-          ? c && (c.textContent = "Boat cannot be placed there!")
-          : (e.newShip(t),
-            (function (e) {
-              const { playerGrid: t } = o();
-              if (!t) return;
-              const n = t.children;
-              for (let t = 0; t < n.length; t++) {
-                const a = n[t],
-                  r = a.id.slice(1);
-                e.occupied.includes(r) &&
-                  (a.className = "square pSquare occupied");
-              }
-            })(e),
-            30 === e.occupied.length &&
-              (c && (c.textContent = "All ships placed! Let the battle begin!"),
-              l(a, r, e, s)));
-      })(t, S, a, r, s),
-      S
-    );
+    const C = (function (e, t, a, s, o) {
+      const { infoBox: i } = r(),
+        c = new Set(e.occupied);
+      if (!t.every((e) => document.getElementById("p" + e)))
+        return i && (i.textContent = "Boat cannot be placed there!"), !1;
+      const d = [];
+      for (const e of t) {
+        const [t, a] = e.split(","),
+          s = parseInt(t, 10),
+          r = parseInt(a, 10),
+          o = n(s, r);
+        d.push(...Object.values(o).filter(Boolean));
+      }
+      const u = t.some((e) => c.has(e)),
+        p = d.some((e) => c.has(e));
+      return u || p
+        ? (i && (i.textContent = "Boat cannot be placed there!"), !1)
+        : (e.newShip(t),
+          (function (e) {
+            const { playerGrid: t } = r();
+            if (!t) return;
+            const n = t.children;
+            for (let t = 0; t < n.length; t++) {
+              const a = n[t],
+                s = a.id.slice(1);
+              (a.className = "square pSquare"),
+                e.hits.includes(s)
+                  ? a.classList.add("hit")
+                  : e.misses.includes(s)
+                  ? a.classList.add("miss")
+                  : e.occupied.includes(s) && a.classList.add("occupied");
+            }
+          })(e),
+          30 === e.occupied.length &&
+            (i && (i.textContent = "All ships placed! Let the battle begin!"),
+            l(a, s, e, o)),
+          !0);
+    })(t, B, a, s, o);
+    return C ? B : null;
   }
-  function i() {
+  function c() {
     const {
       player: e,
       playerBoard: n,
-      computer: i,
+      computer: c,
       computerBoard: l,
     } = {
       player: a(),
@@ -209,8 +197,8 @@
       computerBoard: t("Computer"),
     };
     (function (e, t, n, a) {
-      const { infoBox: i, computerGrid: l } = o();
-      if (!l || !i) return;
+      const { infoBox: c, computerGrid: l } = r();
+      if (!l || !c) return;
       let d = document.getElementById("boatsDisplay");
       d
         ? (d.innerHTML = "")
@@ -219,21 +207,21 @@
           l.appendChild(d)),
         (l.className = ""),
         (function (e, t, n, a) {
-          const { playerGrid: r, playerHeader: i } = o();
-          if (r && i) {
-            r.innerHTML = "";
-            for (let o = 0; o < 100; o++) {
-              let i = document.createElement("div");
-              (i.className = "square pSquare"),
-                (i.id = `p${e.availableMoves[o]}`),
-                i.addEventListener("dragover", s),
-                i.addEventListener("drop", (r) => c(r, t, e, n, a)),
-                r.appendChild(i);
+          const { playerGrid: s, playerHeader: c } = r();
+          if (s && c) {
+            s.innerHTML = "";
+            for (let r = 0; r < 100; r++) {
+              let c = document.createElement("div");
+              (c.className = "square pSquare"),
+                (c.id = `p${e.availableMoves[r]}`),
+                c.addEventListener("dragover", o),
+                c.addEventListener("drop", (s) => i(s, t, e, n, a)),
+                s.appendChild(c);
             }
-            i.textContent = "Player";
+            c.textContent = "Player";
           }
         })(e, t, n, a),
-        (i.textContent = "Place your ships on the grid. Click to rotate ship");
+        (c.textContent = "Place your ships on the grid. Click to rotate ship");
       const u = [
         ["C", "C", "C", "C", "C"],
         ["B", "B", "B", "B"],
@@ -249,30 +237,33 @@
       for (let e = 0; e < u.length; e++) {
         const t = document.createElement("div"),
           n = u[e][0];
-        (t.className = `boat ${r(n)}`), (t.id = `${r(n)}${e}`);
+        (t.className = `boat ${s(n)}`), (t.id = `${s(n)}${e}`);
         for (let a = 0; a < u[e].length; a++) {
           const e = document.createElement("div");
-          (e.className = `boatSquare ${r(n)}Square`), t.appendChild(e);
+          (e.className = `boatSquare ${s(n)}Square`), t.appendChild(e);
         }
         d.appendChild(t);
       }
-    })(e, n, i, l),
+    })(e, n, c, l),
       (function () {
-        const { infoBox: e } = o(),
+        const { infoBox: e } = r(),
           t = document.getElementsByClassName("boat");
         for (let n = 0; n < t.length; n++) {
           const a = t[n],
-            r = a.firstElementChild;
-          r &&
-            ((r.draggable = !0),
-            r.addEventListener("dragstart", (e) => {
-              e.dataTransfer &&
-                (e.dataTransfer.setData("text", a.id),
-                e.dataTransfer.setData(
-                  "text/class",
-                  Array.from(a.classList).toString(),
-                ),
-                e.dataTransfer.setDragImage(a, 0, 0));
+            s = a.firstElementChild;
+          s &&
+            ((s.draggable = !0),
+            s.addEventListener("dragstart", (t) => {
+              e &&
+                (e.textContent =
+                  "Place your ships on the grid. Click to rotate ship"),
+                t.dataTransfer &&
+                  (t.dataTransfer.setData("text", a.id),
+                  t.dataTransfer.setData(
+                    "text/class",
+                    Array.from(a.classList).toString(),
+                  ),
+                  t.dataTransfer.setDragImage(a, 0, 0));
             })),
             (a.draggable = !1),
             a.addEventListener("click", () => {
@@ -286,7 +277,7 @@
   }
   function l(e, t, n, a) {
     !(function (e, t) {
-      const { computerGrid: n, computerHeader: a } = o();
+      const { computerGrid: n, computerHeader: a } = r();
       if (n && a) {
         (n.innerHTML = ""), (n.className = "grid");
         for (let t = 0; t < 100; t++) {
@@ -330,7 +321,7 @@
         }
       })(a),
       (function () {
-        const { infoBox: e } = o();
+        const { infoBox: e } = r();
         e && (e.textContent = "Your move! Choose a square to attack.");
       })(),
       (function (e) {
@@ -343,14 +334,14 @@
       })((t) => e.playerMove(t, a));
   }
   !(function () {
-    const { start: e, heading: t, infoBox: n } = o();
+    const { start: e, heading: t, infoBox: n } = r();
     e &&
       e.addEventListener("click", function () {
         "Start Game" === e.textContent
           ? ((e.textContent = "Restart Game"),
             t.classList.remove("large"),
             (n.style.display = "block"),
-            i())
+            c())
           : window.location.reload();
       });
   })();

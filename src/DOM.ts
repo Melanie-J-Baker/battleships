@@ -135,6 +135,9 @@ export function addBoatEventListeners(): void {
     if (firstChild) {
       firstChild.draggable = true;
       firstChild.addEventListener("dragstart", (e) => {
+        if (infoBox)
+          infoBox.textContent =
+            "Place your ships on the grid. Click to rotate ship";
         if (e.dataTransfer) {
           e.dataTransfer.setData("text", boat.id);
           e.dataTransfer.setData(
@@ -261,7 +264,7 @@ export function finalizeBoatPlacement(
     return false;
   }
 
-  // ✅ Commit placement
+  // Commit placement
   playerBoard.newShip(coords);
   renderPlayerBoats(playerBoard);
 

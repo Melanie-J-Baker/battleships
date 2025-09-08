@@ -271,7 +271,8 @@
                 e.dataTransfer.setData(
                   "text/class",
                   Array.from(a.classList).toString(),
-                ));
+                ),
+                e.dataTransfer.setDragImage(a, 0, 0));
             })),
             (a.draggable = !1),
             a.addEventListener("click", () => {

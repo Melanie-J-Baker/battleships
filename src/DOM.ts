@@ -160,7 +160,6 @@ function dragoverHandler(e: DragEvent): void {
   if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
 }
 
-// Drop handler that attempts DOM placement of boat and returns coords so caller can validate and commit to a board
 function dropHandler(
   e: DragEvent,
   playerBoard: Gameboard,
@@ -169,7 +168,6 @@ function dropHandler(
   computerBoard: Gameboard,
 ): string[] | null {
   e.preventDefault();
-  const { infoBox } = getDOMElements();
   if (!e.dataTransfer) return null;
 
   const target = e.target as HTMLElement;
@@ -186,38 +184,23 @@ function dropHandler(
   const isVertical = boatClass.includes("vertical");
 
   const coords: string[] = [];
-
-  // Collect all target coordinates
   for (let i = 0; i < length; i++) {
     const x = isVertical ? startX + i : startX;
     const y = isVertical ? startY : startY + i;
     coords.push(`${x},${y}`);
   }
 
-  // Check all target coordinate are within grid and available
-  const valid = coords.every((coord) => {
-    const square = document.getElementById("p" + coord) as HTMLDivElement;
-    return square !== null && !square.classList.contains("occupied");
-  });
+  const placed = finalizeBoatPlacement(
+    playerBoard,
+    coords,
+    player,
+    computer,
+    computerBoard,
+  );
 
-  if (!valid) {
-    if (infoBox) infoBox.textContent = "Boat cannot be placed there!";
-    return null;
-  }
-
-  // Place boat on grid if valid
-  for (let i = 0; i < coords.length; i++) {
-    const coord = coords[i];
-    const nextSquare = document.getElementById("p" + coord) as HTMLDivElement;
-    (boat.children[0] as HTMLElement).id = "p" + coord; // Update id for testing
-    nextSquare.parentNode?.replaceChild(boat.children[0], nextSquare);
-  }
-
-  finalizeBoatPlacement(playerBoard, coords, player, computer, computerBoard);
-  return coords;
+  return placed ? coords : null;
 }
 
-// Rendering
 export function renderPlayerBoats(playerBoard: Gameboard): void {
   const { playerGrid } = getDOMElements();
   if (!playerGrid) return;
@@ -226,8 +209,17 @@ export function renderPlayerBoats(playerBoard: Gameboard): void {
   for (let i = 0; i < squares.length; i++) {
     const div = squares[i] as HTMLDivElement;
     const coord = div.id.slice(1);
-    if (playerBoard.occupied.includes(coord)) {
-      div.className = "square pSquare occupied";
+
+    // Reset state first
+    div.className = "square pSquare";
+
+    // Mark occupied/hit/miss from board state
+    if (playerBoard.hits.includes(coord)) {
+      div.classList.add("hit");
+    } else if (playerBoard.misses.includes(coord)) {
+      div.classList.add("miss");
+    } else if (playerBoard.occupied.includes(coord)) {
+      div.classList.add("occupied");
     }
   }
 }
@@ -242,7 +234,16 @@ export function finalizeBoatPlacement(
   const { infoBox } = getDOMElements();
   const occupied = new Set(playerBoard.occupied);
 
-  // Find all neighbours of the proposed ship coordinates
+  // Check within grid
+  const domValid = coords.every((coord) =>
+    document.getElementById("p" + coord),
+  );
+  if (!domValid) {
+    if (infoBox) infoBox.textContent = "Boat cannot be placed there!";
+    return false;
+  }
+
+  // Check overlap + touching
   const allNeighbours: string[] = [];
   for (const c of coords) {
     const [xStr, yStr] = c.split(",");
@@ -251,30 +252,26 @@ export function finalizeBoatPlacement(
     const neighbours = findNeighbours(x, y);
     allNeighbours.push(
       ...(Object.values(neighbours).filter(Boolean) as string[]),
-    ); // filter undefined neighbours
+    );
   }
-
-  // Check if overlap or touching
-  const overlap = coords.some((c) => occupied.has(c)); // overlap existing ship
-  const touching = allNeighbours.some((n) => occupied.has(n)); // touching another ship
-  const invalid = overlap || touching;
-
-  if (!invalid) {
-    // Place ship
-    playerBoard.newShip(coords);
-    renderPlayerBoats(playerBoard);
-
-    // Check if all boats placed
-    if (playerBoard.occupied.length === 30) {
-      if (infoBox)
-        infoBox.textContent = "All ships placed! Let the battle begin!";
-      startBattle(player, computer, playerBoard, computerBoard);
-    }
-    return true;
-  } else {
+  const overlap = coords.some((c) => occupied.has(c));
+  const touching = allNeighbours.some((n) => occupied.has(n));
+  if (overlap || touching) {
     if (infoBox) infoBox.textContent = "Boat cannot be placed there!";
     return false;
   }
+
+  // ✅ Commit placement
+  playerBoard.newShip(coords);
+  renderPlayerBoats(playerBoard);
+
+  if (playerBoard.occupied.length === 30) {
+    if (infoBox)
+      infoBox.textContent = "All ships placed! Let the battle begin!";
+    startBattle(player, computer, playerBoard, computerBoard);
+  }
+
+  return true;
 }
 
 export function createComputerGrid(player: Player, computerBoard: Gameboard) {

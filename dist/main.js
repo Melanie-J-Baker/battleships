@@ -29,7 +29,7 @@
       },
     };
   }
-  e.d({}, { vv: () => l, hG: () => d });
+  e.d({}, { vv: () => i, hG: () => l });
   const n = (e, t) => {
     const n = (e, t) =>
       e >= 1 && e <= 10 && t >= 1 && t <= 10 ? `${e},${t}` : void 0;
@@ -117,21 +117,12 @@
     };
   }
   function s(e) {
-    const { infoBox: t } = o(),
-      n = e.target;
-    e.dataTransfer &&
-      (e.dataTransfer.setData("text", n.id),
-      e.dataTransfer.setData("text/class", Array.from(n.classList).toString())),
-      t &&
-        (t.textContent = "Place your ships on the grid. Click to rotate ship");
-  }
-  function c(e) {
     e.preventDefault(), e.dataTransfer && (e.dataTransfer.dropEffect = "move");
   }
-  function i(e, t, a, r, s) {
+  function c(e, t, a, r, s) {
     var c, i;
     e.preventDefault();
-    const { infoBox: l } = o();
+    const { infoBox: d } = o();
     if (!e.dataTransfer) return null;
     const u = e.target,
       p = e.dataTransfer.getData("text"),
@@ -161,7 +152,7 @@
         return null !== t && !t.classList.contains("occupied");
       })
     )
-      return l && (l.textContent = "Boat cannot be placed there!"), null;
+      return d && (d.textContent = "Boat cannot be placed there!"), null;
     for (let e = 0; e < S.length; e++) {
       const t = S[e],
         n = document.getElementById("p" + t);
@@ -174,16 +165,16 @@
       (function (e, t, a, r, s) {
         const { infoBox: c } = o(),
           i = new Set(e.occupied),
-          l = [];
+          d = [];
         for (const e of t) {
           const [t, a] = e.split(","),
             r = parseInt(t, 10),
             o = parseInt(a, 10),
             s = n(r, o);
-          l.push(...Object.values(s).filter(Boolean));
+          d.push(...Object.values(s).filter(Boolean));
         }
         const u = t.some((e) => i.has(e)),
-          p = l.some((e) => i.has(e));
+          p = d.some((e) => i.has(e));
         u || p
           ? c && (c.textContent = "Boat cannot be placed there!")
           : (e.newShip(t),
@@ -200,17 +191,17 @@
             })(e),
             30 === e.occupied.length &&
               (c && (c.textContent = "All ships placed! Let the battle begin!"),
-              d(a, r, e, s)));
+              l(a, r, e, s)));
       })(t, S, a, r, s),
       S
     );
   }
-  function l() {
+  function i() {
     const {
       player: e,
       playerBoard: n,
-      computer: l,
-      computerBoard: d,
+      computer: i,
+      computerBoard: l,
     } = {
       player: a(),
       computer: a(),
@@ -218,8 +209,8 @@
       computerBoard: t("Computer"),
     };
     (function (e, t, n, a) {
-      const { infoBox: s, computerGrid: l } = o();
-      if (!l || !s) return;
+      const { infoBox: i, computerGrid: l } = o();
+      if (!l || !i) return;
       let d = document.getElementById("boatsDisplay");
       d
         ? (d.innerHTML = "")
@@ -228,21 +219,21 @@
           l.appendChild(d)),
         (l.className = ""),
         (function (e, t, n, a) {
-          const { playerGrid: r, playerHeader: s } = o();
-          if (r && s) {
+          const { playerGrid: r, playerHeader: i } = o();
+          if (r && i) {
             r.innerHTML = "";
             for (let o = 0; o < 100; o++) {
-              let s = document.createElement("div");
-              (s.className = "square pSquare"),
-                (s.id = `p${e.availableMoves[o]}`),
-                s.addEventListener("dragover", c),
-                s.addEventListener("drop", (r) => i(r, t, e, n, a)),
-                r.appendChild(s);
+              let i = document.createElement("div");
+              (i.className = "square pSquare"),
+                (i.id = `p${e.availableMoves[o]}`),
+                i.addEventListener("dragover", s),
+                i.addEventListener("drop", (r) => c(r, t, e, n, a)),
+                r.appendChild(i);
             }
-            s.textContent = "Player";
+            i.textContent = "Player";
           }
         })(e, t, n, a),
-        (s.textContent = "Place your ships on the grid. Click to rotate ship");
+        (i.textContent = "Place your ships on the grid. Click to rotate ship");
       const u = [
         ["C", "C", "C", "C", "C"],
         ["B", "B", "B", "B"],
@@ -265,19 +256,34 @@
         }
         d.appendChild(t);
       }
-    })(e, n, l, d),
+    })(e, n, i, l),
       (function () {
-        const e = document.getElementsByClassName("boat");
-        for (let t = 0; t < e.length; t++) {
-          const n = e[t];
-          n.addEventListener("dragstart", s),
-            n.addEventListener("click", () => {
-              n.classList.toggle("vertical");
-            });
+        const { infoBox: e } = o(),
+          t = document.getElementsByClassName("boat");
+        for (let n = 0; n < t.length; n++) {
+          const a = t[n],
+            r = a.firstElementChild;
+          r &&
+            ((r.draggable = !0),
+            r.addEventListener("dragstart", (e) => {
+              e.dataTransfer &&
+                (e.dataTransfer.setData("text", a.id),
+                e.dataTransfer.setData(
+                  "text/class",
+                  Array.from(a.classList).toString(),
+                ));
+            })),
+            (a.draggable = !1),
+            a.addEventListener("click", () => {
+              a.classList.toggle("vertical");
+            }),
+            e &&
+              (e.textContent =
+                "Place your ships on the grid. Click to rotate ship");
         }
       })();
   }
-  function d(e, t, n, a) {
+  function l(e, t, n, a) {
     !(function (e, t) {
       const { computerGrid: n, computerHeader: a } = o();
       if (n && a) {
@@ -343,7 +349,7 @@
           ? ((e.textContent = "Restart Game"),
             t.classList.remove("large"),
             (n.style.display = "block"),
-            l())
+            i())
           : window.location.reload();
       });
   })();

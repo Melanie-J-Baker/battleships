@@ -141,6 +141,7 @@ export function addBoatEventListeners(): void {
             "text/class",
             Array.from(boat.classList).toString(),
           );
+          e.dataTransfer.setDragImage(boat, 0, 0);
         }
       });
     }

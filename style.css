@@ -203,7 +203,7 @@ button:hover {
   }
 
   #info {
-    margin-right: 50px;
+    width: 100%;
     font-size: 25px;
   }
 

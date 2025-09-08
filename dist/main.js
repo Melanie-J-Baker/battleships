@@ -340,14 +340,15 @@
   }
   !(function () {
     const { start: e, heading: t, infoBox: n } = o();
-    e.addEventListener("click", function () {
-      "Start Game" === e.textContent
-        ? ((e.textContent = "Restart Game"),
-          t.classList.remove("large"),
-          (n.style.display = "block"),
-          l())
-        : window.location.reload();
-    });
+    e &&
+      e.addEventListener("click", function () {
+        "Start Game" === e.textContent
+          ? ((e.textContent = "Restart Game"),
+            t.classList.remove("large"),
+            (n.style.display = "block"),
+            l())
+          : window.location.reload();
+      });
   })();
 })();
 //# sourceMappingURL=main.js.map

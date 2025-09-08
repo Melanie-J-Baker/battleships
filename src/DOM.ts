@@ -56,16 +56,17 @@ export function createPlayerGrid(
 
 export function startEventListener() {
   const { start, heading, infoBox } = getDOMElements();
-  start.addEventListener("click", function () {
-    if (start.textContent === "Start Game") {
-      start.textContent = "Restart Game";
-      heading.classList.remove("large");
-      infoBox.style.display = "block";
-      initGame();
-    } else {
-      window.location.reload();
-    }
-  });
+  if (start)
+    start.addEventListener("click", function () {
+      if (start.textContent === "Start Game") {
+        start.textContent = "Restart Game";
+        heading.classList.remove("large");
+        infoBox.style.display = "block";
+        initGame();
+      } else {
+        window.location.reload();
+      }
+    });
 }
 
 export function renderMovableBoats(

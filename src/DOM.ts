@@ -114,7 +114,6 @@ export function renderMovableBoats(
     for (let j = 0; j < shipSizeArray[i].length; j++) {
       const boatSquare = document.createElement("div");
       boatSquare.className = `boatSquare ${shipClass(type)}Square`;
-      boatSquare.draggable = false;
       boat.appendChild(boatSquare);
     }
     displayDiv.appendChild(boat);
@@ -128,8 +127,8 @@ export function addBoatEventListeners(): void {
   ) as HTMLCollectionOf<HTMLDivElement>;
   for (let i = 0; i < boats.length; i++) {
     const boat = boats[i];
-    boat.draggable = true;
-    boat.addEventListener("dragstart", dragstartHandler);
+    const firstSquare = boat.children[0] as HTMLDivElement;
+    firstSquare.addEventListener("dragstart", dragstartHandler);
     boat.addEventListener("click", () => {
       boat.classList.toggle("vertical");
     });

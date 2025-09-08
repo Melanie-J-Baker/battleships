@@ -261,9 +261,7 @@
         (t.className = `boat ${r(n)}`), (t.id = `${r(n)}${e}`);
         for (let a = 0; a < u[e].length; a++) {
           const e = document.createElement("div");
-          (e.className = `boatSquare ${r(n)}Square`),
-            (e.draggable = !1),
-            t.appendChild(e);
+          (e.className = `boatSquare ${r(n)}Square`), t.appendChild(e);
         }
         d.appendChild(t);
       }
@@ -272,8 +270,7 @@
         const e = document.getElementsByClassName("boat");
         for (let t = 0; t < e.length; t++) {
           const n = e[t];
-          (n.draggable = !0),
-            n.addEventListener("dragstart", s),
+          n.children[0].addEventListener("dragstart", s),
             n.addEventListener("click", () => {
               n.classList.toggle("vertical");
             });

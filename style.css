@@ -144,12 +144,6 @@ button:hover {
   height: 25px;
   border: 1px black solid;
   background-color: rgb(36, 56, 56);
-  cursor: not-allowed;
-}
-
-.boatSquare:first-child {
-  background-image: url("./assets/move.svg");
-  background-size: cover;
   cursor: move;
 }
 

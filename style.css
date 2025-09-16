@@ -151,6 +151,14 @@ button:hover {
   flex-direction: column;
 }
 
+.preview-valid {
+  background-color: rgba(0, 200, 0, 0.4);
+}
+
+.preview-invalid {
+  background-color: rgba(200, 0, 0, 0.4);
+}
+
 #winner {
   display: none;
   color: #f12004;

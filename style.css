@@ -152,11 +152,11 @@ button:hover {
 }
 
 .preview-valid {
-  background-color: rgba(0, 200, 0, 0.4);
+  background-color: rgba(0, 200, 0);
 }
 
 .preview-invalid {
-  background-color: rgba(200, 0, 0, 0.4);
+  background-color: rgba(200, 0, 0);
 }
 
 #winner {

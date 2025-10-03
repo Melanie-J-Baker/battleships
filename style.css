@@ -168,7 +168,7 @@ button:hover {
   animation: glow 2s ease-in-out infinite alternate;
   text-align: center;
   position: absolute;
-  top: 20%;
+  top: 50%;
 }
 
 @keyframes glow {

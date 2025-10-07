@@ -161,8 +161,11 @@ button:hover {
 
 #winner {
   display: none;
-  color: #f12004;
   z-index: 1;
+}
+
+#winnerText {
+  color: #f12004;
   font-family: "Machine", Impact, sans-serif;
   font-size: 15rem;
   animation: glow 2s ease-in-out infinite alternate;

@@ -37,7 +37,7 @@ h1 {
 }
 
 button {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   border: none;
   border-radius: 10px;
   background-color: var(--dark-orange);
@@ -84,11 +84,11 @@ button:hover {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(10, 30px);
-  grid-template-rows: repeat(10, 30px);
-  width: 300px;
-  height: 300px;
-  margin: 10px;
+  grid-template-columns: repeat(10, 25px);
+  grid-template-rows: repeat(10, 25px);
+  width: 250px;
+  height: 250px;
+  margin: 10px 0px;
 }
 
 #computerGrid:hover {
@@ -106,8 +106,8 @@ button:hover {
 }
 
 .cSquare:hover {
-  width: 32px;
-  height: 32px;
+  width: 27px;
+  height: 27px;
   background-color: rgb(56, 110, 131);
 }
 
@@ -134,7 +134,7 @@ button:hover {
 #boatsDisplay {
   display: flex;
   flex-direction: column;
-  height: 300px;
+  height: 250px;
   margin-left: 20px;
 }
 
@@ -147,8 +147,8 @@ button:hover {
 }
 
 .boatSquare {
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   border: 1px black solid;
   background-color: rgb(36, 56, 56);
   cursor: move;

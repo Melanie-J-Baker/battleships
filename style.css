@@ -192,7 +192,16 @@ button:hover {
 
 @media only screen and (max-width: 400px) {
   .large {
-    font-size: 6rem;
+    font-size: 3rem;
+  }
+
+  #info {
+    font-size: 12px;
+  }
+
+  button {
+    padding: 5px 20px;
+    font-size: 12px;
   }
 }
 

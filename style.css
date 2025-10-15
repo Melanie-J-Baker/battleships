@@ -58,12 +58,12 @@ button:hover {
 #info {
   display: none;
   width: 100%;
-  height: 50px;
+  height: 40px;
   font-family: monospace;
   font-weight: bold;
   font-size: 20px;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 }
 
 #playerDiv,
@@ -229,6 +229,7 @@ button:hover {
   #info {
     width: 100%;
     font-size: 25px;
+    height: 70px;
   }
 
   .boatSquare {

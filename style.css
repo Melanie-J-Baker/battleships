@@ -30,7 +30,7 @@ h1 {
 }
 
 .large {
-  font-size: 4rem;
+  font-size: 10rem;
   margin-top: 100px;
   max-width: 100vw;
   text-align: center;
@@ -191,7 +191,6 @@ button:hover {
 }
 
 @media only screen and (max-width: 360px) {
-
 }
 
 @media only screen and (min-width: 1200px) {

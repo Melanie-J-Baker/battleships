@@ -8,6 +8,7 @@
   padding: 0;
   box-sizing: border-box;
   --dark-orange: rgb(255, 17, 0);
+  height: 100vh;
 }
 
 #main {
